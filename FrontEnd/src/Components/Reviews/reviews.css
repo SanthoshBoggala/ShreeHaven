@@ -1,0 +1,42 @@
+.reviews {
+    margin: auto;
+    max-width: 900px;
+    /* border: 1px solid #ccc; */
+    padding: 30px;
+}
+.singleReview {
+
+}
+.reviewLine {
+    margin: 0;
+    padding: 0;
+}
+.reviewRating {
+    
+}
+.reviewDetails {
+
+}
+.reviewUserDetails {
+    display: flex;
+    justify-content: space-between;
+}
+.userRevieImage {
+    width: 25px;
+    padding-right: 3px;
+}
+.productStarRating {
+    font-size: 10px;
+}
+.reviewUser {
+    padding-right: 10px;
+    font-size: 14px;
+}
+.reviewDate {
+    font-size: 14px;
+}
+.reviewDescription {
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
+

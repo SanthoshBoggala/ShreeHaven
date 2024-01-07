@@ -1,0 +1,100 @@
+.productPageImage {
+}
+.singleProductPage {
+    margin: auto;
+    max-width: 1300px;
+    margin-bottom: 20px;
+}
+.productImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.productImage > img {
+    
+    max-width: 340px;
+}
+.productDetails {
+    padding: 30px;
+}
+.productDetails > div {
+    padding-bottom: 5px;
+}
+.productBrand {
+    font-size: 20px;
+    font-family:'Gill Sans', 'Gill Sans MT';
+    font-weight: 600;
+}
+.productName {
+    font-size: 18px;
+    font-family: 'Lucida Sans', Arial, sans-serif;
+    font-weight: 450;
+}
+.productSpecialPrice {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(63, 128, 74);
+}
+.productPrice {
+    display: flex;
+    align-items: center;
+}
+.productNPrice {
+    font-size: 25px;
+    font-weight: 500;
+    font-family: Arial, sans-serif;
+    padding-right: 7px;
+}
+.productDiscount {
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(63, 128, 74);
+    font-family: 'Lucida Sans', Arial, sans-serif;
+}
+.productOPrice {
+    font-size: 13px;
+    text-decoration: line-through;
+    padding-right: 7px;
+} 
+.productStarRating {
+    margin-right: 10px;
+}
+.productRatings , .productReviews {
+    margin-right: 7px;
+    color: rgb(95, 107, 105);
+    font-size: 15px;
+}
+.innerDescription {
+    font-family: 'Lucida Sans', Arial, sans-serif;
+    font-size: 14px;
+}
+.someHeadings {
+    font-size: 15px;
+    font-weight: 500;
+}
+.sizeOptions, .colorOptions {
+    margin-right: 10px;
+}
+.productOffers > div {
+    font-size: 12px;
+    padding-bottom: 2px;
+}
+.offerTag {
+    width: 18px;
+    margin-right: 4px;
+}
+.termsConditions {
+    color: rgb(46, 135, 207);
+    font-weight: 500;
+    cursor: pointer;
+}
+.productBts {
+    margin-top: 10px;
+    display: flex;
+}
+.cartProductImage {
+    width: 20px;
+}
+.productBts > :first-child {
+    margin-right: 250px;
+}

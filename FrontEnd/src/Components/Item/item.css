@@ -1,0 +1,47 @@
+.itemDiv {
+    background-color: skyblue;
+    border-radius: 4px;
+    box-shadow: 8px 8px 8px 0 rgba(52, 158, 161, 0.705), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.itemImage > img{
+    max-width: 190px;
+    min-width: 100px;
+    justify-content: center;
+}
+.itemImage {
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    padding: 5px;
+}
+.itemDetails {
+    padding: 10px;
+}
+.itemBrand {
+    font-size: 1.2em;
+    font-weight: 420;
+}
+.itemName {
+    font-size: 0.95em;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    color: rgb(71, 85, 83);
+    padding-bottom: 3px;
+}
+.itemPriceDetails {
+    display: flex;
+    align-items: end;
+}
+.itemNewPrice {
+    font-weight: 410;
+    font-size: 17px;
+    padding-right: 7px;
+}
+.itemDiscount {
+    color: #1d8d48; 
+    font-weight: 500;
+    font-size: 17px;
+}

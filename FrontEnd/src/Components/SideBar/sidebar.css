@@ -1,0 +1,31 @@
+.sideBar {
+    padding: 7px;
+    background-color: rgb(50, 199, 199);
+    box-shadow: 8px 8px 8px 0 rgba(50, 164, 168, 0.705), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+.filter {
+    font-size: 1.6em;
+    font-weight: 500;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+}
+.filterInput {
+    padding: 7px;
+    padding-left: 30px;
+}
+.styleInput {
+    cursor: pointer;
+}
+.stylePrice {
+    max-width: 125px;
+}
+.priceLabel {
+    padding-bottom: 6px;
+    padding-top: 6px;
+    font-family:'Lucida Sans Regular';
+}
+.styleLabel {
+    padding-left: 6px;
+    font-family: 'Lucida Sans Unicode';
+    font-size: 14px;
+}
