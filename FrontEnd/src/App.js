@@ -1,3 +1,4 @@
+import CartPage from "./CartPage/CartPage";
 import Navbar from "./Components/Navbar/Navbar";
 import ProductPage from "./ProductsPage/ProductsPage";
 import ProfilePage from "./ProfilePage/ProfilePage";
@@ -9,7 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <ProfilePage />
+      <CartPage />
     </>
   );
 }

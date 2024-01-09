@@ -1,0 +1,63 @@
+.cartPage {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+}
+.cartPage > h2 {
+    font-family: 'Gill Sans', 'Gill Sans MT';
+    font-weight: 600;
+}
+.cartItem {
+    padding: 30px;
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #d4d2d2;
+    box-shadow: 0px 6px 3px 0px rgb(158, 175, 180), 0 6px 20px 0 rgba(136, 201, 226, 0.89);
+}
+.cartImage {
+    width: 80%;
+    height: auto;
+    transition: transform 0.3s ease; 
+    cursor: pointer;
+}
+.imageContainer:hover .cartImage {
+    transform: scale(1.1);
+  }
+.cartItemDetails > div {
+    padding-bottom: 2px;
+}
+.cartItemBrand {
+    font-size: 1.2em;
+    font-weight: 450;
+}
+.cartItemName {
+    font-style: italic;
+}
+.cartItemPrice {
+    display: flex;
+    align-items: center;
+    font-style: italic;
+}
+.cartItemNPrice {
+    font-size: 1.2em;
+    font-weight: 450;
+}
+.cartItemOPrice {
+    color: rgb(117, 112, 112);
+}
+.cartItemDiscount {
+    color: green;
+    font-size: 20px;
+    font-weight: 500;
+    font-family: 'Gill Sans', 'Gill Sans MT';
+}
+.cartItemRatings {
+    color: gray;
+    font-style: italic;
+}
+.cartItemDelivery {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    font-size: 14px;
+}
