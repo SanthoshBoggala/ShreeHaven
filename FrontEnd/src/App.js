@@ -1,17 +1,16 @@
-import CartPage from "./CartPage/CartPage";
-import Navbar from "./Components/Navbar/Navbar";
-import ProductPage from "./ProductsPage/ProductsPage";
-import ProfilePage from "./ProfilePage/ProfilePage";
-import Routers from "./Routers";
-import SingleProductPage from "./SingleProductPage/SingleProductPage";
+import { BrowserRouter } from "react-router-dom"
+import NavbarDummy from "./Components/Navbar/Navbar"
+import Footer from "./Components/Footer/Footer"
+import Routers from "./Routers"
 
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <CartPage />
-    </>
+    <BrowserRouter>
+      <NavbarDummy />
+      <Routers />
+      <Footer />
+    </BrowserRouter>
   );
 }
 

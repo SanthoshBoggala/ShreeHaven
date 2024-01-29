@@ -1,6 +1,7 @@
 .cartPage {
     max-width: 800px;
     margin: auto;
+    padding-top: 60px;
     padding: 30px;
 }
 .cartPage > h2 {

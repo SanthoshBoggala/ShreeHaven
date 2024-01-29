@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
-import SideBar from "../Components/SideBar/SideBar"
-import Products from "../Components/Products/Products"
+import './productsPage.css'
+import { SideBar, Products } from "../Components"
 
 const ProductPage = ()=>{
     const [filter , setFilter] = useState(null)
@@ -46,7 +46,7 @@ const ProductPage = ()=>{
     console.log(filter)
     return (
         <>
-        <div className="row">
+        <div className="row productsPage">
             <SideBar 
                 filter = {filter}
                 onChange = {(e)=> handleFilter(e)}        

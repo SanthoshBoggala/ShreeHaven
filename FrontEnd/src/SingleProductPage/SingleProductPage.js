@@ -1,6 +1,6 @@
 import React from "react"
 import './singleProductPage.css'
-import Reviews from "../Components/Reviews/Reviews"
+import {Reviews} from "../Components"
 
 const SingleProductPage = ()=>{
 
@@ -36,6 +36,7 @@ const SingleProductPage = ()=>{
                 <div className="col-md-6 productImage">
                     <img
                         src={product.image}
+                        alt={product.name}
                         className="img-fluid"
                     />
                 </div>
@@ -122,10 +123,6 @@ const SingleProductPage = ()=>{
                                 className="btn btn-lg btn-success"
                             >
                             Add To Cart
-                            <img
-                                src="https://www.shutterstock.com/shutterstock/photos/570153007/display_1500/stock-vector-shopping-cart-icon-flat-design-best-vector-icon-570153007.jpg"
-                                className="cartProductImage"
-                            />
                             </button>
                         </div>
                         <div>

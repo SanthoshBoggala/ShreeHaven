@@ -1,6 +1,26 @@
 .profile {
-    display: flex;
-    align-items: center;
+    padding: 10px;
     justify-content: center;
-    min-height: 100vh;
+    display: flex;
+    min-height: 80vh;
+    align-items: center;
+}
+.userDetails {
+    font-size: 15px;
+}
+.userDetails :first-child {
+    font-size: 20px;
+    font-weight: 450;
+    padding-bottom: 5px;
+    font-family: 'Segoe UI';
+}
+.profileImage {
+    min-width: 50px;
+    max-width: 150px;
+    padding-right: 20px;
+}
+.userName {
+    font-size: 1.4em;
+    font-family: Georgia;
+    font-style: italic;
 }

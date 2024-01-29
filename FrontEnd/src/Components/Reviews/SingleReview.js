@@ -17,6 +17,7 @@ const SingleReview = ()=>{
                 <div>
                     <img
                         className='userRevieImage'
+                        alt='review'
                         src='https://static.vecteezy.com/system/resources/previews/002/318/271/non_2x/user-profile-icon-free-vector.jpg' 
                     />
                     <span className='reviewUser'>{reviews.user}</span>

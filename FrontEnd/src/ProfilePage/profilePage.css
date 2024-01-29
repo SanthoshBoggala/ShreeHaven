@@ -1,9 +1,10 @@
-.profileSidebar {
-
+.profilePage {
+    padding-top: 50px;  
+    min-height: 100vh;
+    padding-right: 30px;
+    padding-left: 30px; 
 }
-.profileSidebar > div {
-    padding: 15px;
-    text-align: center;
-    border: 1px solid gray;
-    cursor: pointer;
+.profileSideBar {
+    align-items: center;
+    margin: auto;
 }

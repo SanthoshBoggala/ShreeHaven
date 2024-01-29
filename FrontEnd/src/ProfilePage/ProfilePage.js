@@ -1,55 +1,23 @@
-import {React, useState} from 'react'
-import Profile from '../Components/Profile/Profile'
+import React, { useState } from 'react'
 import './profilePage.css'
-import AccountSettings from '../Components/AccountSettings/AccountSettings'
-import MyOrders from '../Components/MyOrders/MyOrders'
-import MyCart from '../Components/MyCart/MyCart'
+import { AccountSettings, MyOrders, Profile, ProfileSideBar } from '../Components'
 
-const ProfilePage = ()=>{
-    const [profileSide, setProfileSide] = useState(0)
-    
-    const myProfileSide = [
-        <Profile />,
-        <AccountSettings />,
-        <MyOrders />,
-        <MyCart />                    
-    ]
+const ProfilePage = () => {
+    const [page, setPage] = useState(0)
 
-    const OtherComponent = ()=>{
-        return (
-            myProfileSide[profileSide]
-        )
+    const updateState  = (newState) => {
+        setPage(newState)
     }
 
+    const newPage = [<Profile />, <AccountSettings />, <MyOrders />]
+
     return (
-        <div className='row'>
-            <div className="profileSidebar col-3">
-                <div 
-                    onClick={()=> setProfileSide(0)}
-                >
-                    MY PROFILE
-                </div>
-                <div
-                    onClick={()=> setProfileSide(1)}    
-                >
-                    ACCOUNT SETTINGS
-                </div>
-                <div
-                    onClick={()=> setProfileSide(2)}  
-                >
-                    MY ORDERS
-                </div>
-                <div
-                    onClick={()=> setProfileSide(3)}  
-                >
-                    MY CART
-                </div>
-                <div>
-                    LOGOUT
-                </div>
+        <div className='profilePage row'>
+            <div className='profileSideBar col-lg-3 col-4'>
+                <ProfileSideBar page={page} setPage={updateState}/>
             </div>
-            <div className='col-9'>
-                <OtherComponent />
+            <div className='col-lg-9 col-7'>
+                {newPage[page]}
             </div>
         </div>
     )
