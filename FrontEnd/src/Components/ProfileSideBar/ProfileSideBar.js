@@ -6,7 +6,7 @@ const ProfileSideBar = ({page, setPage}) => {
 
   return (
     <>
-      <ui className='list-group'>
+      <ui className='list-group ProfileSideBar'>
         <li className="list-group-item"
             onClick={()=> setPage(0)}
         >
@@ -19,7 +19,7 @@ const ProfileSideBar = ({page, setPage}) => {
         </li>
         <li className="list-group-item"
         >
-            <Link  to={'/cart'}> My Cart</Link>
+            <Link className='profileCart' to={'/cart'}> My Cart</Link>
         </li>
         <li className="list-group-item"
            onClick={()=> setPage(2)}

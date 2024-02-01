@@ -1,3 +1,8 @@
+import HomeCarousel from "./HomeCarousel/HomeCarousel"
+import HomeStyles from "./HomeStyles/HomeStyles"
+import HomeHotDeals from "./HomeHotDeals/HomeHotDeals"
+import HomeTrendingDeals from "./HomeTrendingDeals/HomeTrendingDeals"
+
 import ProfileSideBar from "./ProfileSideBar/ProfileSideBar"
 import Profile from './Profile/Profile'
 import AccountSettings from "./AccountSettings/AccountSettings"
@@ -10,6 +15,10 @@ import Reviews from './Reviews/Reviews'
 import SideBar from './SideBar/SideBar'
 
 export {
+    HomeCarousel,
+    HomeStyles,
+    HomeHotDeals,
+    HomeTrendingDeals,
     ProfileSideBar,
     Profile,
     AccountSettings,

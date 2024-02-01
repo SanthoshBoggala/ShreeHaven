@@ -31,7 +31,7 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className='container  mt-5'>
+    <div className='container bg-danger'>
         <form onSubmit={handleSubmit} >
             <div className='updateDetials'>Update User Details</div>
             <div className="mb-3 account">

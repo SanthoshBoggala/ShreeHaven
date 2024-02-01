@@ -1,5 +1,5 @@
 
-.list-group > li {
+.ProfileSideBar > li, .profileCart {
     padding: 15px;
     background-color: rgb(118, 199, 199);
     cursor: pointer;
