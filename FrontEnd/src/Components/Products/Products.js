@@ -1,5 +1,6 @@
 import React from "react"
 import Item from "../Item/Item"
+import ItemCard from "../ItemCard/ItemCard"
 
 const Products = ()=>{
 
@@ -26,7 +27,7 @@ const Products = ()=>{
             <div className="row">
                 { productDetails && ( productDetails.map((x)=> {
                     return (
-                    <Item productDetails={x}/>
+                        <ItemCard home={false}/>
                     )})
                 )}
             </div>

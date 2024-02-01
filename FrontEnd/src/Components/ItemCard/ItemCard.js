@@ -4,7 +4,7 @@ import shoe2 from '../../Images/shoe2.webp'
 import notInWishlist from '../../Images/wishlist1.png'
 import inWishlist from '../../Images/wishlist2.avif'
 
-const ItemCard = () => {
+const ItemCard = ({home}) => {
     const [wishlist, setWishlist] = useState(false)
 
     const item = {
@@ -22,9 +22,9 @@ const ItemCard = () => {
         "image": shoe2
     }
     return (
-        <div className='itemCardMain col-6 col-sm-4 col-md-3 col-lg-2'>
+        <div className={`itemCardMain col-6 col-sm-4 col-md-3 col-lg-2`}>
             <div className='itemCard'>
-                <div className='itemImg img-fluid'>
+                <div className='itemImg img-fluid' style={{height: home ? '300px': '250px'}}>
                     <img 
                         src={item.image}
                         alt={item.name}

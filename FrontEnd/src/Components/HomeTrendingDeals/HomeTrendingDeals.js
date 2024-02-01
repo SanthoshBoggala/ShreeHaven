@@ -7,15 +7,15 @@ const HomeTrendingDeals = () => {
     <div className='homeTrendingDeals'>
       <div className='homeHeading'>Trending Deals</div>
       <div className='trendingDealItems row m-2'>
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
+        <ItemCard home={true}/>
       </div>
     </div>
   )

@@ -13,6 +13,7 @@ import NavBarDummy from './Navbar/Navbar'
 import Products from './Products/Products'
 import Reviews from './Reviews/Reviews'
 import SideBar from './SideBar/SideBar'
+import ItemCard from "./ItemCard/ItemCard"
 
 export {
     HomeCarousel,
@@ -28,5 +29,6 @@ export {
     Reviews,
     SideBar,
     Item,
-    Footer
+    Footer,
+    ItemCard
 }
