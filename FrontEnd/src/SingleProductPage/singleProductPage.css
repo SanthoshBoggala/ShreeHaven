@@ -1,18 +1,59 @@
-.productPageImage {
+.productPage {
+    margin-top: 60px;
 }
+
 .singleProductPage {
     margin: auto;
     max-width: 1300px;
     margin-bottom: 20px;
 }
+.productImageDiv {
+}
 .productImage {
+    margin: 5px;
+    min-height: 100vh;
+}
+.otherImages, .mainImage {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: auto;
 }
-.productImage > img {
-    
-    max-width: 340px;
+.itemImg1 {
+    max-height: 500px;
+    max-width: 350px;
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid rgb(102, 153, 173);
+    box-shadow: 8px 8px 10px rgb(102, 153, 173) ;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.itemImg1:hover {
+    transform: scale(1.05);
+}
+.itemImgs{
+    height: 80px;
+    width: 80px;
+    padding: 2px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border: 1px solid rgb(102, 153, 173);
+    border-radius: 4px;
+    transition: 0.2s;
+}
+.itemImgs:hover {
+    transform: scale(1.1);
+    box-shadow: 6px 6px 10px rgb(102, 153, 173) ;
+}
+.itemImg1 > img, .itemImgs > img{
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
+.itemImgs > img {
+    border-radius: 4px;
 }
 .productDetails {
     padding: 30px;
@@ -95,6 +136,36 @@
 .cartProductImage {
     width: 20px;
 }
-.productBts > :first-child {
-    margin-right: 250px;
+.productBts {
+    display: flex;
+    justify-content: space-between;
+}
+.AddToCartBtn {
+    background-color: rgb(204, 41, 41);
+    color: white;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 6px 6px 10px rgb(204, 41, 41);
+    transition: 0.2s;
+}
+.AddToCartBtn:hover {
+    background-color: rgb(47, 132, 172);
+    box-shadow: 6px 6px 10px rgb(111, 141, 182);
+}
+.buyBtn {
+    background-color: rgb(45, 128, 59);
+    color: white;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 0.2s;
+    box-shadow: 6px 6px 10px rgb(45, 128, 59);  
+
+}
+.buyBtn:hover {
+    background-color: rgb(47, 132, 172);
+    box-shadow: 6px 6px 10px rgb(111, 141, 182);  
 }

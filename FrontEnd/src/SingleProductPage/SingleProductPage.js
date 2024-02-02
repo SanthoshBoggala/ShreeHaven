@@ -1,6 +1,11 @@
 import React from "react"
 import './singleProductPage.css'
-import {Reviews} from "../Components"
+import img1 from '../Images/mobile1.webp'
+import img2 from '../Images/mobile2.webp'
+import img3 from '../Images/mobile3.webp'
+import {Reviews, SimilarItems} from "../Components"
+import SingleProductImages from "./SingleProductImages"
+
 
 const SingleProductPage = ()=>{
 
@@ -12,12 +17,16 @@ const SingleProductPage = ()=>{
         "price": 369,
         "newPrice": 313,
         "discount": 15,
-        "starRating": 4,
+        "starRating": 4.5,
         "ratings": 30059,
         "reviews": 3599,
         "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
-        "image": "https://drive.google.com/uc?id=1TlgCuWATQr43Lxhn33i7DKgFeggLn9Al"
-      }
+        "images": [
+            img1,
+            img2,
+            img3
+        ]
+    }
   
     const colors = {
         "Shirts" : [ 'success', 'primary', 'info','secondary', 'dark', 'danger']
@@ -31,16 +40,14 @@ const SingleProductPage = ()=>{
     const mySizes = sizes[product.category]
 
     return (
-        <div className="productPageImage">
+        <div className="productPage">
             <div className="row singleProductPage">
-                <div className="col-md-6 productImage">
-                    <img
-                        src={product.image}
-                        alt={product.name}
-                        className="img-fluid"
-                    />
+                <div className="col-lg-6 productImageDiv">
+                    <div className="row productImage">
+                        <SingleProductImages images={product.images}/>
+                    </div>
                 </div>
-                <div className="col-md-6 productDetails" >
+                <div className="col-lg-6 productDetails" >
                     <div className="productBrand">
                         {product.brand}
                     </div>
@@ -117,17 +124,17 @@ const SingleProductPage = ()=>{
                             View 9 more offers
                         </div>
                     </div>
-                    <div className="productBts">
+                    <div className="productBts"> 
                         <div>
                             <button
-                                className="btn btn-lg btn-success"
+                                className="AddToCartBtn"
                             >
                             Add To Cart
                             </button>
                         </div>
                         <div>
                             <button
-                                className="btn btn-lg btn-danger"
+                                className="buyBtn"
                             >
                             Buy Now
                             </button>
@@ -136,8 +143,12 @@ const SingleProductPage = ()=>{
                 </div>
             </div>
 
-            <Reviews />
+            <Reviews ratings={product.ratings}
+                starRating={product.starRating}
+                reviews={product.reviews}
+            />
 
+            <SimilarItems category={product.category}/>
         </div>
     )
 }

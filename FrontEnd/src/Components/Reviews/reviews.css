@@ -1,42 +1,77 @@
-.reviews {
-    margin: auto;
-    max-width: 900px;
-    /* border: 1px solid #ccc; */
-    padding: 30px;
+.reviewsPage {
+    margin: 20px;
+    padding: 5px;
 }
-.singleReview {
+.reviewBox {
+    margin: 10px;
+    margin-bottom: 20px;
+    width: 200px;
+    min-height: 70px;
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: start;
+    border: 1px solid rgb(165, 164, 164);
+    box-shadow: 4px 4px 10px grey;
+}
+.starRating {
+    font-size: 35px;
+    color: rgb(87, 86, 86);
+}
+.ratings {
+    color: gray;
+    font-size: 15px;
+    font-family: Impact;
+}
 
-}
-.reviewLine {
-    margin: 0;
-    padding: 0;
-}
-.reviewRating {
-    
-}
-.reviewDetails {
+.singleReview {
+    margin: 10px;
+    margin-bottom: 15px;
+    padding: 3px 0px;
+    box-shadow: 0px 4px 8px rgb(114, 151, 156);
 
 }
 .reviewUserDetails {
+    padding: 5px;
+    padding-bottom: 0px;
     display: flex;
     justify-content: space-between;
+    box-shadow: 0px 1px 4px grey;
 }
 .userRevieImage {
-    width: 25px;
+    width: 30px;
     padding-right: 3px;
 }
 .productStarRating {
-    font-size: 10px;
+    font-size: 12px;
+    padding: 5px;
 }
 .reviewUser {
     padding-right: 10px;
-    font-size: 14px;
+    font-size: 15px;
+    font-family: Impact;
 }
 .reviewDate {
     font-size: 14px;
+    color: rgb(71, 71, 71);
+    margin-right: 20px;
 }
 .reviewDescription {
-    padding-top: 10px;
-    padding-bottom: 15px;
+    margin:10px;
+    margin-bottom: 20px;
 }
+.viewAll {
+    font-size: 16px;
+    padding: 7px;
+    margin-left: 10px;
+    border: none;
+    background-color: rgb(95, 176, 201);
+    transition: 0.2s;
+}
+.viewAll:hover {
+    transform: scale(1.03);
+    box-shadow: 6px 6px 10px rgb(59, 123, 141);
 
+}
