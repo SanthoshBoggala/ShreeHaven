@@ -14,6 +14,8 @@ import Products from './Products/Products'
 import Reviews from './Reviews/Reviews'
 import SideBar from './SideBar/SideBar'
 import ItemCard from "./ItemCard/ItemCard"
+import HomeTopRated from "./HomeTopRated/HomeTopRated"
+import HomeSuggestedItems from "./HomeSuggestedItems/HomeSuggestedItems"
 
 export {
     HomeCarousel,
@@ -30,5 +32,7 @@ export {
     SideBar,
     Item,
     Footer,
-    ItemCard
+    ItemCard,
+    HomeTopRated,
+    HomeSuggestedItems
 }

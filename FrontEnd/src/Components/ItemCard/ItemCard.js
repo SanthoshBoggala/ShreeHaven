@@ -3,8 +3,10 @@ import React, { useState } from 'react'
 import shoe2 from '../../Images/shoe2.webp'
 import notInWishlist from '../../Images/wishlist1.png'
 import inWishlist from '../../Images/wishlist2.avif'
+import { useNavigate } from 'react-router-dom'
 
-const ItemCard = ({home}) => {
+const ItemCard = ({ home = false, topRated = false }) => {
+    const navigate = useNavigate()
     const [wishlist, setWishlist] = useState(false)
 
     const item = {
@@ -21,32 +23,55 @@ const ItemCard = ({home}) => {
         "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
         "image": shoe2
     }
+    const itemCategoryCaption = {
+        Shirts: 'New Range' ,
+        Shoes: 'Top Collection',
+        Dresses: 'Bestsellers'
+    }
+    const navigateToItem = ()=>{
+        let to = topRated ? item.category : item.productKey
+        navigate(`/products/${to}`)
+    }
     return (
         <div className={`itemCardMain col-6 col-sm-4 col-md-3 col-lg-2`}>
             <div className='itemCard'>
-                <div className='itemImg img-fluid' style={{height: home ? '300px': '250px'}}>
-                    <img 
+                <div className='itemImg img-fluid' style={{ height: home ? '300px' : '250px' }}>
+                    <img
                         src={item.image}
                         alt={item.name}
+                        onClick={navigateToItem} 
                     />
-                    <div className='itemOffer'>
-                        {`-${item.discount}%`}
-                    </div>
-                    <div className='itemWishlist'>
-                        <img 
-                            onClick={()=> setWishlist((prev)=> !prev)}
-                            src={wishlist ? inWishlist : notInWishlist}
-                            alt={wishlist ? 'inWishlist' : 'notInWishlist'}
-                        />
-                    </div>
+                    {topRated ||
+                        <>
+                            <div className='itemOffer'>
+                                {`-${item.discount}%`}
+                            </div>
+                            <div className='itemWishlist'>
+                                <img
+                                    onClick={() => setWishlist((prev) => !prev)}
+                                    src={wishlist ? inWishlist : notInWishlist}
+                                    alt={wishlist ? 'inWishlist' : 'notInWishlist'}
+                                />
+                            </div>
+                        </>
+                    }
                 </div>
                 <div className='itemDown'>
-                    <div className='itemBrand'>{item.brand}</div>
-                    <div className='itemName'>{item.name}</div>
-                    <div>
-                        <span className='itemNewPrice'>{`₹${item.newPrice}`}</span>
-                        <strike className='itemPrice'>{`₹${item.price}`}</strike>
-                    </div>
+                    {topRated === false ?
+                        <>
+                            <div className='itemBrand'>{item.brand}</div>
+                            <div className='itemName'>{item.name}</div>
+                            <div>
+                                <span className='itemNewPrice'>{`₹${item.newPrice}`}</span>
+                                <strike className='itemPrice'>{`₹${item.price}`}</strike>
+                            </div>
+                        </>
+                        : 
+                        <>
+                            <div className='itemCategory'>{item.category}</div>
+                            <div className='itemCategoryCaption'>{itemCategoryCaption[item.category]}</div>
+                        </>
+                    }
                 </div>
             </div>
         </div>

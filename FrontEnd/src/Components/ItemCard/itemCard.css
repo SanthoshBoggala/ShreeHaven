@@ -3,7 +3,7 @@
 }
 .itemCard {
     background-color: rgb(175, 214, 230);
-    border-radius: 7px;
+    border-radius: 10px;
     max-width: 200px;
     /* width: 250px;
     margin: 5px; */
@@ -15,7 +15,7 @@
 .itemImg {
     height: 250px;
     width: 200px;
-    padding: 10px;
+    padding: 5px;
     position: relative;
 }
 .itemImg > img {
@@ -80,4 +80,15 @@
 .itemPrice {
     font-size: 12px;
     color: gray;
+}
+
+.itemCategory {
+    font-size: 15px;
+    font-family: Cambria;
+    font-weight: 450;
+}
+.itemCategoryCaption {
+    color: rgb(16, 105, 16);
+    font-size: 18px;
+    font-weight: 500;
 }
