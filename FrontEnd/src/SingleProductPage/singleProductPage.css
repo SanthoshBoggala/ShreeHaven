@@ -7,8 +7,6 @@
     max-width: 1300px;
     margin-bottom: 20px;
 }
-.productImageDiv {
-}
 .productImage {
     margin: 5px;
     min-height: 100vh;
@@ -22,7 +20,7 @@
 }
 .itemImg1 {
     max-height: 500px;
-    max-width: 350px;
+    max-width: 400px;
     padding: 5px;
     border-radius: 8px;
     border: 1px solid rgb(102, 153, 173);

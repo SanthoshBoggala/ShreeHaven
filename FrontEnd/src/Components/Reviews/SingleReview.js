@@ -1,6 +1,12 @@
 import './reviews.css'
 
-const SingleReview = ({review})=>{
+const SingleReview = ()=>{
+    const review = {
+        user: 'santhosh',
+        rating: 2.5,
+        date: Date.now(),
+        comment: "The quality is great but the arms around is super annoying(tight)its not a regular fit(mention in description)its slim fit don't go for for it if you're not thin i exchange with larger size but still same issue."
+    }
 
     const reviewRatingColor = review.rating > 3.0 ? 'primary' : 'danger'
     
@@ -21,8 +27,6 @@ const SingleReview = ({review})=>{
             <div className='reviewDescription'>
                 {review.comment}
             </div>
-            
-            
         </div>
     )
 }

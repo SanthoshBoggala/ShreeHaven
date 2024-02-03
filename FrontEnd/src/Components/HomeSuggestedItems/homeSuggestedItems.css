@@ -1,11 +1,7 @@
 .homeSuggestedItems {
     width: 100%;
 }
-.SuggestedItems {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: center; */
-}
+
 .headingStyle{
     display: flex;
     justify-content: space-between;

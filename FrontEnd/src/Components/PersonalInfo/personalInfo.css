@@ -1,0 +1,54 @@
+.personalInfo {
+    display: flex;
+    justify-content: center;
+}
+label {
+    display: inline-block;
+    font-family: Impact;
+    font-size: 14px;
+    width: 150px;
+    padding-bottom: 5px;
+}
+legend {
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+fieldset {
+    background: hsl(0, 0%, 89%);
+    border: 1px solid grey;
+    text-align: center;
+}
+fieldset > div {
+    margin-bottom: 15px;
+}
+.image {
+    display: flex;
+    justify-content: center;
+}
+fieldset > div > input {
+    font-size: 14px;
+    padding: 7px;
+    padding-left: 10px;
+    font-family: sans-serif;
+    box-shadow: 3px 3px 8px grey;
+    transition: 0.2s;
+}
+fieldset > div > input:focus {
+    transform: scale(1.05);
+}
+.formInfo {
+    padding: 20px;
+}
+.updateBtn {
+    padding: 7px 20px 7px 20px;
+    font-family: sans-serif;
+    border: none;
+    background-color: rgb(160, 212, 224);
+    box-shadow: 6px 6px 10px rgb(84, 183, 207);
+    transition: 0.3s;
+}
+.updateBtn:hover {
+    transform: scale(1.1);
+    background-color: rgb(35, 168, 201);
+    color: white;
+}

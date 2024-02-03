@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavbarDummy />
-      <Routers />
+          <Routers />
       <Footer />
     </BrowserRouter>
   );

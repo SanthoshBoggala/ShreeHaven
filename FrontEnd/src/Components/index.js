@@ -5,7 +5,7 @@ import HomeTrendingDeals from "./HomeTrendingDeals/HomeTrendingDeals"
 
 import ProfileSideBar from "./ProfileSideBar/ProfileSideBar"
 import Profile from './Profile/Profile'
-import AccountSettings from "./AccountSettings/AccountSettings"
+import PersonalInfo from "./PersonalInfo/PersonalInfo"
 import MyOrders from './MyOrders/MyOrders'
 import Footer from './Footer/Footer'
 import Item from './Item/Item'
@@ -25,7 +25,7 @@ export {
     HomeTrendingDeals,
     ProfileSideBar,
     Profile,
-    AccountSettings,
+    PersonalInfo,
     MyOrders,
     NavBarDummy,
     Products,
