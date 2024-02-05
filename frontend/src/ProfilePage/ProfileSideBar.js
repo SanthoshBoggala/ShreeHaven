@@ -5,9 +5,7 @@ import {SideBarContext} from '../contexts/SideBarContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import { NavLink } from 'react-bootstrap'
 
-
 const ProfileSideBar = () => {
-    const {id} = useParams()
     const navigate = useNavigate()
     const {sideBar, setSideBar} = useContext(SideBarContext)
     const handleSideBar = ()=>{
@@ -46,14 +44,15 @@ const ProfileSideBar = () => {
                 <div className="offcanvas-body">
                     <div className='sideBarItems'>
                         <div
-                            style={{ backgroundColor: id === 'profile' ? 'rgb(65, 189, 189)' : '' }}
+                            onClick={()=> navigate('/profile')}
+                            style={{ backgroundColor: 'rgb(65, 189, 189)'}}
                         >
-                            <NavLink to='/profile'>Personal information</NavLink>
+                            Personal information
                         </div>
                         <div
-                            // onClick={()=> navigate('/orders')}
+                            onClick={()=> navigate('/my_orders')}
                         >
-                            <NavLink to='/orders'>My Orders</NavLink>
+                            My Orders
                         </div>
                         <div
                             onClick={()=> navigate('/reviews')}

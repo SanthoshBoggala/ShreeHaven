@@ -9,6 +9,7 @@ import AboutPage from './AboutPage/AboutPage';
 import ContactPage from './ContactPage/ContactPage';
 import LoginPage from './LoginPage/LoginPage';
 import RegisterPage from './RegisterPage/RegisterPage';
+import MyOrdersPage from './MyOrdersPage/MyOrdersPage';
 
 const Routers = () => {
   return ( 
@@ -22,6 +23,8 @@ const Routers = () => {
         <Route path="/products/:productId" element={<SingleProductPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/my_orders" element={<MyOrdersPage />} />
+        <Route path="/my_reviews" element={<ProfilePage />} />
     </Routes>
   );
 };

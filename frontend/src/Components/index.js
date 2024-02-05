@@ -3,10 +3,8 @@ import HomeStyles from "./HomeStyles/HomeStyles"
 import HomeHotDeals from "./HomeHotDeals/HomeHotDeals"
 import HomeTrendingDeals from "./HomeTrendingDeals/HomeTrendingDeals"
 
-import ProfileSideBar from "./ProfileSideBar/ProfileSideBar"
 import Profile from './Profile/Profile'
 import PersonalInfo from "./PersonalInfo/PersonalInfo"
-import MyOrders from './MyOrders/MyOrders'
 import Footer from './Footer/Footer'
 import Item from './Item/Item'
 import NavBarDummy from './Navbar/Navbar'
@@ -17,13 +15,13 @@ import ItemCard from "./ItemCard/ItemCard"
 import HomeTopRated from "./HomeTopRated/HomeTopRated"
 import HomeSuggestedItems from "./HomeSuggestedItems/HomeSuggestedItems"
 import SimilarItems from "./SimilarItems/SimilarItems"
+import MyOrders from "./MyOrders/MyOrders"
 
 export {
     HomeCarousel,
     HomeStyles,
     HomeHotDeals,
     HomeTrendingDeals,
-    ProfileSideBar,
     Profile,
     PersonalInfo,
     MyOrders,
@@ -36,5 +34,5 @@ export {
     ItemCard,
     HomeTopRated,
     HomeSuggestedItems,
-    SimilarItems
+    SimilarItems,
 }

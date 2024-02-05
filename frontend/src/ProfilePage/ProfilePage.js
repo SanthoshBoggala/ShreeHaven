@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import './profilePage.css'
 import { PersonalInfo } from '../Components'
 import ProfileSideBar from './ProfileSideBar'
 import SideBarContextProvider from '../contexts/SideBarContext'
 
-const ProfilePage = ({}) => {
+const ProfilePage = () => {
 
     return (
         <SideBarContextProvider>
