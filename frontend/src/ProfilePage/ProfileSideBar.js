@@ -2,10 +2,9 @@ import React, { useContext } from 'react'
 import './profilePage.css'
 import sideBarIcon from '../Images/sideBarIcon.png'
 import {SideBarContext} from '../contexts/SideBarContext'
-import { useNavigate, useParams } from 'react-router-dom'
-import { NavLink } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
 
-const ProfileSideBar = () => {
+const ProfileSideBar = ({active}) => {
     const navigate = useNavigate()
     const {sideBar, setSideBar} = useContext(SideBarContext)
     const handleSideBar = ()=>{
@@ -44,33 +43,41 @@ const ProfileSideBar = () => {
                 <div className="offcanvas-body">
                     <div className='sideBarItems'>
                         <div
-                            onClick={()=> navigate('/profile')}
-                            style={{ backgroundColor: 'rgb(65, 189, 189)'}}
+                            onClick={()=> navigate('/my/profile')}
+                            style={{ backgroundColor: active === 'profile' ? 'rgb(65, 189, 189)' : ''}}
                         >
                             Personal information
                         </div>
                         <div
-                            onClick={()=> navigate('/my_orders')}
+                            style={{ backgroundColor: active === 'orders' ? 'rgb(65, 189, 189)' : ''}}
+                            onClick={()=> navigate('/my/orders')}
                         >
                             My Orders
                         </div>
                         <div
-                            onClick={()=> navigate('/reviews')}
+                            style={{ backgroundColor: active === 'cart' ? 'rgb(65, 189, 189)' : ''}}
+                            onClick={()=> navigate('/my/cart')}
+                        >
+                            My Cart
+                        </div>
+                        <div
+                            style={{ backgroundColor: active === 'reviews' ? 'rgb(65, 189, 189)' : ''}}
+                            onClick={()=> navigate('/my/reviews')}
                         >
                             My Reviews
                         </div>
                         <div
-                            onClick={()=> navigate('/addresses')}
+                            onClick={()=> navigate('/my/addresses')}
                         >
                             Addresses
                         </div>
                         <div
-                            onClick={()=> navigate('/help')}
+                            onClick={()=> navigate('/my/help')}
                         >
                             Need HELP
                         </div>
                         <div
-                            onClick={()=> navigate('/register')}
+                            onClick={()=> navigate('/')}
                         >
                             Sign Out
                         </div>

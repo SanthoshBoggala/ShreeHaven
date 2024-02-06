@@ -9,7 +9,7 @@ const MyOrdersPage = () => {
     return (
         <SideBarContextProvider>
             <div>
-                <ProfileSideBar />
+                <ProfileSideBar active={'orders'}/>
                 <MyOrders />
             </div>
         </SideBarContextProvider>

@@ -21,10 +21,10 @@ const Routers = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products" element={<ProductPage />} />
         <Route path="/products/:productId" element={<SingleProductPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/my_orders" element={<MyOrdersPage />} />
-        <Route path="/my_reviews" element={<ProfilePage />} />
+        <Route path="/my/cart" element={<CartPage />} />
+        <Route path="/my/profile" element={<ProfilePage />} />
+        <Route path="/my/orders" element={<MyOrdersPage />} />
+        <Route path="/my/reviews" element={<ProfilePage />} />
     </Routes>
   );
 };

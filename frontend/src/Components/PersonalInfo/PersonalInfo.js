@@ -12,6 +12,7 @@ const PersonalInfo = () => {
     state: 'ap',
   };
 
+
   // Use state to track changes to user object
   const [user, setUser] = useState(initialUser);
 
@@ -23,7 +24,6 @@ const PersonalInfo = () => {
 
   return (
     <div className='personalInfo row'>
-      <div className='col-1 col-md-3'></div>
       <form className='col-10 col-md-8'>
         <fieldset className='formInfo'>
           <div className='image'>
@@ -110,7 +110,6 @@ const PersonalInfo = () => {
           </div>
           <div>
             <button
-              type='submit'
               className='updateBtn'
             >
               Update

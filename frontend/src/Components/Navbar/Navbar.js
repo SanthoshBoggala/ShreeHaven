@@ -8,10 +8,10 @@ const NavbarDummy = () => {
 
   const EndConponents = ()=>( user ? (
     <Nav className='ms-auto'>
-    <Nav.Link as={NavLink} className='navItem' to="/profile" >
+    <Nav.Link as={NavLink} className='navItem' to="/my/profile" >
             Profile
           </Nav.Link>
-          <Nav.Link as={NavLink} className='navItem' to="/cart">
+          <Nav.Link as={NavLink} className='navItem' to="/my/cart">
             Cart
     </Nav.Link>
     </Nav>

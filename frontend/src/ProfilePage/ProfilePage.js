@@ -9,7 +9,7 @@ const ProfilePage = () => {
     return (
         <SideBarContextProvider>
             <div className='profilePage'>
-                <ProfileSideBar />
+                <ProfileSideBar active={'profile'}/>
                 <PersonalInfo />
             </div>
         </SideBarContextProvider>

@@ -1,4 +1,5 @@
 import './cartPage.css'
+import img from '../Images/mobile2.webp'
 
 
 const CartItem = ()=>{
@@ -15,8 +16,8 @@ const CartItem = ()=>{
         "ratings": 30059,
         "reviews": 3599,
         "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
-        "image": "https://drive.google.com/uc?id=1TlgCuWATQr43Lxhn33i7DKgFeggLn9Al"
-      }
+        'image': img
+    }
 
     const currentDate = new Date();
     const deliveryDate = new Date(currentDate);
@@ -26,14 +27,14 @@ const CartItem = ()=>{
 
     return (
         <div className='row cartItem'>
-            <div className='col-4 imageContainer'>
+            <div className='col-md-4 imageContainer'>
                 <img 
                     src={product.image}
                     className='cartImage img-fluid'
                     alt={product.name}
                 />
             </div>
-            <div className='col-8 cartItemDetails'>
+            <div className='col-md-8 cartItemDetails'>
                     <div className="cartItemBrand">
                         {product.brand}
                     </div>
@@ -54,10 +55,10 @@ const CartItem = ()=>{
                     </div>
                     <div className='row justify-content-center mt-2'>
                         <div className='col-6'>
-                            <button className='btn btn-success'>Buy this now</button>
+                            <button className='buyNow'>Buy this now</button>
                         </div>
                         <div className='col-6'>
-                            <button className='btn btn-danger'>Remove</button>
+                            <button className='remove'>Remove</button>
                         </div>
                     </div>
             </div>
