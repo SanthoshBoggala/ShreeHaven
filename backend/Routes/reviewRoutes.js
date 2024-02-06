@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const validateToken = require('../Middlewares/validateToken');
 const {
     getAllReviews,
     getAllMyReviews,
@@ -11,11 +12,11 @@ const {
 }   = require('../Controllers/reviewControllers');
 
 
-router.route("/").get(getAllReviews);
-router.route("/user").get(getAllMyReviews);
-router.route("/:id").get(getSingleReview);
-router.route("/").post(postSingleReview);
-router.route("/:id").put(putSingleReview);
-router.route("/:id").delete(deleteSingleReview);
+router.route("/").get( validateToken, getAllReviews);
+router.route("/user").get( validateToken, getAllMyReviews);
+router.route("/:id").get( validateToken, getSingleReview);
+router.route("/").post( validateToken, postSingleReview);
+router.route("/:id").put( validateToken, putSingleReview);
+router.route("/:id").delete( validateToken, deleteSingleReview);
 
 module.exports = router;

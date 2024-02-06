@@ -3,24 +3,24 @@ require('dotenv').config();
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-const users = require('../Models/userModel');
+const Users = require('../Models/userModel');
 
 const register = asyncHandler(async (req, res)=>{
     const {username, email, phoneNumber, area, district, state, type, pincode, password} = req.body;
 
     if(username && email && phoneNumber && area && district && state && pincode && password && type) {
-        const userExists = await users.findOne({email});
+        const userExists = await Users.findOne({email});
         if(userExists){
             res.json({"msg": "user already exists"})
             return;
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const userData = await users.create({
+        const user = await Users.create({
             username, email, phoneNumber, area, district, state, pincode, type, password: hashedPassword
         })
 
-        res.json({userData})
+        res.json({user})
     }
     else {
         res.status(400);
@@ -33,23 +33,23 @@ const login = asyncHandler(async (req, res)=>{
     const {email, password, type} = req.body;
 
     if(email && password && type) {
-        const userData = await users.findOne({email});
+        const user = await Users.findOne({email});
 
-        if(!userData) {
+        if(!user) {
             res.json({"msg": "user with this mail doesn`t exists"});
             return;
         }
 
-        if( await bcrypt.compare(password, userData.password)){
+        if( await bcrypt.compare(password, user.password)){
             const token = await jwt.sign(
-                {userId: userData._id, email: userData.email, type: userData.type},
+                {userId: user._id, email: user.email, type: user.type},
                 process.env.JWT_ACCESSCODE,
-                {expiresIn: '2h'}
+                {expiresIn: '10h'}
                 );
             
                 
             res.header('Authorization', `Bearer ${token}`);
-            res.json({userData, token});
+            res.json({user, token});
             return;
         }
         res.status(401);
@@ -65,20 +65,20 @@ const login = asyncHandler(async (req, res)=>{
 const user = asyncHandler( async(req,res)=>{
     const { userId } = req.user;
     
-    const userData = await users.findById(userId);
+    const user = await Users.findById(userId);
 
-    res.json({userData});
+    res.json({user});
 });
 
 const updateUser = asyncHandler(async(req, res)=>{
     const { userId } = req.user;
     const updateUserDetails = req.body;
-    const userData = await users.findByIdAndUpdate(
+    const user = await Users.findByIdAndUpdate(
         userId,
         updateUserDetails,
         {new: true}
     )
-    res.json({userData});
+    res.json({user});
 })
 
 module.exports = {

@@ -6,11 +6,11 @@ const reviewSchema = new mongoose.Schema({
         required: true,
         ref: 'products'
     },
-    // user: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: 'users'
-    // },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'users'
+    },
     starRating: {
         type: Number,
         required: true

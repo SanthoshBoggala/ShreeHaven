@@ -1,84 +1,103 @@
 const asyncHandler = require('express-async-handler')
-const cart = require('../Models/cartModel');
-const products = require('../Models/productModel');
+const Cart = require('../Models/cartModel');
+const Products = require('../Models/productModel');
 
-const getCartItems = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
+const getCartItems = asyncHandler(async (req, res) => {
+    const { type } = req.user;
+    if (type !== 'admin') {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
+    const cart = await Cart.find().populate('items.product');
 
-    const cartItems = await cart.findOne({user : userId}).populate('items.product');
+    res.json({ cart });
+});
 
-    res.json({cartItems});
+const getMyCartItems = asyncHandler(async (req, res) => {
+    const { userId, type } = req.user;
+    if (type !== 'customer') {
+        res.status(401);
+        throw new Error('only customers can access')
+    }
+    const cart = await Cart.findOne({ user: userId }).populate('items.product');
+
+    res.json({ cart });
 })
 
-const addToCartItems = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
-    const {productKey} = req.body;
+const addToCartItems = asyncHandler(async (req, res) => {
+    const { userId, type } = req.user;
+    if (type !== 'customer') {
+        res.status(401);
+        throw new Error('only customers can access')
+    }
+    const { key } = req.body;
+    if (!key) {
+        res.status(400);
+        throw new Error('provide all fields');
+    }
 
-    if(productKey) {
-        
-        const product = await products.findOne({productKey});
+    const product = await Products.findOne({ key });
 
-        if(!product){
-            res.status(400);
-            throw new Error("Product Invalid");
-        }
+    if (!product) {
+        res.status(400);
+        throw new Error("Product not found");
+    }
 
-        let userExists;
-        
-        userExists = await cart.findOne({user : userId})
+    let userExists;
 
-        if(!userExists) {
-            userExists = await cart.create({user : userId, items: []})
-        }
+    userExists = await Cart.findOne({ user: userId })
 
-        const userCartProducts  = userExists.items;
-        const productAlreadyExists = userCartProducts.find( (x) => x.product.equals(product._id) );
-        let cartItems;
+    if (!userExists) {
+        userExists = await Cart.create({ user: userId, items: [] });
+    }
 
-        if(productAlreadyExists) {
-            cartItems = userExists;
-        }
-        else{
-            cartItems = await cart.findOneAndUpdate(
-                {user : userId},
-                {$push: {items: {product: product._id}}},
-                {new: true}
-            )
-        }
-        
-        res.json({cartItems})
+    const userCartProducts = userExists.items;
+    const productAlreadyExists = userCartProducts.find((x) => x.product.equals(product._id));
+    let cart;
+
+    if (productAlreadyExists) {
+        cart = userExists;
     }
     else {
-        res.status(400);
-        throw new Error("Product Key is not provided");
+        cart = await Cart.findOneAndUpdate(
+            { user: userId },
+            { $push: { items: { product: product._id } } },
+            { new: true }
+        );
     }
+    res.json({ cart });
 })
 
-const removeFromCartItems = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
-    const {productKey} = req.body;
-
-    if(!productKey) {
-        res.status(400); 
-        throw new Error("Product Key is not provided");
+const removeFromCartItems = asyncHandler(async (req, res) => {
+    const { userId, type } = req.user;
+    if (type !== 'customer') {
+        res.status(401);
+        throw new Error('only customers can access')
     }
-    const product = await products.findOne({productKey});
-    
-    if(!product){
+    const { key } = req.body;
+
+    if (!key) {
         res.status(400);
-        throw new Error("Product Invalid");
+        throw new Error("Provide all fields");
+    }
+    const product = await Products.findOne({ key });
+
+    if (!product) {
+        res.status(400);
+        throw new Error("Product not found");
     }
 
-    const newCart = await cart.findOneAndUpdate(
-        {user : userId},
-        {$pull: {items: {product : product._id}}},
-        {new: true}
+    const cart = await Cart.findOneAndUpdate(
+        { user: userId },
+        { $pull: { items: { product: product._id } } },
+        { new: true }
     );
 
-    res.json({"cartItems" : newCart});
+    res.json({ cart });
 });
 
 module.exports = {
+    getMyCartItems,
     getCartItems,
     addToCartItems,
     removeFromCartItems

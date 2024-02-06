@@ -3,7 +3,7 @@ const Reviews = require('../Models/reviewModel');
 const Products = require('../Models/productModel');
 
 const getAllReviews = asyncHandler(async (req, res) => {
-    // const { type } = req.user
+    const { type } = req.user
     // if( type !== 'admin' ) {
     //     res.status(401);
     //     throw new Error('only admins can access');
@@ -12,20 +12,21 @@ const getAllReviews = asyncHandler(async (req, res) => {
     res.json({ reviews });
 });
 const getAllMyReviews = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
+    const { userId, type } = req.user
     // if( type !== 'customer' ) {
     //     res.status(401);
     //     throw new Error('only customers can access');
     // }
-    const reviews = await Reviews.find();
+    const reviews = await Reviews.find({ user: userId });
     res.json({ reviews });
 });
 const getSingleReview = asyncHandler(async (req, res) => {
+
     const review = await Reviews.findById(req.params.id);
     res.json({ review });
 });
 const postSingleReview = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
+    const { userId, type } = req.user
     // if( type !== 'customer' ) {
     //     res.status(401);
     //     throw new Error('only customers can access');
@@ -61,7 +62,7 @@ const postSingleReview = asyncHandler(async (req, res) => {
     res.json({ review });
 });
 const putSingleReview = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
+    const { userId, type } = req.user
     // if( type !== 'customer' ) {
     //     res.status(401);
     //     throw new Error('only customers can access');
@@ -69,7 +70,7 @@ const putSingleReview = asyncHandler(async (req, res) => {
     res.json({ msg: "done later" });
 });
 const deleteSingleReview = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
+    const { userId, type } = req.user
     // if( type !== 'customer' ) {
     //     res.status(401);
     //     throw new Error('only customers can access');

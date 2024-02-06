@@ -23,6 +23,11 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
         name, brand, price, category, type ,discount = 0,
         starRating, ratings, description, reviews, inStock = true ,//images
     } = req.body;
+    const { userId } = req.user;
+    // if( type !== 'admin' ) {
+    //     res.status(401);
+    //     throw new Error('only admins can access');
+    // }
 
     if(!name || !brand || !price || !category || !type || !description){
         res.status(400);
@@ -54,6 +59,11 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 
 const putSingleProduct = asyncHandler(async (req, res) => {
     const {price, discount} = req.body;
+    const { userId, type } = req.user;
+    // if( type !== 'admin' ) {
+    //     res.status(401);
+    //     throw new Error('only admins can access');
+    // }
 
     const productExists = await Products.findOne({ key: req.params.id });
     if(!productExists) {
@@ -98,6 +108,11 @@ const putSingleProduct = asyncHandler(async (req, res) => {
 });
 
 const deleteSingleProduct = asyncHandler(async(req, res) => {
+    const { userId, type } = req.user;
+    // if( type !== 'admin' ) {
+    //     res.status(401);
+    //     throw new Error('only admins can access');
+    // }
     const product = await Products.findOneAndDelete({ key: req.params.id });
     res.json({product});
 });
