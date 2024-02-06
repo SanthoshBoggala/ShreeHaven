@@ -1,90 +1,113 @@
 const asyncHandler = require('express-async-handler');
-const products = require('../Models/productModel');
-const orders = require('../Models/ordersModel');
+const Products = require('../Models/productModel');
+const Orders = require('../Models/ordersModel');
 
 
-const getAllOrders = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
-
-    const ordersData = await orders.findOne({user : userId}).populate('orders.product');
-
-    res.json({"orders": ordersData});
+const getAllOrders = asyncHandler(async (req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'admin' ) {
+    //     res.status(401);
+    //     throw new Error('only admins can access');
+    // }
+    const orders = await Orders.find()
+    res.json({ orders });
 });
+const getAllMyOrders = asyncHandler(async (req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'customer' ) {
+    //     res.status(401);
+    //     throw new Error('only customers can access');
+    // }
+    const orders = await Orders.find()
+    res.json({ orders });
+});
+const getSingleOrder = asyncHandler(async (req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'customer' ) {
+    //     res.status(401);
+    //     throw new Error('only customers can access');
+    // }
+    const order = await Orders.findById(req.params.id)
+    res.json({ order });
+});
+const addToOrders = asyncHandler(async(req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'customer' ) {
+    //     res.status(401);
+    //     throw new Error('only customers can access');
+    // }
+    const { key, size, quantity, price } = req.body;
 
-const addToOrders = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
-    const {productKey} = req.body;
-
-    const data = await products.findOne({productKey});
-
-    if(!data){
+    if(!size || !quantity || !price || !key){
         res.status(400);
-        throw new Error("Invalid product key");
+        throw new Error("provide all fields");
     }
 
-    const newOrder = { ...req.body };
-    delete newOrder.productKey;
-
-    const userExists = await orders.findOne({user : userId})
-
-    if(!userExists) {
-        await orders.create({user : userId, orders: []})
-    }
-
-    const orderData = await orders.findOneAndUpdate(
-        {user : userId},
-        {$push: {orders: {
-            ...newOrder,
-            product : data._id
-                }}
-        },
-        {new: true}
-    )
-    res.json({orderData});
-});
-
-const delOrder = asyncHandler(async(req, res)=>{
-    const {userId} = req.user;
-    const { orderId } = req.body;
-
-    if(!orderId) {
+    const productExists = await Products.findOne({ key });
+    if(!productExists) {
         res.status(400);
-        throw new Error("please provide order id");
+        throw new Error('product not exists');
     }
-    const orderData = await orders.findOneAndUpdate(
-        {user : userId},
-        {$pull: {orders: { _id : orderId}}},
-        {new: true}
-    )
-    res.json({orderData});
+
+    const currentDate = new Date();
+    const dateAfter6Days = new Date(currentDate);
+    dateAfter6Days.setDate(currentDate.getDate() + 6);
+
+    const order = await Orders.create( 
+    {   
+            product: productExists._id,
+            size,
+            quantity,
+            price,
+            expectedDeliveryDate: dateAfter6Days
+    });
+
+    res.json({order});
 });
 
-const updateOrder = asyncHandler( async (req, res)=>{
+const updateOrder = asyncHandler(async (req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'admin' ) {
+    //     res.status(401);
+    //     throw new Error('only admins can access');
+    // }
+    const orderId = req.params.id;
+    const { status } = req.body;
 
-    const {orderId, newStatus} = req.body;
-
+    if (!orderId || !status) {
+        res.status(400);
+        throw new Error("Please provide orderId and status");
+    }
     const statusOptions = ['Pending', 'Failed', 'Delivered', 'Return Pending'];
-    if(!statusOptions.includes(newStatus)) {
+    if (!statusOptions.includes(status)) {
         res.status(400);
         throw new Error("status is invalid");
     }
 
-    if (!orderId || !newStatus) {
-        res.status(400);
-        throw new Error("Please provide orderId and newStatus");
-    }
-
-    const orderData = await orders.findOneAndUpdate(
-        { 'orders._id' : orderId }, 
-        { $set: { 'orders.$.status': newStatus } },
-        {new: true}
+    const orderData = await Orders.findByIdAndUpdate(
+        orderId,
+        { status },
+        { new: true }
     );
-    
-    res.json({orderData});
+
+    res.json({ orderData });
 });
+const delOrder = asyncHandler(async (req, res) => {
+    // const { userId, type } = req.user
+    // if( type !== 'customer' ) {
+    //     res.status(401);
+    //     throw new Error('only customers can access');
+    // }
+    const order = await Orders.findByIdAndDelete(req.params.id);
+    res.json({order});
+});
+
+
 
 module.exports = {
     getAllOrders,
+    getAllMyOrders,
+    getSingleOrder,
     addToOrders,
     delOrder,
     updateOrder

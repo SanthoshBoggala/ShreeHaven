@@ -1,49 +1,43 @@
 const mongoose = require('mongoose');
 
-const ordersModel = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     user : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Users',
-        required : [true, "pls provide userId"],
-        unique: true
+        type: String,
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'Users',
+        // required : [true, "pls provide userId"],
+        default: "n"
     },
-    orders: [{
-        product : {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Products',
-            required: true,
+    product : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'products',
+        required: true,
 
-        },
-        count : {
-            type: Number,
-            required: true
-        },
-        size : {
-            type: String,
-            enum : ['xs','s', 'm', 'l', 'xl', 'xxl','28', '30', '32', '34', '36', '38', '40']
-        },
-        color : {
-            type: String,
-            enum : ['red', 'white', 'green', 'Blue']
-        },
-        price : {
-            type: Number,
-            required: [true, "pls provide order price"]
-        },
-        status : {
-            type: String,
-            enum: ['Pending', 'Failed', 'Delivered', 'Return Pending'],
-            default: 'Pending'
-        },
-        time: {
-            type: Date,
-            default: Date.now
-        },
-        date: {
-            type: Date,
-            default: Date.now
-        }
-    }]
+    },
+    size : {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    status : {
+        type: String,
+        default: "Pending",
+        enum: ['Pending', 'Failed', 'Delivered', 'Return Pending'], 
+    },
+    orderedDate: {
+        type: Date,
+        default: Date.now()
+    },
+    expectedDeliveryDate: {
+        type: Date
+    }
 })
 
-module.exports = mongoose.model("Orders", ordersModel);
+module.exports = mongoose.model("orders", orderSchema);

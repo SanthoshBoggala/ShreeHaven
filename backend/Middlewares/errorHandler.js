@@ -7,6 +7,7 @@ const errorHandler = (err, req, res, next)=>{
     
     const statusCode = res.statusCode ? res.statusCode : 500
 
+    console.log(err);
     switch(statusCode){
         case VALIDATION_ERROR:
             res.json({
@@ -44,7 +45,7 @@ const errorHandler = (err, req, res, next)=>{
             })
             break  
         default:
-            console.log("No Error")
+            console.log(err)
             break
     }
 };

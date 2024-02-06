@@ -8,6 +8,7 @@ const connectUrl = process.env.MONGODB_URL;
 const userRoutes = require('./Routes/userRoutes');
 const productRoutes = require("./Routes/productRoutes");
 const cartRoutes = require('./Routes/cartRoutes');
+const reviewRoutes = require('./Routes/reviewRoutes');
 const orderRoutes = require('./Routes/orderRoutes');
 const errorHandler = require("./Middlewares/errorHandler");
 const connectDB = require('./DB/connectDB');
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/api/products', productRoutes);
+app.use('/api/reviews', reviewRoutes)
 app.use('/api', userRoutes);
 app.use('/api/orders',orderRoutes);
 app.use('/api/cart', cartRoutes);

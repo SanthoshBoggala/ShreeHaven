@@ -6,9 +6,9 @@ const jwt = require("jsonwebtoken");
 const users = require('../Models/userModel');
 
 const register = asyncHandler(async (req, res)=>{
-    const {username, email, address, pincode, password} = req.body;
+    const {username, email, phoneNumber, area, district, state, type, pincode, password} = req.body;
 
-    if(username && email && address && pincode && password) {
+    if(username && email && phoneNumber && area && district && state && pincode && password && type) {
         const userExists = await users.findOne({email});
         if(userExists){
             res.json({"msg": "user already exists"})
@@ -17,7 +17,7 @@ const register = asyncHandler(async (req, res)=>{
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const userData = await users.create({
-            username, email, address, pincode, password: hashedPassword
+            username, email, phoneNumber, area, district, state, pincode, type, password: hashedPassword
         })
 
         res.json({userData})
@@ -30,9 +30,9 @@ const register = asyncHandler(async (req, res)=>{
 });
 
 const login = asyncHandler(async (req, res)=>{
-    const {email, password} = req.body;
+    const {email, password, type} = req.body;
 
-    if(email && password) {
+    if(email && password && type) {
         const userData = await users.findOne({email});
 
         if(!userData) {
@@ -42,7 +42,7 @@ const login = asyncHandler(async (req, res)=>{
 
         if( await bcrypt.compare(password, userData.password)){
             const token = await jwt.sign(
-                {userId: userData._id, email: userData.email},
+                {userId: userData._id, email: userData.email, type: userData.type},
                 process.env.JWT_ACCESSCODE,
                 {expiresIn: '2h'}
                 );
