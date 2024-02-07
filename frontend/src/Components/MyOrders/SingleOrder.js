@@ -12,7 +12,7 @@ const SingleOrder = () => {
         quantity: 2,
         price: 2000,
         status: 'pending',
-        image: img,
+        image: '/uploadedImages/mobile1.webp',
         orderedDate: Date.now(),
         expectedDate: Date.now()
     }

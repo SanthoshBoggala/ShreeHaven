@@ -20,10 +20,11 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 
 const postSingleProduct =  asyncHandler(async(req, res) => {
     const {
-        name, brand, price, category, type ,discount = 0,
-        starRating, ratings, description, reviews, inStock = true
+        name, brand, price, category, type ,discount = 0, starRating = 0, ratings = 0,
+        description
     } = req.body;
     const { userId } = req.user;
+
     // if( type !== 'admin' ) {
     //     res.status(401);
     //     throw new Error('only admins can access');
@@ -47,17 +48,21 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
         return parseInt(nprice);
     }
 
-    const newPrice = modifiedPrice(price, discount);
+    const newPrice = modifiedPrice(Number(price), Number(discount));
 
-
-    let product = await new Products({
-        key, name, brand, price, category, type ,discount, description, inStock, newPrice
-    });
+    let inStock = req.body.inStock === 'true' ? true : false
+    let data = {
+        key, name, brand, category, type, price, newPrice, discount, inStock, ratings, starRating, description
+    }
+    let product = await new Products( data );
 
 
     if(req.files) {
-        let pathArray = req.files.map(file => file.path);
-        product.image = pathArray.join(',');
+        let pathArray = req.files.map(file => file.path.split('/').slice(-2).join('/'));
+        
+        console.log(pathArray.join(','));
+
+        product.images = pathArray.join(',');
     }
 
     product.save();
@@ -97,10 +102,20 @@ const putSingleProduct = asyncHandler(async (req, res) => {
     }   
 
     let product;
+    let pathArray = productExists.images;
+
+    if(req.files && req.files.length > 0) {
+        let imagesPath = req.files.map(file => file.path.split('/').slice(-2).join('/'));
+        
+        console.log(imagesPath.join(','));
+
+        pathArray = imagesPath.join(',');
+        
+    }
     if(newPrice != 0){
         product = await Products.findOneAndUpdate(
             {key: req.params.id},
-            {...req.body, newPrice},
+            {...req.body, newPrice , images: pathArray},
             {new: true}
         );
     }

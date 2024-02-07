@@ -1,0 +1,19 @@
+.uploadProductForm {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+}
+.options {
+    text-align: center;
+    font-size: 15px;
+    height: 35px;
+    width: 215px;
+    box-shadow: 3px 3px 8px grey;
+    transition: 0.2s;
+}
+.textAreaDesc {
+    box-shadow: 3px 3px 8px grey;
+}
+/* .options:active {
+    transform: scale(1.05);
+} */

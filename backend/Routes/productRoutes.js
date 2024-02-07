@@ -15,7 +15,7 @@ const {
 router.route("/").get( validateToken, getAllProducts);
 router.route("/:id").get( validateToken, getSingleProduct);
 router.route("/").post( validateToken, upload.array('files[]'), postSingleProduct);
-router.route("/:id").put( validateToken, putSingleProduct);
+router.route("/:id").put( validateToken, upload.array('files[]') , putSingleProduct);
 router.route("/:id").delete( validateToken, deleteSingleProduct);
 
 module.exports = router;

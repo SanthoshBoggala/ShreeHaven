@@ -72,6 +72,12 @@ const ProfileSideBar = ({active}) => {
                             Addresses
                         </div>
                         <div
+                            style={{ backgroundColor: active === 'upload_product' ? 'rgb(65, 189, 189)' : ''}}
+                            onClick={()=> navigate('/my/upload_product')}
+                        >
+                            Upload Product
+                        </div>
+                        <div
                             onClick={()=> navigate('/my/help')}
                         >
                             Need HELP

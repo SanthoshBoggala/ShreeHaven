@@ -20,7 +20,6 @@ const productSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: ['men', 'women', 'other'],
         required: true
     },
     price : {
@@ -29,7 +28,7 @@ const productSchema = new mongoose.Schema({
     },
     newPrice : {
         type : Number,
-        required : [true, "pls provide price"]
+        required : true
     },
     discount : {
         type : Number,
@@ -48,13 +47,13 @@ const productSchema = new mongoose.Schema({
     },
     description : {
         type : String,
-        required : [true, "pls provide description"]
+        required : true
     },
     inStock: {
         type: Boolean,
         required: true
     },
-    image : {
+    images : {
         type: String
     }
 });
