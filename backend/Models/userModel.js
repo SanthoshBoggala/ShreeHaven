@@ -8,10 +8,13 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "pls provide unique email"],
-    unique: [true, "pls provide unique email"]
   },
   phoneNumber: {
     type: Number,
+    required: true
+  },
+  type: {
+    type: String,
     required: true
   },
   area: {
@@ -27,7 +30,7 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   pincode: {
-    type: String,
+    type: Number,
     required: [true, "pls provide pincode"]
   },
   password: {

@@ -21,7 +21,7 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 const postSingleProduct =  asyncHandler(async(req, res) => {
     const {
         name, brand, price, category, type ,discount = 0,
-        starRating, ratings, description, reviews, inStock = true ,//images
+        starRating, ratings, description, reviews, inStock = true
     } = req.body;
     const { userId } = req.user;
     // if( type !== 'admin' ) {
@@ -49,10 +49,18 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 
     const newPrice = modifiedPrice(price, discount);
 
-    const product = await Products.create({
-        key, name, brand, price, category, type ,discount,
-        starRating, ratings, description, reviews, inStock, newPrice
+
+    let product = await new Products({
+        key, name, brand, price, category, type ,discount, description, inStock, newPrice
     });
+
+
+    if(req.files) {
+        let pathArray = req.files.map(file => file.path);
+        product.image = pathArray.join(',');
+    }
+
+    product.save();
 
     res.json({product});
 });

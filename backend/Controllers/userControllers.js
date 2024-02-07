@@ -9,7 +9,11 @@ const register = asyncHandler(async (req, res)=>{
     const {username, email, phoneNumber, area, district, state, type, pincode, password} = req.body;
 
     if(username && email && phoneNumber && area && district && state && pincode && password && type) {
-        const userExists = await Users.findOne({email});
+        if(!['admin', 'customer'].includes(type)) {
+            res.status(400);
+            throw new Error('only admin and customers can register');
+        }
+        const userExists = await Users.findOne({email, type});
         if(userExists){
             res.json({"msg": "user already exists"})
             return;
@@ -33,7 +37,7 @@ const login = asyncHandler(async (req, res)=>{
     const {email, password, type} = req.body;
 
     if(email && password && type) {
-        const user = await Users.findOne({email});
+        const user = await Users.findOne({email, type});
 
         if(!user) {
             res.json({"msg": "user with this mail doesn`t exists"});
