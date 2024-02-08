@@ -10,6 +10,7 @@ const productRoutes = require("./Routes/productRoutes");
 const cartRoutes = require('./Routes/cartRoutes');
 const reviewRoutes = require('./Routes/reviewRoutes');
 const orderRoutes = require('./Routes/orderRoutes');
+const typeCategoryRoutes = require('./Routes/typeCategoryRoutes');
 const errorHandler = require("./Middlewares/errorHandler");
 const connectDB = require('./DB/connectDB');
 
@@ -20,6 +21,7 @@ app.use('/uploads', express.static('uploads'));
 
 
 app.use('/api/products', productRoutes);
+app.use('/api/type_category', typeCategoryRoutes);
 app.use('/api/reviews', reviewRoutes)
 app.use('/api', userRoutes);
 app.use('/api/orders',orderRoutes);

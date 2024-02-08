@@ -8,6 +8,39 @@ const getAllProducts = asyncHandler(async (req, res) => {
     res.json({products});
 });
 
+const getAllHotProducts = asyncHandler(async (req, res) => {
+    const { limit } = req.query;
+
+    let products = await Products.find().sort({ discount: -1 });
+    if(limit) {
+        products = products.limit(parseInt(limit));
+    }
+
+    res.json({products});
+});
+
+const getAllTrendingProducts = asyncHandler(async (req, res) => {
+    const { limit } = req.query;
+
+    let products = await Products.find().sort({ ratings: -1 });
+    if(limit) {
+        products = products.limit(parseInt(limit));
+    }
+
+    res.json({products});
+});
+
+const getAllTopRatedProducts = asyncHandler(async (req, res) => {
+    const { limit } = req.query;
+
+    let products = await Products.find().sort({ starRating: -1 });
+    if(limit) {
+        products = products.limit(parseInt(limit));
+    }
+
+    res.json({products});
+});
+
 const getSingleProduct = asyncHandler(async (req, res) => {
     
     const product = await Products.findOne({ key: req.params.id });
@@ -60,8 +93,6 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
     if(req.files) {
         let pathArray = req.files.map(file => file.path.split('/').slice(-2).join('/'));
         
-        console.log(pathArray.join(','));
-
         product.images = pathArray.join(',');
     }
 
@@ -142,6 +173,9 @@ const deleteSingleProduct = asyncHandler(async(req, res) => {
 
 module.exports = {
     getAllProducts,
+    getAllHotProducts,
+    getAllTrendingProducts,
+    getAllTopRatedProducts,
     getSingleProduct,
     postSingleProduct,
     putSingleProduct,
