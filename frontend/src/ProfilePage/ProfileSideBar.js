@@ -72,6 +72,12 @@ const ProfileSideBar = ({active}) => {
                             Addresses
                         </div>
                         <div
+                            style={{ backgroundColor: active === 'type_category' ? 'rgb(65, 189, 189)' : ''}}
+                            onClick={()=> navigate('/my/type_category')}
+                        >
+                            Modify Types/Categories
+                        </div>
+                        <div
                             style={{ backgroundColor: active === 'upload_product' ? 'rgb(65, 189, 189)' : ''}}
                             onClick={()=> navigate('/my/upload_product')}
                         >

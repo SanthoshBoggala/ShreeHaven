@@ -11,6 +11,13 @@
     box-shadow: 3px 3px 8px grey;
     transition: 0.2s;
 }
+.inStockDiv {
+    font-family: Impact;
+}
+.inStock {
+    margin-right: 2px;
+    margin-left: 15px;
+}
 .textAreaDesc {
     box-shadow: 3px 3px 8px grey;
 }

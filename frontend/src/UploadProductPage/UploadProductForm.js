@@ -175,10 +175,10 @@ const PersonalInfo = () => {
               required
             />
           </div>
-          <div>
+          <div className='inStockDiv'>
             <label>Stock Available</label>
-            <input type='radio' name='inStock' value={'true'} checked={product.inStock === 'true'} onChange={handleInputChange} /> Yes
-            <input type='radio' name='inStock' value={'false'} checked={product.inStock === 'false'} onChange={handleInputChange} /> No
+            <input type='radio' className='inStock' name='inStock' value={'true'} checked={product.inStock === 'true'} onChange={handleInputChange} /> Yes
+            <input type='radio' className='inStock' name='inStock' value={'false'} checked={product.inStock === 'false'} onChange={handleInputChange} /> No
           </div>
           <div>
             <label htmlFor='name'>Discount:</label>

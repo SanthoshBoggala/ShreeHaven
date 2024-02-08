@@ -11,6 +11,7 @@ import LoginPage from './LoginPage/LoginPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import MyOrdersPage from './MyOrdersPage/MyOrdersPage';
 import UploadProductPage from './UploadProductPage/UploadProductPage';
+import TypeCategory from './TypeCategory/TypeCategory';
 
 const Routers = () => {
   return ( 
@@ -27,6 +28,7 @@ const Routers = () => {
         <Route path="/my/orders" element={<MyOrdersPage />} />
         <Route path="/my/reviews" element={<ProfilePage />} />
         <Route path="/my/upload_product" element={<UploadProductPage />} />
+        <Route path="/my/type_category" element={<TypeCategory />} />
     </Routes>
   );
 };

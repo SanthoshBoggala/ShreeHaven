@@ -1,0 +1,39 @@
+.canModify {
+    margin: 40px;
+    margin-top: 100px;
+}
+.typesHeading {
+    font-size: 25px;
+    font-family: Verdana;
+    margin-bottom: 20px;
+}
+.typeCategoryDiv {
+
+}
+.typeCategory {
+
+}
+.getTypeCategory {
+    display: flex;
+    justify-content: center;
+}
+.typesDiv {
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid rgb(199, 199, 199);
+    box-shadow: 0px 6px 10px grey;
+}
+.type {
+    font-size: 20px;
+    margin-left: 10px;
+    margin-bottom: 3px;
+    font-family: Impact;
+}
+.categories {
+    font-family: sans-serif;
+}
+.category {
+    font-size: 14px;
+    margin: 2px 20px 2px 20px;
+    box-shadow: 0px 2px 8px gray;
+}
