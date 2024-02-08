@@ -40,6 +40,18 @@
     color: aliceblue;
     font-family: sans-serif;
 }
+.outOfStock {
+    position: absolute;
+    bottom: 3%;
+    right: 5%;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 5px;
+    font-family: Impact;
+    font-size: 18px;
+    color: white;
+    background-color: rgb(238, 81, 81);
+}
 .itemWishlist {
     height: 25px;
     width: 25px;

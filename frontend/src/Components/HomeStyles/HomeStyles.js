@@ -12,27 +12,15 @@ const HomeStyles = () => {
     },
     {
       image: styles2,
-      name: 'Shirts'
+      name: 'Trousers'
     },
     {
       image: styles1,
-      name: 'Shirts'
+      name: 'T-Shirts'
     },
     {
       image: styles1,
-      name: 'Shirts'
-    },
-    {
-      image: styles1,
-      name: 'Shirts'
-    },
-    {
-      image: styles1,
-      name: 'Shirts'
-    },
-    {
-      image: styles1,
-      name: 'Shirts'
+      name: 'Hoodies'
     }
   ]
   return (
@@ -40,7 +28,7 @@ const HomeStyles = () => {
       <div className='homeHeading'>Explore Our Products</div>
       <div className='row homeStylesData'>
         {(styleData && styleData.length !==0 ) ? 
-          styleData.map((oneCategory)=> <StyleComponent style={oneCategory} />) : (
+          styleData.map((oneCategory)=> <StyleComponent  key={oneCategory.name} {...oneCategory} />) : (
             <h4>No Categories Available</h4>
           )
         }

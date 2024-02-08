@@ -4,7 +4,7 @@ import FilterInput from "./FilterInput"
 const SideBar = ({ filter , onChange})=>{
 
     return (
-        <div className="col-lg-2 col-3 sideBar">
+        <div className="col-lg-2 col-md-3 col-4 sideBar">
             <div className='filter filterInput'>Filter</div>
             <form >
                 {filter && filter.map((categoryType)=>{

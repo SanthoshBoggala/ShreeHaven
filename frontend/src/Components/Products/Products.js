@@ -2,7 +2,7 @@ import React from "react"
 // import Item from "../Item/Item"
 import ItemCard from "../ItemCard/ItemCard"
 
-const Products = ()=>{
+const Products = ({stylesForYouPage = false, topRated = false })=>{
 
     const Details =  {
       "productKey": "Men_striped_casual_light_green_white_shirt",
@@ -23,11 +23,11 @@ const Products = ()=>{
     const productDetails = arr.map(()=> Details)
 
     return (
-        <div className="col-lg-10 col-9">
+        <div className={ (stylesForYouPage || topRated) ? '' : "col-lg-10 col-md-9 col-8"}>
             <div className="row">
                 { productDetails && ( productDetails.map((x)=> {
                     return (
-                        <ItemCard home={false}/>
+                        <ItemCard notProducts={(stylesForYouPage || topRated)} />
                     )})
                 )}
             </div>

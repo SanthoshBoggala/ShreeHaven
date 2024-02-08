@@ -12,6 +12,8 @@ import RegisterPage from './RegisterPage/RegisterPage';
 import MyOrdersPage from './MyOrdersPage/MyOrdersPage';
 import UploadProductPage from './UploadProductPage/UploadProductPage';
 import TypeCategory from './TypeCategory/TypeCategory';
+import StylesForYouPage from './StylesForYouPage/StylesForYouPage';
+import TopRatedPage from './TopRatedPage/TopRatedPage';
 
 const Routers = () => {
   return ( 
@@ -22,7 +24,10 @@ const Routers = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products" element={<ProductPage />} />
-        <Route path="/products/:productId" element={<SingleProductPage />} />
+        <Route path="/products/styles/:id" element={<StylesForYouPage />} />
+        <Route path="/products/top_rated/:id" element={<TopRatedPage />} />
+        <Route path="/products/for_you/:id" element={<StylesForYouPage />} />
+        <Route path="/products/:id" element={<SingleProductPage />} />
         <Route path="/my/cart" element={<CartPage />} />
         <Route path="/my/profile" element={<ProfilePage />} />
         <Route path="/my/orders" element={<MyOrdersPage />} />
