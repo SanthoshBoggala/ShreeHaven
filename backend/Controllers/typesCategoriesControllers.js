@@ -2,8 +2,15 @@ const asyncHandler = require('express-async-handler');
 const TypeCategory = require('../Models/typeCategoryModel');
 
 const getAllTypesCategories = asyncHandler(async(req, res)=>{
+    const {type} = req.query 
 
-    const typecategories = await TypeCategory.find();
+    let typecategories
+    if(type) {
+        typecategories = await TypeCategory.findOne({ type })
+    }
+    else {
+        typecategories = await TypeCategory.find();
+    }
     res.json({typecategories});
 });
 const addTypesCategories = asyncHandler(async(req, res)=>{

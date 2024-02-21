@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom'
 const ItemCard = ({ home = false, notProducts = false, topRated = false, hotDeals = false, trendingDeals = false, suggestedItems = false }) => {
     const navigate = useNavigate()
     const [wishlist, setWishlist] = useState(false)
+    // const { images } = item
+    // const imageUrl = images.split(',')[0]
 
     const item = {
         "key": "Men_striped_casual_light_green_white_shirt",
@@ -25,6 +27,7 @@ const ItemCard = ({ home = false, notProducts = false, topRated = false, hotDeal
         "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
         "image": shoe2
     }
+
     const itemCategoryCaption = {
         Shirts: 'New Range',
         Shoes: 'Top Collection',
@@ -36,7 +39,7 @@ const ItemCard = ({ home = false, notProducts = false, topRated = false, hotDeal
             return
         }
 
-        navigate(`/products/${item.key}`)
+        navigate(`/products/${item.type}/${item.key}`)
     }
 
 return (
@@ -44,7 +47,7 @@ return (
         <div className='itemCard'>
             <div className='itemImg img-fluid' style={{ height: home ? '300px' : '250px' }}>
                 <img
-                    src={item.image}
+                    src={shoe2}
                     alt={item.name}
                     onClick={navigateToItem}
                 />

@@ -1,59 +1,106 @@
 import React, { useEffect, useState } from "react"
 import './productsPage.css'
+import axios from "axios"
+import sideBarIcon from '../Images/sideBarIcon.png'
 import { SideBar, Products } from "../Components"
+import { useParams } from "react-router-dom"
 
-const ProductPage = ()=>{
-    const [filter , setFilter] = useState(null)
+const ProductPage = () => {
+    const [filter, setFilter] = useState(null)
+    const [rating, setRating] = useState('4')
+    const [filterShow, setFilterShow] = useState('show')
 
-    useEffect(()=>{
-        function getCategories(){
-            let categories = ['Shirts', 'Pants', 'Hoodies', 'Shoes', 'Cargos' ] 
+    const { category } = useParams()
 
-            const categories1 = categories.map((c)=>{
-                return { name: c , isChecked: true }
-            }) 
-            const allCategories = [
-                ...categories1, 
-                {name : 'priceUnder', price : ''},
-                {name : 'sortOrder', sortOption : 'lowToHigh' }
-                ]
-            setFilter(allCategories)
+    useEffect(() => {
+        async function getCategories() {
+            const cateTypes =  await axios.get(`http://localhost:5000/api/type_category?type=${category}`,{
+                headers: {
+                    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyZmNjNTczZDg2MjQyYTU0ZTIzNGUiLCJlbWFpbCI6InNAZ21haWwuY29tIiwidHlwZSI6ImFkbWluIiwiaWF0IjoxNzA4NTIwNTU0LCJleHAiOjE3MDg1NTY1NTR9.3t5fPvXA3A0jHXf67fsx7pQszT-jjjlVKocjc5sKfJA'
+                }
+            })
+            const cates = cateTypes.data.typecategories.categories
+
+            const cates1 = cates.map((c) => {
+                return { name: c.category, isChecked: true }
+            })
+
+            setFilter([...cates1, 
+                { name: 'priceUnder', price: '10000' },
+                { name: 'sortOrder', sortOption: 'lowToHigh' }
+            ])
         }
-        getCategories()
-    }, [])
-    
-    const handleFilter = (e)=>{
-        const { name, value , type} = e.target
+        try {
+            getCategories()
+        } catch (error) {
+            console.log(error)
+        }
 
-        setFilter((prev)=>
+        // function getCategories() {
+
+        //     let categories = ['Shirts', 'Pants', 'Hoodies', 'Shoes', 'Cargos']
+
+        //     const categories1 = categories.map((c) => {
+        //         return { name: c, isChecked: true }
+        //     })
+        //     const allCategories = [
+        //         ...categories1,
+        //         { name: 'priceUnder', price: '' },
+        //         { name: 'sortOrder', sortOption: 'lowToHigh' }
+        //     ]
+        //     setFilter(allCategories)
+        // }
+        // getCategories()
+
+    }, [category])
+
+    const handleFilter = (e) => {
+        const { name, value, type } = e.target
+
+        setFilter((prev) =>
             prev.map(item => {
-                if(item.name === name && type === 'number'){
-                    return {...item, price : value}
+                if (item.name === name && type === 'number') {
+                    return { ...item, price: value }
                 }
-                if(item.name === name && type === 'radio'){
-                    return {...item, sortOption : value}
+                if (item.name === name && type === 'radio') {
+                    return { ...item, sortOption: value }
                 }
-                if(item.name === name && type === 'checkbox'){
-                    return { ...item, isChecked : !item.isChecked }
-                }   
-                else{
+                if (item.name === name && type === 'checkbox') {
+                    return { ...item, isChecked: !item.isChecked }
+                }
+                else {
                     return item
                 }
             })
         )
     }
 
-    console.log(filter)
+    const ratingHandle = (e) => {
+        setRating(e.target.value)
+    }
+    const ChangeFilterShow = () => {
+        setFilterShow(prev => prev === '' ? 'show' : '')
+    }
+
     return (
-        <>
-        <div className="row productsPage">
-            <SideBar 
-                filter = {filter}
-                onChange = {(e)=> handleFilter(e)}        
+        <div className="productsPage">
+            <div className='outfilterIcon'>
+                <img
+                    src={sideBarIcon}
+                    alt='side-bar-icon'
+                    onClick={ChangeFilterShow}
+                />
+            </div>
+            <SideBar
+                filterShow={filterShow}
+                ChangeFilterShow={ChangeFilterShow}
+                filter={filter}
+                onChange={(e) => handleFilter(e)}
+                rating={rating}
+                ratingHandle={(e) => ratingHandle(e)}
             />
-            <Products />
+            <Products filter={filter} rating={rating}/>
         </div>
-        </>
     )
 }
 
