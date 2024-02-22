@@ -4,16 +4,16 @@ import OtherImages from './OtherImages'
 
 const SingleProductImages = ({images}) => {
     const [currentImg, setCurrentImg] = useState(0)
-    console.log(currentImg)
+    const imgs = images.split(',')
     return (
         <>
             <div className="col-sm-3 col-10 otherImages">
-                {images && images.length !== 0 && (
-                    images.map((img) => (
+                {imgs && imgs.length !== 0 && (
+                    imgs.map((img, index) => (
                     <OtherImages 
-                        key={images.indexOf(img)}
-                        count={images.indexOf(img)}
-                        shine={currentImg === images.indexOf(img)}
+                        key={index}
+                        count={imgs.indexOf(img)}
+                        shine={currentImg === imgs.indexOf(img)}
                         img={img}
                         handleMainImage={(cur)=> setCurrentImg(cur)} 
                     /> 
@@ -23,8 +23,8 @@ const SingleProductImages = ({images}) => {
             <div className="col-sm-9 col-10 mainImage">
                 <div className="itemImg1">
                     <img
-                        src={images[currentImg]}
-                        alt='item1'
+                        src={`../../${imgs[currentImg]}`}
+                        alt={imgs[currentImg]}
                         className="img-fluid"
                     />
                 </div>

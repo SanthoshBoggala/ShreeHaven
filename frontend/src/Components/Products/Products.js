@@ -1,29 +1,37 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import './products.css'
 import ItemCard from "../ItemCard/ItemCard"
 import { useParams } from "react-router-dom"
-import axios from "axios"
+import UserContext from '../../contexts/userContext'
+import useGetData from "../../customHooks/useGetData"
 
-const Products = ({ rating, filter, stylesForYouPage = false, topRated = false }) => {
-    const [products, setProducts] = useState(null)
+const Products = ({ rating, filter, urlEndPoint, stylesForYouPage = false, topRated = false }) => {
+    // const [products, setProducts] = useState(null)
+    const { user } = useContext(UserContext)
     const { category } = useParams()
 
-    useEffect(() => {
-        async function getProducts() {
-            const products = await axios.get('http://localhost:5000/api/products', {
-                headers: {
-                    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyZmNjNTczZDg2MjQyYTU0ZTIzNGUiLCJlbWFpbCI6InNAZ21haWwuY29tIiwidHlwZSI6ImFkbWluIiwiaWF0IjoxNzA4NTIwNTU0LCJleHAiOjE3MDg1NTY1NTR9.3t5fPvXA3A0jHXf67fsx7pQszT-jjjlVKocjc5sKfJA'
-                }
-            })
+    let url = `http://localhost:5000/api/products?type=${category}`
+    if(urlEndPoint && urlEndPoint !== 'suggested_items') {
+        url = `http://localhost:5000/api/products/${urlEndPoint}`
+    }
+    const { loading, data : {products} , error } = useGetData({url , authorization: user.token})
 
-            setProducts(products.data.products)
-        }
-        try {
-            getProducts()
-        } catch (error) {
-            console.log(error)
-        }
-    }, [category, rating, filter])
+    // useEffect(() => {
+    //     async function getProducts() {
+    //         const products = await axios.get(`http://localhost:5000/api/products?type=${category}`, {
+    //             headers: {
+    //                 authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyZmNjNTczZDg2MjQyYTU0ZTIzNGUiLCJlbWFpbCI6InNAZ21haWwuY29tIiwidHlwZSI6ImFkbWluIiwiaWF0IjoxNzA4NTIwNTU0LCJleHAiOjE3MDg1NTY1NTR9.3t5fPvXA3A0jHXf67fsx7pQszT-jjjlVKocjc5sKfJA'
+    //             }
+    //         })
+
+    //         setProducts(products.data.products)
+    //     }
+    //     try {
+    //         getProducts()
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }, [category, rating, filter])
 
     // const Details = {
     //     "productKey": "Men_striped_casual_light_green_white_shirt",
@@ -45,9 +53,11 @@ const Products = ({ rating, filter, stylesForYouPage = false, topRated = false }
 
     return (
         <div className='products'>
+            { loading && <div>{'Loading'}</div> }
+
             {(products && products.length !== 0) ? (
-                <div>
-                    <div className="productsTop">
+                <>
+                    <div className={ stylesForYouPage ? 'noProductsTop' : 'productsTop'} >
                         <div className="productsCount">
                             {`CheckOut (${products.length}) products`}
                         </div>
@@ -66,7 +76,7 @@ const Products = ({ rating, filter, stylesForYouPage = false, topRated = false }
                             })
                         }
                     </div>
-                </div>
+                </>
 
             ) : (
                 <div className="productsTop">

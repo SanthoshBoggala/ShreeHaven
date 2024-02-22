@@ -17,8 +17,8 @@
 .itemImg {
     height: 250px;
     width: 200px;
-    padding: 5px;
     position: relative;
+    margin-bottom: 10px;
 }
 .itemImg > img {
     height: 100%;
@@ -28,10 +28,10 @@
 }
 .itemOffer {
     position: absolute;
-    top: 5%;
-    left: 7%;
+    top: 1%;
+    left: 1%;
     padding: 1px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
     padding-left: 5px;
     padding-right: 5px;
@@ -45,10 +45,10 @@
     bottom: 3%;
     right: 5%;
     cursor: pointer;
-    padding: 4px;
+    padding: 2px;
     border-radius: 5px;
     font-family: Impact;
-    font-size: 18px;
+    font-size: 15px;
     color: white;
     background-color: rgb(238, 81, 81);
 }

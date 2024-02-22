@@ -45,19 +45,22 @@ const postSingleReview = asyncHandler(async (req, res) => {
     let reviewData = { starRating };
     if (comment) reviewData = { ...reviewData, comment }
 
-    const review = await Reviews.create({ product: productExists._id, ...reviewData });
+    const review = await Reviews.create({ ...reviewData });
 
     if (review) {
         let stars = (productExists.starRating * productExists.ratings) + parseFloat(starRating);
         let newStar = stars / (productExists.ratings + 1);
         let reviewMyProduct = { starRating: parseFloat(newStar).toFixed(1), ratings: productExists.ratings + 1 };
-        if (comment) reviewMyProduct = { ...reviewMyProduct, reviews: productExists.reviews + 1 };
-        console.log(reviewMyProduct)
-        const product = await Products.findOneAndUpdate(
+        if (comment) reviewMyProduct = { ...reviewMyProduct};
+        let product = Products.findOneAndUpdate(
             { key },
-            reviewMyProduct,
+            {reviewMyProduct},
             { new: true }
         )
+        if(comment) {
+            product.reviews.push({ review: review._id })
+        }
+        await product.save()
     }
     res.json({ review });
 });

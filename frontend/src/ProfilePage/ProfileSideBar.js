@@ -2,11 +2,68 @@ import React, { useContext } from 'react'
 import './profilePage.css'
 import sideBarIcon from '../Images/sideBarIcon.png'
 import {SideBarContext} from '../contexts/SideBarContext'
+import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
 
 const ProfileSideBar = ({active}) => {
+
     const navigate = useNavigate()
     const {sideBar, setSideBar} = useContext(SideBarContext)
+    const { user } = useContext(UserContext)
+
+    let profileSideCates
+    if(user && user.type === 'customer'){
+        profileSideCates = [
+            {
+                url: 'profile',
+                display: 'Personal information'
+            },
+            {
+                url: 'orders',
+                display: 'My Orders'
+            },
+            {
+                url: 'cart',
+                display: 'My Cart'
+            },
+            {
+                url: 'reviews',
+                display: 'My Reviews'
+            },
+            {
+                url: 'addresses',
+                display: 'Addresses'
+            },
+            {
+                url: 'help',
+                display: 'Need Help'
+            },
+        ]
+    }
+    else{
+        profileSideCates = [
+            {
+                url: 'profile',
+                display: 'Personal information'
+            },
+            {
+                url: 'all_orders',
+                display: 'All Orders'
+            },
+            {
+                url: 'type_category',
+                display: 'Modify Types/Categories'
+            },
+            {
+                url: 'upload_product',
+                display: 'Upload Product'
+            },
+            {
+                url: 'help',
+                display: 'Need Help'
+            },
+        ]
+    }
     const handleSideBar = ()=>{
         setSideBar(prev => {
             return (
@@ -42,52 +99,17 @@ const ProfileSideBar = ({active}) => {
                 </div>
                 <div className="offcanvas-body">
                     <div className='sideBarItems'>
-                        <div
-                            onClick={()=> navigate('/my/profile')}
-                            style={{ backgroundColor: active === 'profile' ? 'rgb(65, 189, 189)' : ''}}
-                        >
-                            Personal information
-                        </div>
-                        <div
-                            style={{ backgroundColor: active === 'orders' ? 'rgb(65, 189, 189)' : ''}}
-                            onClick={()=> navigate('/my/orders')}
-                        >
-                            My Orders
-                        </div>
-                        <div
-                            style={{ backgroundColor: active === 'cart' ? 'rgb(65, 189, 189)' : ''}}
-                            onClick={()=> navigate('/my/cart')}
-                        >
-                            My Cart
-                        </div>
-                        <div
-                            style={{ backgroundColor: active === 'reviews' ? 'rgb(65, 189, 189)' : ''}}
-                            onClick={()=> navigate('/my/reviews')}
-                        >
-                            My Reviews
-                        </div>
-                        <div
-                            onClick={()=> navigate('/my/addresses')}
-                        >
-                            Addresses
-                        </div>
-                        <div
-                            style={{ backgroundColor: active === 'type_category' ? 'rgb(65, 189, 189)' : ''}}
-                            onClick={()=> navigate('/my/type_category')}
-                        >
-                            Modify Types/Categories
-                        </div>
-                        <div
-                            style={{ backgroundColor: active === 'upload_product' ? 'rgb(65, 189, 189)' : ''}}
-                            onClick={()=> navigate('/my/upload_product')}
-                        >
-                            Upload Product
-                        </div>
-                        <div
-                            onClick={()=> navigate('/my/help')}
-                        >
-                            Need HELP
-                        </div>
+                        { profileSideCates && profileSideCates.length !== 0 && (
+                            profileSideCates.map( (cates, index) => (
+                                <div
+                                    key={index}
+                                    onClick={()=> navigate(`/my/${cates.url}`)}
+                                    style={{ backgroundColor: active === `${cates.url}` ? 'rgb(65, 189, 189)' : ''}}
+                                >
+                                    {cates.display}
+                                </div>
+                            ))
+                        )}
                         <div
                             onClick={()=> navigate('/')}
                         >

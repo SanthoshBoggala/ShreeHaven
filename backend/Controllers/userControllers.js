@@ -48,7 +48,7 @@ const login = asyncHandler(async (req, res)=>{
             const token = await jwt.sign(
                 {userId: user._id, email: user.email, type: user.type},
                 process.env.JWT_ACCESSCODE,
-                {expiresIn: '10h'}
+                {expiresIn: '30d'}
                 );
             
                 

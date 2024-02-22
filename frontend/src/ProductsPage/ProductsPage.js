@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import './productsPage.css'
 import axios from "axios"
 import sideBarIcon from '../Images/sideBarIcon.png'
 import { SideBar, Products } from "../Components"
 import { useParams } from "react-router-dom"
+import UserContext from "../contexts/userContext"
 
 const ProductPage = () => {
-    const [filter, setFilter] = useState(null)
+    const [filter, setFilter] = useState([])
     const [rating, setRating] = useState('4')
     const [filterShow, setFilterShow] = useState('show')
+    const { user } = useContext(UserContext)
 
     const { category } = useParams()
 
@@ -16,7 +18,7 @@ const ProductPage = () => {
         async function getCategories() {
             const cateTypes =  await axios.get(`http://localhost:5000/api/type_category?type=${category}`,{
                 headers: {
-                    authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyZmNjNTczZDg2MjQyYTU0ZTIzNGUiLCJlbWFpbCI6InNAZ21haWwuY29tIiwidHlwZSI6ImFkbWluIiwiaWF0IjoxNzA4NTIwNTU0LCJleHAiOjE3MDg1NTY1NTR9.3t5fPvXA3A0jHXf67fsx7pQszT-jjjlVKocjc5sKfJA'
+                    authorization: `Bearer ${user.token}`
                 }
             })
             const cates = cateTypes.data.typecategories.categories
@@ -36,21 +38,6 @@ const ProductPage = () => {
             console.log(error)
         }
 
-        // function getCategories() {
-
-        //     let categories = ['Shirts', 'Pants', 'Hoodies', 'Shoes', 'Cargos']
-
-        //     const categories1 = categories.map((c) => {
-        //         return { name: c, isChecked: true }
-        //     })
-        //     const allCategories = [
-        //         ...categories1,
-        //         { name: 'priceUnder', price: '' },
-        //         { name: 'sortOrder', sortOption: 'lowToHigh' }
-        //     ]
-        //     setFilter(allCategories)
-        // }
-        // getCategories()
 
     }, [category])
 

@@ -1,3 +1,27 @@
 .products {
     padding: 0px 10px 10px 10px;
 }
+.productsTop {
+    display: flex;
+    align-items: center;
+    padding: 10px 40px 10px 35px;
+    justify-content: space-between;
+}
+.noProductsTop {
+    display: flex;
+    align-items: center;
+    padding: 10px 40px 10px 0px;
+    justify-content: space-between;
+}
+.productsCount {
+    font-size: 1.4em;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.productSearch > input {
+    height: 40px;
+    padding-left: 20px;
+    font-family: sans-serif;
+    border: none;
+    border: 1px solid gray;
+    border-radius: 4px;
+}

@@ -3,6 +3,7 @@ import './homePage.css'
 import { HomeCarousel, HomeHotDeals, HomeStyles, HomeSuggestedItems, HomeTopRated, HomeTrendingDeals } from '../Components'
 
 const HomePage = () => {
+
   return (
     <div className='homePage'>
       <HomeCarousel />

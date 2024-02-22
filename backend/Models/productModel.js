@@ -41,10 +41,13 @@ const productSchema = new mongoose.Schema({
         type : Number,
         default: 0
     },
-    reviews : {
-        type : Number,
-        default: 0
-    },
+    reviews : [{
+        review: {
+            type : mongoose.Schema.Types.ObjectId,
+            ref: 'reviews',
+            unique: true
+        }
+    }],
     description : {
         type : String,
         required : true
@@ -54,7 +57,8 @@ const productSchema = new mongoose.Schema({
         required: true
     },
     images : {
-        type: String
+        type: String,
+        required: true
     }
 });
 

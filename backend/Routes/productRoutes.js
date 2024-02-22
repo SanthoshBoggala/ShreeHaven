@@ -8,6 +8,7 @@ const {
     getAllHotProducts,
     getAllTrendingProducts,
     getAllTopRatedProducts,
+    getAllSimilarProducts,
     getSingleProduct,
     postSingleProduct,
     putSingleProduct,
@@ -15,15 +16,17 @@ const {
 }   = require('../Controllers/productsControllers');
 
 
-router.route("/").get( validateToken, getAllProducts);
+router.route("/").get( getAllProducts);
 
-router.route("/hot_deals").get( validateToken, getAllHotProducts);
-router.route("/trending_deals").get( validateToken, getAllTrendingProducts);
-router.route("/top_rated").get( validateToken, getAllTopRatedProducts);
+router.route("/hot_deals").get( getAllHotProducts);
+router.route("/trending_deals").get( getAllTrendingProducts);
+router.route("/top_rated").get( getAllTopRatedProducts);
+router.route("/similar_products").get( getAllSimilarProducts);
 
-router.route("/:id").get( validateToken, getSingleProduct);
-router.route("/").post( validateToken, upload.array('files[]'), postSingleProduct);
-router.route("/:id").put( validateToken, upload.array('files[]') , putSingleProduct);
-router.route("/:id").delete( validateToken, deleteSingleProduct);
+
+router.route("/:id").get( getSingleProduct);
+router.route("/").post( postSingleProduct);
+router.route("/:id").put(  putSingleProduct);
+router.route("/:id").delete( deleteSingleProduct);
 
 module.exports = router;

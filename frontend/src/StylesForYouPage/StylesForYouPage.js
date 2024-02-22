@@ -8,7 +8,7 @@ const StylesForYouPage = () => {
 
     return (
         <div className='stylesForYouPage row'>
-            <Products stylesForYouPage = {true}/>
+            <Products stylesForYouPage = {true} urlEndPoint={id}/>
         </div>
     )
 }

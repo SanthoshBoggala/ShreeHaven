@@ -2,8 +2,14 @@ const asyncHandler = require("express-async-handler");
 const Products = require('../Models/productModel');
 
 const getAllProducts = asyncHandler(async (req, res) => {
+    const { limit } = req.query
+ 
+    let products = Products.find();
 
-    const products = await Products.find();
+    if(limit){
+        products = products.limit(parseInt(limit))
+    }
+    products = await products.exec()
 
     res.json({products});
 });
@@ -11,22 +17,22 @@ const getAllProducts = asyncHandler(async (req, res) => {
 const getAllHotProducts = asyncHandler(async (req, res) => {
     const { limit } = req.query;
 
-    let products = await Products.find().sort({ discount: -1 });
+    let products = Products.find().sort({ discount: -1 });
     if(limit) {
         products = products.limit(parseInt(limit));
     }
-
+    products = await products.exec();
     res.json({products});
 });
 
 const getAllTrendingProducts = asyncHandler(async (req, res) => {
     const { limit } = req.query;
 
-    let products = await Products.find().sort({ ratings: -1 });
+    let products = Products.find().sort({ ratings: -1 });
     if(limit) {
         products = products.limit(parseInt(limit));
     }
-
+    products = await products.exec();
     res.json({products});
 });
 
@@ -34,12 +40,50 @@ const getAllTopRatedProducts = asyncHandler(async (req, res) => {
     const { limit } = req.query;
 
     let products = await Products.find().sort({ starRating: -1 });
+    let topRated = {}
+    let cateCaptions = []
     if(limit) {
-        products = products.limit(parseInt(limit));
-    }
+        products.some(one => {
+            if(!topRated[one.category]) {
+                topRated[one.category] = one
+            }
+            if(topRated.length == limit) return true
+            else return false
+        });
+        cateCaptions = ['New Range', 'Top Collection', 'Bestsellers', 'Specials', 'Popular', 'In Focus Now', "Don't Miss", 
+                                     "Best Picks", "Most Loved", "Explore Now", "Widest Range"]
 
-    res.json({products});
+        function shuffleArray(cap) {
+            for (let i = cap.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cap[i], cap[j]] = [cap[j], cap[i]];
+            }
+        }    
+        
+        shuffleArray(cateCaptions)
+
+        products = Object.values(topRated)
+    }
+    res.json({products, cateCaptions});
 });
+
+const getAllSimilarProducts = asyncHandler(async (req, res)=>{
+    const {key} = req.query
+
+    let products = await Products.find()
+
+    let myProduct = products.find((one)=> one.key == key)
+
+    let similarProducts = products.filter((one)=> (one.type == myProduct.type && one.category == myProduct.category))
+
+    let nonSimilarProducts = products.filter((one)=> (one.type != myProduct.type))
+
+    products = [...similarProducts, ...nonSimilarProducts]
+
+    products = products.filter(one => one.key != myProduct.key)
+
+    res.json({products})
+})
 
 const getSingleProduct = asyncHandler(async (req, res) => {
     
@@ -53,17 +97,17 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 
 const postSingleProduct =  asyncHandler(async(req, res) => {
     const {
-        name, brand, price, category, type ,discount = 0, starRating = 0, ratings = 0,
-        description
+        name, brand, price, category, type ,discount = 5, starRating = 0, ratings = 0,
+        description, images
     } = req.body;
-    const { userId } = req.user;
+    // const { userId } = req.user;
 
     // if( type !== 'admin' ) {
     //     res.status(401);
     //     throw new Error('only admins can access');
     // }
 
-    if(!name || !brand || !price || !category || !type || !description){
+    if(!name || !brand || !price || !category || !type || !description || !images){
         res.status(400);
         throw new Error('provide all fields');
     }
@@ -85,24 +129,18 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 
     let inStock = req.body.inStock === 'true' ? true : false
     let data = {
-        key, name, brand, category, type, price, newPrice, discount, inStock, ratings, starRating, description
+        key, name, brand, category, type, price, reviews : [], newPrice, discount, inStock, ratings, starRating, description
     }
     let product = await new Products( data );
 
-
-    if(req.files) {
-        let pathArray = req.files.map(file => file.path.split('/').slice(-2).join('/'));
-        
-        product.images = pathArray.join(',');
-    }
-
+    product.images = images
     product.save();
 
     res.json({product});
 });
 
 const putSingleProduct = asyncHandler(async (req, res) => {
-    const {price, discount} = req.body;
+    const {price, discount, images} = req.body;
     const { userId, type } = req.user;
     // if( type !== 'admin' ) {
     //     res.status(401);
@@ -133,30 +171,26 @@ const putSingleProduct = asyncHandler(async (req, res) => {
     }   
 
     let product;
-    let pathArray = productExists.images;
 
-    if(req.files && req.files.length > 0) {
-        let imagesPath = req.files.map(file => file.path.split('/').slice(-2).join('/'));
-        
-        console.log(imagesPath.join(','));
-
-        pathArray = imagesPath.join(',');
-        
-    }
     if(newPrice != 0){
-        product = await Products.findOneAndUpdate(
+        product =  Products.findOneAndUpdate(
             {key: req.params.id},
-            {...req.body, newPrice , images: pathArray},
+            {...req.body, newPrice },
             {new: true}
         );
     }
     else{
-        product = await Products.findOneAndUpdate(
+        product =  Products.findOneAndUpdate(
             {key: req.params.id},
             {...req.body},
             {new: true}
         );
     }
+    if(images) {
+        product.images = images
+    }
+
+    await product.save()
 
     res.json({product});
 });
@@ -176,6 +210,7 @@ module.exports = {
     getAllHotProducts,
     getAllTrendingProducts,
     getAllTopRatedProducts,
+    getAllSimilarProducts,
     getSingleProduct,
     postSingleProduct,
     putSingleProduct,

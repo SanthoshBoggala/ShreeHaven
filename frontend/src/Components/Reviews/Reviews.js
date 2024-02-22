@@ -36,7 +36,7 @@ const Reviews = ({ reviews, ratings, starRating })=>{
                             <div className='ratings'>{ratings + ' Ratings &'}</div>
                             <div className='ratings'>{reviews + ' Reviews'}</div>
                         </div>
-                        {reviewsData.map(review => <SingleReview />)}
+                        {reviewsData.map((review, index) => <SingleReview  key={index} review={review}/>)}
                         <div className='viewAllDiv'>
                             <button className='viewAll'>Show All</button>
                             <button className='viewAll' onClick={()=> setCanReview(prev=> !prev)}>{ canReview ? 'Close Review' : 'Rate Product'}</button>

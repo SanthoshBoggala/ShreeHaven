@@ -1,115 +1,86 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './uploadProduct.css'
+import UserContext from '../contexts/userContext';
+import TypesCatesContext from '../contexts/TypesCatesContext';
+import usePostData from '../customHooks/usePostData';
 
 const PersonalInfo = () => {
-  const categories = {
-    Men: ['Shirts', 'T-Shirts', 'Winter Wear', 'Jeans & Trousers',
-      'Shorts', 'Formal-Shirts', 'Watches'],
-    Women: ['Sarees', 'Dresses', 'Jeans', 'T-shirts', 'Trousers',
-      'Kurtas', 'Winter Wear', 'Watches'],
-    Other: ['Mobiles', 'Bluetooths', 'Laptops']
-  }
 
-  const typesList = ['Men', 'Women', 'Other']
+  const { user } = useContext(UserContext)
+  const { typesCates } = useContext(TypesCatesContext)
 
   const initialProduct = {
     name: '',
     brand: '',
-    category: categories[typesList[0]][0],
-    type: typesList[0],
+    category: 'select',
+    type: 'select',
     price: '',
     discount: '',
-    files: [],
     inStock: 'true',
     ratings: '',
+    images: '',
     description: '',
     starRating: 0,
   };
   const [product, setProduct] = useState(initialProduct)
   const [err, setErr] = useState('')
-  const [categoryList, setCategoryList] = useState(typesList[0])
+  const [categoryList, setCategoryList] = useState([])
+
+  const url = 'http://localhost:5000/api/products'
+  const { sending, data, error, sendData } = usePostData({url, body: product, authorization: user.token})
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
+    setErr('')
     if (name !== 'type') {
       setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
     } else {
-      setCategoryList(value)
+      if(value !== 'select'){
+        const list = typesCates.find((one) => one.type === value)
+        setCategoryList(list.categories)
+      }
+      else{
+        setCategoryList([])
+      }
       setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
     }
   }
 
-  const handleFileChange = (e) => {
-    const files = e.target.files;
-    setProduct(prev => {
-      return { ...prev, files: files || [] }
-    })
-  }
-
-
+  console.log(product)
   const validateProduct = () => {
-    if (Number(product.starRating) > 5) {
-      setErr('Star rating should be only in 0-5')
+    if (0 >= Number(product.starRating) >= 5) {
+      setErr('star rating should be only in 0-5')
       return false
     }
-    if (product.files.length < 3) {
-      setErr('Upload atleast 3 images')
+    let imgs = product.images.split(',')
+    if(imgs.length < 3 || imgs[imgs.length-1] === 0){
+      setErr('min 3 images should be uploaded')
       return false
     }
 
     return true
   }
-  const uploadProduct = (e) => {
+  const uploadProduct = async(e) => {
     e.preventDefault()
 
     if (!validateProduct()) return
 
     setErr('')
 
-    const formData = new FormData();
+    await sendData()
 
-    formData.append('name', product.name);
-    formData.append('brand', product.brand);
-    formData.append('category', product.category);
-    formData.append('type', product.type);
-    formData.append('price', product.price);
-    formData.append('discount', product.discount);
-    formData.append('inStock', product.inStock);
-    formData.append('ratings', product.ratings);
-    formData.append('starRating', product.starRating);
-    formData.append('description', product.description);
-
-    for (let i = 0; i < product.files.length; i++) {
-      formData.append(`files[]`, product.files[i]);
+    if(data.msg){
+      setErr('product already exists')
     }
-
-    console.log("form", formData)
-
-    try {
-      async function postData() {
-        const res = await fetch('http://localhost:5000/api/products', {
-          method: 'POST',
-          headers: {
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWMyZmNiZDczZDg2MjQyYTU0ZTIzNGEiLCJlbWFpbCI6InNAZ21haWwuY29tIiwidHlwZSI6ImN1c3RvbWVyIiwiaWF0IjoxNzA3MzIxODA5LCJleHAiOjE3MDczNTc4MDl9.0gTQJe5zI7r1V28ht5YO07XR6LVFEqhEsePBfx6NnvU'
-          },
-          body: formData
-        })
-        const data = await res.json()
-
-        console.log(data)
-
-      }
-      postData()
-    } catch (error) {
-      console.log(error)
-    }
+    console.log(sending, data, error)
   }
 
   console.log(product)
   return (
     <div className='uploadProductForm row'>
-      <form className='col-11 col-md-10' onSubmit={uploadProduct}>
+      <form className='col-11 col-md-10' onSubmit={(e)=>uploadProduct(e)}>
         <fieldset className='formInfo'>
           <legend>Upload New Product</legend>
           <div>
@@ -143,8 +114,8 @@ const PersonalInfo = () => {
             >
               <option value={'select'} >---Select---</option>
               {
-                typesList.map(ty => {
-                  return (<option key={ty} value={ty} >{ty}</option>)
+                typesCates && typesCates.length !== 0 && typesCates.map(ty => {
+                  return (<option key={ty.type} value={ty.type} >{ty.type}</option>)
                 })
               }
             </select>
@@ -158,8 +129,8 @@ const PersonalInfo = () => {
             >
               <option value={'select'} >---Select---</option>
               {
-                categories && categories[categoryList].map(cate => {
-                  return (<option key={cate} value={cate} >{cate}</option>)
+                categoryList && categoryList.length !== 0 && categoryList.map(cate => {
+                  return (<option key={cate.category} value={cate.category} >{cate.category}</option>)
                 })
               }
             </select>
@@ -216,6 +187,19 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
+            <label> Images: </label> <br />
+            <textarea
+              className='textAreaDesc'
+              onChange={handleInputChange}
+              name='images'
+              value={product.images}
+              placeholder="Drive Links(seperate using ',')"
+              rows={2}
+              cols={35}
+            >
+            </textarea>
+          </div>
+          <div>
             <label> Description: </label> <br />
             <textarea
               className='textAreaDesc'
@@ -228,22 +212,13 @@ const PersonalInfo = () => {
             >
             </textarea>
           </div>
-          <div>
-            <input
-              type='file'
-              name='files'
-              multiple
-              accept='image/*'
-              onChange={handleFileChange}
-            />
-          </div>
           <div className='text-danger'>{err}</div>
           <div>
             <button
               type='submit'
               className='updateBtn'
             >
-              Update
+              Upload
             </button>
           </div>
         </fieldset>

@@ -7,9 +7,9 @@ const {
 } = require('../Controllers/cartControllers');
 
 
-router.route("/").get( validateToken, getCartItems);
-router.route("/").post( validateToken, addToCartItems);
-router.route("/user").get( validateToken, getMyCartItems)
-router.route("/:id").put( validateToken, removeFromCartItems);
+router.route("/").get(  getCartItems);
+router.route("/").post(  addToCartItems);
+router.route("/user").get(  getMyCartItems)
+router.route("/:id").put(  removeFromCartItems);
 
 module.exports = router;

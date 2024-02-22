@@ -9,8 +9,8 @@ const {
 } = require('../Controllers/typesCategoriesControllers');
 
 
-router.route("/").get( validateToken, getAllTypesCategories);
-router.route("/").post( validateToken, addTypesCategories);
-router.route("/:id").delete( validateToken, removeTypesCategories);
+router.route("/").get( getAllTypesCategories);
+router.route("/").post( addTypesCategories);
+router.route("/:id").delete( removeTypesCategories);
 
 module.exports = router;
