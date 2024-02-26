@@ -3,13 +3,14 @@ import './singleProductPage.css'
 import { Reviews, SimilarItems } from "../Components"
 import SingleProductImages from "./SingleProductImages"
 import useGetData from "../customHooks/useGetData"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import UserContext from "../contexts/userContext"
 
 
 const SingleProductPage = () => {
     const { user } = useContext(UserContext)
     const { id } = useParams()
+    const navigate = useNavigate()
     const url = `http://localhost:5000/api/products/${id}`
     const { loading, data: { product }, error } = useGetData({ url, authorization: user.token })
 
@@ -39,6 +40,12 @@ const SingleProductPage = () => {
     const sizes = {
         "Shirts": ['S', 'M', 'L', 'XL', 'XLL'],
         "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
+    }
+
+    const goToBuyPage = ()=>{
+        const currentUrl = window.location.pathname
+        navigate(`${currentUrl}/buy`)
+        return
     }
 
     return (
@@ -145,6 +152,7 @@ const SingleProductPage = () => {
                                         <div>
                                             <button
                                                 className="buyBtn"
+                                                onClick={goToBuyPage}
                                             >
                                                 Buy Now
                                             </button>

@@ -1,9 +1,11 @@
 import React from 'react'
+import './registerPage.css'
+import RegisterForm from './RegisterForm'
 
 const RegisterPage = () => {
   return (
-    <div>
-      Register
+    <div className='registerPage'>
+      <RegisterForm />
     </div>
   )
 }

@@ -14,6 +14,7 @@ import UploadProductPage from './UploadProductPage/UploadProductPage';
 import TypeCategory from './TypeCategory/TypeCategory';
 import StylesForYouPage from './StylesForYouPage/StylesForYouPage';
 import TopRatedPage from './TopRatedPage/TopRatedPage';
+import BuyPage from './BuyPage/BuyPage';
 
 const Routers = () => {
   return ( 
@@ -25,6 +26,7 @@ const Routers = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products/:category" element={<ProductPage />} />
         <Route path='/products/:category/:id' element={<SingleProductPage />} />
+        <Route path='/products/:category/:id/buy' element={<BuyPage />} />
         <Route path="/products/styles/:id" element={<StylesForYouPage />} />
         <Route path="/products/top_rated/:id" element={<TopRatedPage />} />
         <Route path="/products/for_you/:id" element={<StylesForYouPage />} />

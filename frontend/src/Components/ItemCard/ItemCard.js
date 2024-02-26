@@ -9,8 +9,8 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
     const navigate = useNavigate()
     const [wishlist, setWishlist] = useState(false)
 
-    const { images } = item
-    const img = images.split(',')[0]
+    // const { images } = item
+    // const img = images.split(',')[0]
 
     const navigateToItem = () => {
         if (topRated) {
@@ -25,7 +25,7 @@ return (
         <div className='itemCard'>
             <div className='itemImg img-fluid' style={{ height: home ? '300px' : '250px' }}>
                 <img
-                    src={`../../${img}`}
+                    src={shoe2}
                     alt={''}
                     onClick={navigateToItem}
                 />

@@ -1,0 +1,65 @@
+.loginPage {
+    height: 95vh;
+    margin-top: 55px;
+    position: relative;
+    background-repeat: no-repeat; 
+    background-size: cover;
+    background-image: url('./loginbg.webp');
+}
+.loginForm {
+    background-color: rgb(8, 52, 102);
+    padding: 10px 50px 30px 50px;
+    border-radius: 3px;
+    color: white;
+    max-width: 500px;
+    font-size: 14px;
+    position: absolute;
+    right: 10%;
+    top: 10%;
+}
+.loginHeading {
+    text-align: center;
+    font-weight: 500;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 35px;
+    padding: 10px;
+}
+.loginInputs {
+    margin: 5px 0px 5px 10px;
+    height: 35px;
+    width: 250px;
+    color: rgb(80, 80, 80);
+    font-size: 15px;
+    padding: 2px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+.forgotPass {
+    cursor: pointer;
+    margin-top: 3px;
+    color: rgb(224, 62, 62);
+    font-weight: 550;
+    text-align: end;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.loginBtn {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 17px;
+    font-weight: 550;
+    background-color: rgba(0, 65, 187, 0.911);
+    color: white;
+    border: none;
+    height: 35px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.loginRegisterDiv {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+.loginRegister {
+    font-weight: 600;
+    cursor: pointer;
+    color: rgb(224, 62, 62);
+}

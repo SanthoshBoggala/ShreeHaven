@@ -6,7 +6,7 @@ import './navbar.css';
 const EndComponents = ({ user }) => {
     return (
         <>
-            {user ? (
+            {(user && user.type )? (
                 <Nav className='ms-auto'>
                     <Nav.Link as={NavLink} className='navItem' to="/my/profile">
                         Profile
