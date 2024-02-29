@@ -1,9 +1,38 @@
 import './sidebar.css'
 import FilterInput from "./FilterInput"
 import sideBarIcon from '../../Images/sideBarIcon.png'
+import { useContext, useEffect } from 'react'
+import { SelectedFilters } from '../../contexts/SelectedFilters'
+import UserContext from '../../contexts/userContext'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 
-const SideBar = ({ filter, onChange, rating, ratingHandle, ChangeFilterShow, filterShow }) => {
+const SideBar = ({ ChangeFilterShow, filterShow }) => {
+    const { filters, setFilters } = useContext(SelectedFilters)
+    const { user, token } = useContext(UserContext)
+    const { category } = useParams()
+
+    useEffect(()=>{
+        async function getCates() {
+            const myCates = await axios.get(`http://localhost:5000/api/type_category?type=${category}`, {
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
+            let cates = {}
+            myCates.data.typecategories.categories.map(one => {
+                cates[one.category] = true
+                return one
+            })
+            setFilters(one => ({ ...cates, ...one }))
+        }
+        try {
+            getCates()
+        } catch (error) {
+            console.log(error)
+        }
+    }, [category])
 
     return (
         <div className={`sideBar offcanvas offcanvas-start ${filterShow}`} data-bs-scroll="true" >
@@ -19,22 +48,14 @@ const SideBar = ({ filter, onChange, rating, ratingHandle, ChangeFilterShow, fil
             </div>
             <div className='offcanvas-body'>
                 <form >
-                    {filter && filter.map((categoryType) => {
+                    {filters && Object.keys(filters).map((categoryType, index) => {
                         return (
                             <FilterInput
-                                key={filter.indexOf(categoryType)}
+                                key={index}
                                 categoryType={categoryType}
-                                onChange={(e) => onChange(e)}
                             />
                         )
                     })}
-                    <div className="filterInput">
-                        <label className="customerRatings"> CustomerRatings </label> <br />
-                        <input type='radio' className='' name='rating' value={'4'} checked={rating === '4'} onChange={ratingHandle} /> 4 <span className='star'>★</span>& above <br /> 
-                        <input type='radio' className='' name='rating' value={'3'} checked={rating === '3'} onChange={ratingHandle} /> 3 <span className='star'>★</span>& above <br />
-                        <input type='radio' className='' name='rating' value={'2'} checked={rating === '2'} onChange={ratingHandle} /> 2 <span className='star'>★</span>& above <br />
-                        <input type='radio' className='' name='rating' value={'1'} checked={rating === '1'} onChange={ratingHandle} /> 1 <span className='star'>★</span>& above <br />
-                    </div>
                 </form>
 
             </div>

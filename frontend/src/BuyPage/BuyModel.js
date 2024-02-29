@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './buyPage.css'
 
-const BuyModal = () => {
+const BuyModal = ({extra, key}) => {
     const addrs = [
         "123 Main St, Cityville",
         "456 Oak Ave, Townburg",
@@ -14,6 +14,7 @@ const BuyModal = () => {
         "Google Pay"
     ]
 
+    const [err, setErr] = useState("")
     const [formData, setFormData] = useState({
         selectedAddress: '',
         selectedPaymentMethod: ''
@@ -30,13 +31,22 @@ const BuyModal = () => {
     }
 
     const handleSubmit = (e) => {
-        e.preventDeafult()
+        e.preventDefault()
+
+        if((extra.color.length || extra.size.length) === 0){
+            setErr("Invalid color/size selected")
+            return
+        }
+        if((formData.selectedAddress.length || formData.selectedPaymentMethod.length) === 0){
+            setErr("Invalid selected address/payment method")
+            return
+        }
     }
 
     return (
         <div className='afterBuy'>
             <form onSubmit={handleSubmit}>
-                <fieldset>
+                <fieldset className='modelForm'>
                     <legend>Select an address:</legend>
                     {addrs.map((address, index) => (
                         <div key={index}>
@@ -51,9 +61,7 @@ const BuyModal = () => {
                             <label htmlFor={`address${index}`}>{address}</label>
                         </div>
                     ))}
-                </fieldset>
 
-                <fieldset>
                     <legend>Select a payment method:</legend>
                     {paymentMethods.map((method, index) => (
                         <div key={index}>
@@ -68,15 +76,17 @@ const BuyModal = () => {
                             <label htmlFor={`paymentMethod${index}`}>{method}</label>
                         </div>
                     ))}
-                </fieldset>
-
-                <div className='buyPageBtn text-center'>
+                <div className='error'>
+                    {err}
+                </div>
+                <div className='buyPageBtn text-center mt-3'>
                     <button
                         className="buyBtn"
                     >
                         Buy Now
                     </button>
                 </div>
+                </fieldset>
             </form>
         </div>
     )

@@ -6,14 +6,14 @@ const jwt = require("jsonwebtoken");
 const Users = require('../Models/userModel');
 
 const register = asyncHandler(async (req, res)=>{
-    const {username, email, phoneNumber, area, district, state, type, pincode, password} = req.body;
+    const {username, email, phoneNumber, area, district, state, userType, pincode, password} = req.body;
 
-    if(username && email && phoneNumber && area && district && state && pincode && password && type) {
-        if(!['admin', 'customer'].includes(type)) {
+    if(username && email && phoneNumber && area && district && state && pincode && password && userType) {
+        if(!['admin', 'customer'].includes(userType)) {
             res.status(400);
             throw new Error('only admin and customers can register');
         }
-        const userExists = await Users.findOne({email, type});
+        const userExists = await Users.findOne({email, type: userType});
         if(userExists){
             res.json({"msg": "user already exists"})
             return;
@@ -21,7 +21,7 @@ const register = asyncHandler(async (req, res)=>{
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await Users.create({
-            username, email, phoneNumber, area, district, state, pincode, type, password: hashedPassword
+            username, email, phoneNumber, area, district, state, pincode, type: userType, password: hashedPassword
         })
 
         res.json({user})
@@ -34,10 +34,10 @@ const register = asyncHandler(async (req, res)=>{
 });
 
 const login = asyncHandler(async (req, res)=>{
-    const {email, password, type} = req.body;
+    const {email, password, userType} = req.body;
 
-    if(email && password && type) {
-        const user = await Users.findOne({email, type});
+    if(email && password && userType) {
+        const user = await Users.findOne({email, type: userType});
 
         if(!user) {
             res.json({"msg": "user with this mail doesn`t exists"});

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './buyPage.css'
 import shoe2 from '../Images/mobile1.webp'
 import BuyModel from './BuyModel';
+import { SimilarItems } from '../Components';
 
 
 const BuyPage = () => {
@@ -19,6 +20,7 @@ const BuyPage = () => {
         "reviews": 3599,
     }
 
+    const [buyModel, setBuyModel] = useState(true)
     const [extra, setExtra] = useState({
         count: 1,
         color: '',
@@ -117,6 +119,7 @@ const BuyPage = () => {
                 <div className='buyPageBtn'>
                     <button
                         className="buyBtn"
+                        onClick={()=> setBuyModel(prev=> !prev)}
                     >
                         Buy Now
                     </button>
@@ -129,7 +132,8 @@ const BuyPage = () => {
                     <img src={shoe2} alt={product.name} />
                 </div>
             </div>
-            <BuyModel />
+            { buyModel && <BuyModel extra={extra} key={product.key} />}
+            <SimilarItems product={product} category={product.category} />
         </div>
     );
 };

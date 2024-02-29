@@ -2,19 +2,24 @@ import React, { useContext } from "react"
 import './singleProductPage.css'
 import { Reviews, SimilarItems } from "../Components"
 import SingleProductImages from "./SingleProductImages"
-import useGetData from "../customHooks/useGetData"
 import { useNavigate, useParams } from "react-router-dom"
 import UserContext from "../contexts/userContext"
+import { toast, ToastContainer } from 'react-toastify'
+import { LimitContext } from "../contexts/LimitContext"
+import useFetchData from "../customHooks/useFetchData"
+import useModifyData from "../customHooks/useModifyData"
+
 
 
 const SingleProductPage = () => {
-    const { user } = useContext(UserContext)
+    const { user, token } = useContext(UserContext)
+    const {limit} = useContext(LimitContext)
     const { id } = useParams()
     const navigate = useNavigate()
-    const url = `http://localhost:5000/api/products/${id}`
-    const { loading, data: { product }, error } = useGetData({ url, authorization: user.token })
-
-    console.log(product)
+    let url = `http://localhost:5000/api/products/${id}`
+    const { data: {product}, isLoading, error } = useFetchData({url, query: limit, token})
+    url = 'http://localhost:5000/api/cart'
+    const { modifyData, data , isSending, error: addCartErr } = useModifyData({url, query: limit, token})
     // const product =  {
     //     "productKey": "Men_striped_casual_light_green_white_shirt",
     //     "name": "Men striped casual light green white shirt",
@@ -41,16 +46,38 @@ const SingleProductPage = () => {
         "Shirts": ['S', 'M', 'L', 'XL', 'XLL'],
         "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
     }
+    const addToCart = async()=>{
+        
+        await modifyData({key: product.key})
 
-    const goToBuyPage = ()=>{
+        if(error){
+            toast.error('Failed to add cart!')
+        }
+        else{
+            toast.success('Added to cart Successfully!')
+        }
+    }
+
+    const goToBuyPage = () => {
         const currentUrl = window.location.pathname
         navigate(`${currentUrl}/buy`)
         return
     }
 
+    const gotoEditProduct = ()=>{
+        const currentUrl = window.location.pathname
+        navigate(`${currentUrl}/edit`)
+        return 
+    }
+
+    const goToLogin = ()=>{
+        navigate('/login')
+        return
+    }
+
     return (
         <>
-            {loading ? (
+            {isLoading ? (
                 <div className="productPage">
                     Loading...
                 </div>
@@ -140,28 +167,51 @@ const SingleProductPage = () => {
                                         <div className="termsConditions">
                                             View 9 more offers
                                         </div>
+                                        <ToastContainer />
                                     </div>
                                     <div className="productBts">
-                                        <div>
-                                            <button
-                                                className="AddToCartBtn"
-                                            >
-                                                Add To Cart
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button
-                                                className="buyBtn"
-                                                onClick={goToBuyPage}
-                                            >
-                                                Buy Now
-                                            </button>
-                                        </div>
+                                        {(user && user.type) ? (
+                                            (user.type && user.type === 'customer') ? (
+                                                <>
+                                                    <div>
+                                                        <button
+                                                            className="AddToCartBtn"
+                                                            onClick={addToCart}
+                                                        >
+                                                            Add To Cart
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                            className="buyBtn"
+                                                            onClick={goToBuyPage}
+                                                        >
+                                                            Buy Now
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div>
+                                                    <button
+                                                        className="buyBtn"
+                                                        onClick={gotoEditProduct}
+                                                    >
+                                                        Edit Now
+                                                    </button>
+                                                </div>
+                                            )
+                                        ) : (
+                                            <h3>
+                                                <span className="gotToLogin" onClick={goToLogin}>Login </span> to move further
+                                            </h3>
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
-                            <Reviews ratings={product.ratings}
+                            <Reviews
+                                productKey = {product.key} 
+                                ratings={product.ratings}
                                 starRating={product.starRating}
                                 reviews={product.reviews}
                             />

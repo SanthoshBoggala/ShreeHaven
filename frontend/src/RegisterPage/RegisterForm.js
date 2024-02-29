@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import usePostData from '../customHooks/usePostData';
+import UserContext from '../contexts/userContext';
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify'
+import useModifyData from '../customHooks/useModifyData';
+
 
 const RegisterForm = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     username: '',
     phoneNumber: '',
@@ -13,9 +20,13 @@ const RegisterForm = () => {
     userType: '',
   })
   const [err, setErr] = useState("")
+  const {setUser, setToken} = useContext(UserContext)
+  const url = 'http://localhost:5000/api/register'
+  const { modifyData, data, isSending, error } = useModifyData({url, method : "POST"})
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
+    setErr("")
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -26,37 +37,57 @@ const RegisterForm = () => {
   }
 
   const validateForm = ()=>{
-    if(formData.phoneNumber.length !== 10){
-      setErr("Enter valid phone number")
-      return false
-    }
-    if(formData.userType.length === 0){
-      setErr("Invalid user type")
-      return false
-    }
-    if (formData.password.length < 6) {
-      setErr("Password must be at least 6 characters long")
-      return false
-    }
-    if (!isValidEmail(formData.email)) {
-      setErr("Enter a valid email address")
-      return false
-    }
-    if (formData.pincode.length !== 6) {
-      setErr("Enter a valid 6-digit pincode")
-      return false
-    }
+
+    // if(formData.userType.length === 0){
+    //   setErr("Invalid user type")
+    //   return false
+    // }
+    // if (formData.password.length < 6) {
+    //   setErr("Password must be at least 6 characters long")
+    //   return false
+    // }
+    // if (!isValidEmail(formData.email)) {
+    //   setErr("Enter a valid email address")
+    //   return false
+    // }
+    // if(formData.phoneNumber.length !== 10){
+    //   setErr("Enter valid phone number")
+    //   return false
+    // }
+    // if (formData.pincode.length !== 6) {
+    //   setErr("Enter a valid 6-digit pincode")
+    //   return false
+    // }
+
+    setErr("")
     return true
   }
-  const submitForm = (e)=>{
+
+  const submitForm = async(e)=>{
     e.preventDefault()
 
-    if(!validateForm) return
+    if(!validateForm()) return
+
     
-    setErr("")
+    await modifyData(formData)
+    
+    if(error){
+      toast.error('Invalid credentials. Please try again.')
+      return
+    }
 
+    if (data.msg) {
+      setErr(data.msg)
+    } else {
+      toast.success('Login successful!')
+      setUser(data.user)
+      setToken(data.token)
+      setTimeout(()=>{
+        navigate('/login')
+      }, 2000)
+      setErr("")
+    }
   }
-
   return (
     <div className="registerForm">
       <form onSubmit={submitForm}>
@@ -182,10 +213,15 @@ const RegisterForm = () => {
             Sign Up
           </button>
           <div className='loginRegisterDiv'>
-            Already have an account ? <span className='loginRegister'>Login</span>
+            Already have an account ? 
+            <span 
+              className='loginRegister'
+              onClick={()=> navigate('/login')}
+            >Login</span>
           </div>
         </div>
       </form>
+      <ToastContainer />
     </div>
   )
 }

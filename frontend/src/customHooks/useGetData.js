@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-const useGetData = ({url, query, authorization = ''}) => {
+const useGetData = (url, query, token) => {
     const [loading, setLoading] = useState(null);
     const [data, setData] = useState({});
     const [error, setError] = useState(null);
@@ -12,7 +12,7 @@ const useGetData = ({url, query, authorization = ''}) => {
                 setLoading(true);
                 const response = await axios.get(url, {
                     headers: {
-                        authorization
+                        authorization: `Bearer ${token}`,
                     },
                     params: query,
                 });
@@ -27,7 +27,7 @@ const useGetData = ({url, query, authorization = ''}) => {
         };
 
         fetchData();
-    }, [url, authorization]);
+    }, [url, query]);
 
     return { loading, data, error };
 };

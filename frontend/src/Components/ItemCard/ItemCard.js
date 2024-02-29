@@ -9,9 +9,6 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
     const navigate = useNavigate()
     const [wishlist, setWishlist] = useState(false)
 
-    // const { images } = item
-    // const img = images.split(',')[0]
-
     const navigateToItem = () => {
         if (topRated) {
             navigate(`/products/top_rated/${item.category}`)

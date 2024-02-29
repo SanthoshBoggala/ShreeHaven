@@ -5,14 +5,14 @@ import { HomeCarousel, HomeHotDeals, HomeStyles, HomeSuggestedItems, HomeTopRate
 const HomePage = () => {
 
   return (
-    <div className='homePage'>
-      <HomeCarousel />
-      <HomeStyles />
-      <HomeTopRated />
-      <HomeHotDeals />
-      <HomeTrendingDeals />
-      <HomeSuggestedItems />
-    </div>
+      <div className='homePage'>
+        <HomeCarousel />
+        <HomeStyles />
+        <HomeTopRated />
+        <HomeHotDeals />
+        <HomeTrendingDeals />
+        <HomeSuggestedItems />
+      </div>
   )
 }
 

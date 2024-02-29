@@ -1,19 +1,25 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './uploadProduct.css'
 import UserContext from '../contexts/userContext';
 import TypesCatesContext from '../contexts/TypesCatesContext';
 import usePostData from '../customHooks/usePostData';
+import { useParams } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify'
+import axios from 'axios';
+import usePutData from '../customHooks/usePutData';
 
 const PersonalInfo = () => {
 
-  const { user } = useContext(UserContext)
+  const { id } = useParams()
+  const { user, token } = useContext(UserContext)
   const { typesCates } = useContext(TypesCatesContext)
+
 
   const initialProduct = {
     name: '',
     brand: '',
-    category: 'select',
-    type: 'select',
+    category: '',
+    productType: '',
     price: '',
     discount: '',
     inStock: 'true',
@@ -21,34 +27,59 @@ const PersonalInfo = () => {
     images: '',
     description: '',
     starRating: 0,
-  };
+  }
+
+  const {sending, error, sendData } = usePostData()
+  const updateData = usePutData()
+
   const [product, setProduct] = useState(initialProduct)
   const [err, setErr] = useState('')
   const [categoryList, setCategoryList] = useState([])
 
-  const url = 'http://localhost:5000/api/products'
-  const { sending, data, error, sendData } = usePostData({url, body: product, authorization: user.token})
+
+  useEffect(()=>{
+    if (!id) {
+      return
+    }
+    async function getProduct(){
+      const res = await axios.get(`http://localhost:5000/api/products/${id}`)
+      const item = res.data.product
+      
+      setProduct(()=>({
+        name: item.name,
+        brand: item.brand,
+        category: item.category,
+        productType: item.type,
+        price: item.price,
+        discount: item.discount,
+        inStock: `${item.inStock}`,
+        ratings: item.ratings,
+        images: item.images,
+        description: item.description,
+        starRating: parseFloat(item.starRating),
+      }))
+      setCategoryList(()=>{
+        const cates = typesCates.find((one) => one.type === item.type)
+        return cates.categories
+      })
+    }
+    getProduct()
+  }, [id])
 
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
 
     setErr('')
-    if (name !== 'type') {
-      setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
-    } else {
-      if(value !== 'select'){
-        const list = typesCates.find((one) => one.type === value)
-        setCategoryList(list.categories)
-      }
-      else{
-        setCategoryList([])
-      }
-      setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
+    if( name === 'productType' ){
+      setCategoryList(()=>{
+        const cts = typesCates.find(one => one.type === value)
+        return cts.categories
+      })
     }
+    setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
   }
 
-  console.log(product)
   const validateProduct = () => {
     if (0 >= Number(product.starRating) >= 5) {
       setErr('star rating should be only in 0-5')
@@ -69,20 +100,51 @@ const PersonalInfo = () => {
 
     setErr('')
 
-    await sendData()
-
-    if(data.msg){
-      setErr('product already exists')
+    let url
+    let res
+    if(!id) {
+      url = `http://localhost:5000/api/products`
+      res = await sendData({url, body: product, token})
     }
-    console.log(sending, data, error)
+    else{
+      url = `http://localhost:5000/api/products/${id}`
+      res = await updateData.sendData({url, body: product, token})
+    }
+
+    if(error){
+      toast.error('Failed to upload. Please try again.')
+      return
+    }
+
+    if (res.msg) {
+      setErr(res.msg)
+    } else {
+      toast.success('Uploaded successfully!')
+      if(!id) {
+        setProduct({
+          name: '',
+          brand: '',
+          category: '',
+          productType: '',
+          price: '',
+          discount: '',
+          inStock: 'true',
+          ratings: '',
+          images: '',
+          description: '',
+          starRating: 0,
+        })
+      }
+      setErr("")
+    }
+
   }
 
-  console.log(product)
   return (
     <div className='uploadProductForm row'>
       <form className='col-11 col-md-10' onSubmit={(e)=>uploadProduct(e)}>
         <fieldset className='formInfo'>
-          <legend>Upload New Product</legend>
+          <legend>{ id ? 'Edit Existing Product' :  'Upload New Product'}</legend>
           <div>
             <label htmlFor='name'>Name:</label>
             <input
@@ -109,10 +171,11 @@ const PersonalInfo = () => {
             <label htmlFor='name'>Type:</label>
             <select
               className='options'
-              name='type'
+              name='productType'
               onChange={handleInputChange}
+              value={product.productType}
             >
-              <option value={'select'} >---Select---</option>
+              <option value={''} >---Select---</option>
               {
                 typesCates && typesCates.length !== 0 && typesCates.map(ty => {
                   return (<option key={ty.type} value={ty.type} >{ty.type}</option>)
@@ -126,8 +189,9 @@ const PersonalInfo = () => {
               className='options'
               name='category'
               onChange={handleInputChange}
+              value={product.category}
             >
-              <option value={'select'} >---Select---</option>
+              <option value={''} >---Select---</option>
               {
                 categoryList && categoryList.length !== 0 && categoryList.map(cate => {
                   return (<option key={cate.category} value={cate.category} >{cate.category}</option>)
@@ -221,6 +285,7 @@ const PersonalInfo = () => {
               Upload
             </button>
           </div>
+          <ToastContainer />
         </fieldset>
       </form>
     </div>

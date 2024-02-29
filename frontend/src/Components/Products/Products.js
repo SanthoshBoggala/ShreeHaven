@@ -4,17 +4,22 @@ import ItemCard from "../ItemCard/ItemCard"
 import { useParams } from "react-router-dom"
 import UserContext from '../../contexts/userContext'
 import useGetData from "../../customHooks/useGetData"
+import { SelectedFilters } from "../../contexts/SelectedFilters"
+import useFetchData from "../../customHooks/useFetchData"
 
-const Products = ({ rating, filter, urlEndPoint, stylesForYouPage = false, topRated = false }) => {
+const Products = ({ urlEndPoint, stylesForYouPage = false, topRated = false }) => {
     // const [products, setProducts] = useState(null)
-    const { user } = useContext(UserContext)
+    const { user, token } = useContext(UserContext)
+    const { filters, setFilters } = useContext(SelectedFilters)
     const { category } = useParams()
 
     let url = `http://localhost:5000/api/products?type=${category}`
-    if(urlEndPoint && urlEndPoint !== 'suggested_items') {
+    if (urlEndPoint && urlEndPoint !== 'suggested_items') {
         url = `http://localhost:5000/api/products/${urlEndPoint}`
     }
-    const { loading, data : {products} , error } = useGetData({url , authorization: user.token})
+    const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
+
+    // const { loading, data: {products}, error } = useGetData(url, filters, token);
 
     // useEffect(() => {
     //     async function getProducts() {
@@ -51,37 +56,45 @@ const Products = ({ rating, filter, urlEndPoint, stylesForYouPage = false, topRa
     // const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 87, 43]
     // const productDetails = arr.map(() => Details)
 
+    const seachChange = (e) => {
+        const { name, value } = e.target
+        setFilters(prev => ({ ...prev, [name]: value }))
+    }
     return (
         <div className='products'>
-            { loading && <div>{'Loading'}</div> }
+            {isLoading ? <h4>Loading</h4> : (
+                <div className={stylesForYouPage ? 'noProductsTop' : 'productsTop'} >
+                    <div className="productsCount">
+                        {`CheckOut (${products ? products.length : 0}) products`}
+                    </div>
+                    <div className="productSearch">
+                        <input
+                            type="text"
+                            name='search'
+                            value={filters.search}
+                            placeholder="search"
+                            onChange={seachChange}
+                        />
+                    </div>
+                </div>
+            )}
 
             {(products && products.length !== 0) ? (
                 <>
-                    <div className={ stylesForYouPage ? 'noProductsTop' : 'productsTop'} >
-                        <div className="productsCount">
-                            {`CheckOut (${products.length}) products`}
-                        </div>
-                        <div className="productSearch">
-                            <input
-                                type="text"
-                                placeholder="search"
-                            />
-                        </div>
-                    </div>
                     <div className="row">
-                        { products.map((item, index) => {
+                        {products.map((item, index) => {
                             return (
                                 <ItemCard key={index} item={item} notProducts={(stylesForYouPage || topRated)} />
                             )
-                            })
+                        })
                         }
                     </div>
                 </>
 
             ) : (
-                <div className="productsTop">
-                    No Items Available right now...
-                </div>
+                <h4 className="productsTop">
+                    No Products Available right now...
+                </h4>
             )}
 
         </div>

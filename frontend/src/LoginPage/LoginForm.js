@@ -1,50 +1,80 @@
-import React, { useState } from 'react';
-import './loginPage.css';
+import React, { useContext, useState } from 'react'
+import './loginPage.css'
+import UserContext from '../contexts/userContext'
+import { useNavigate } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import useModifyData from '../customHooks/useModifyData'
 
 const LoginForm = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    username: '',
     password: '',
     email: '',
     userType: '',
-  });
+  })
   const [err, setErr] = useState("")
-
+  const { setUser, setToken } = useContext(UserContext)
+  const url = 'http://localhost:5000/api/login'
+  const { modifyData, data, isSending, error } = useModifyData({ url, method : "POST"})
+  
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
+    setErr("")
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const isValidEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   }
 
   const validateForm = ()=>{
 
-    if(formData.userType.length === 0){
-      setErr("Invalid user type")
-      return false
-    }
-    if (formData.password.length < 6) {
-      setErr("Password must be at least 6 characters long")
-      return false
-    }
+    // if (formData.password.length < 6) {
+    //   setErr("Password must be at least 6 characters long")
+    //   return false
+    // }
     if (!isValidEmail(formData.email)) {
       setErr("Enter a valid email address")
       return false
     }
 
+    if(formData.userType.length === 0) {
+      setErr("Select a user type")
+      return false
+    }
+
+    setErr("")
     return true
   }
-  const submitForm = (e)=>{
+  const submitForm = async(e)=>{
     e.preventDefault()
 
-    if(!validateForm) return
-    
-    setErr("")
+    if(!validateForm()){
+      return
+    }
+
+    await modifyData(formData)
+
+    if(error){
+      toast.error('Invalid credentials. Please try again.')
+      return
+    }
+
+    if(data.msg){
+      setErr(data.msg)
+    }
+    else{
+      toast.success('Login successful!')
+      setUser(data.user)
+      setToken(data.token)
+      setTimeout(()=>{
+        navigate("/")
+      }, 1500)      
+      setErr("")
+    }
 
   }
 
@@ -52,18 +82,19 @@ const LoginForm = () => {
     <div className="loginForm">
       <form onSubmit={submitForm}>
         <div className='loginHeading'>Login</div>
+        
         <div className="mb-3">
           <img 
-            src={'./username.png'}
-            alt='username'
+            src={'./email.png'}
+            alt='email'
           />
           <input
-            type="text"
+            type="email"
             className="loginInputs"
-            id="username"
-            name="username"
-            placeholder='username'
-            value={formData.username}
+            id="email"
+            placeholder='email'
+            name="email"
+            value={formData.email}
             onChange={handleInputChange}
           />
         </div>
@@ -80,22 +111,6 @@ const LoginForm = () => {
             name="password"
             placeholder='password'
             value={formData.password}
-            onChange={handleInputChange}
-          />
-        </div>
-
-        <div className="mb-3">
-          <img 
-            src={'./email.png'}
-            alt='email'
-          />
-          <input
-            type="email"
-            className="loginInputs"
-            id="email"
-            placeholder='email'
-            name="email"
-            value={formData.email}
             onChange={handleInputChange}
           />
         </div>
@@ -128,12 +143,19 @@ const LoginForm = () => {
             Login
           </button>
           <div className='loginRegisterDiv'>
-            Don't have an account ? <span className='loginRegister'>Sign Up</span>
+            Don't have an account ? 
+            <span 
+              className='loginRegister'
+              onClick={()=> navigate('/register')}
+            >
+              Sign Up
+            </span>
           </div>
         </div>
       </form>
+      <ToastContainer />
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

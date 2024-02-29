@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useState } from "react"
 
-const usePostData = () => {
+const usePutData = () => {
   const [sending, setSending] = useState(false)
   const [error, setError] = useState(null)
 
@@ -10,7 +10,7 @@ const usePostData = () => {
 
     return new Promise((resolve, reject) => {    
       axios
-        .post(url, { ...body }, {
+        .put(url, { ...body }, {
           headers: {
             authorization: `Bearer ${token}`,
           },
@@ -31,4 +31,4 @@ const usePostData = () => {
   return { sending, error, sendData }
 }
 
-export default usePostData
+export default usePutData

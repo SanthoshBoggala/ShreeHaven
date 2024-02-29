@@ -9,7 +9,7 @@ const ProfileSideBar = ({active}) => {
 
     const navigate = useNavigate()
     const {sideBar, setSideBar} = useContext(SideBarContext)
-    const { user } = useContext(UserContext)
+    const { user, setUser, setToken } = useContext(UserContext)
 
     let profileSideCates
     if(user && user.type === 'customer'){
@@ -71,6 +71,12 @@ const ProfileSideBar = ({active}) => {
             )
         })
     } 
+    const signOut = ()=>{
+        setUser({})
+        setToken({})
+        navigate('/')
+        return
+    }
     return (
         <>
             <div className={`offcanvas offcanvas-start ${sideBar.show ? 'show' : ''} profileSideBar`}>
@@ -111,7 +117,7 @@ const ProfileSideBar = ({active}) => {
                             ))
                         )}
                         <div
-                            onClick={()=> navigate('/')}
+                            onClick={signOut}
                         >
                             Sign Out
                         </div>

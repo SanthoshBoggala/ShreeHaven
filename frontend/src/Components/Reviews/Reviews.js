@@ -1,10 +1,14 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import GiveReview from './GiveReview'
 import SingleReview from './SingleReview'
 import './reviews.css'
+import { toast, ToastContainer } from 'react-toastify'
+import UserContext from '../../contexts/userContext'
 
-const Reviews = ({ reviews, ratings, starRating })=>{
+const Reviews = ({productKey, reviews, ratings, starRating })=>{
     const [canReview, setCanReview] = useState(false)
+    const {user, token} = useContext(UserContext)
+
     const reviewsData = [
         {
             user: 'santhosh',
@@ -25,6 +29,15 @@ const Reviews = ({ reviews, ratings, starRating })=>{
             comment: "The quality is great but the arms around is super annoying(tight)its not a regular fit(mention in description)its slim fit don't go for for it if you're not thin i exchange with larger size but still same issue."
         }
     ]
+    const handleReview = ()=>{
+        if(user && user.type === 'customer'){
+            setCanReview(prev => !prev)
+        }
+        else{
+            toast.error("Only customer can review... ")
+            return
+        }
+    }
     return (
         <div className='reviewsPage'>
             <div>
@@ -39,7 +52,7 @@ const Reviews = ({ reviews, ratings, starRating })=>{
                         {reviewsData.map((review, index) => <SingleReview  key={index} review={review}/>)}
                         <div className='viewAllDiv'>
                             <button className='viewAll'>Show All</button>
-                            <button className='viewAll' onClick={()=> setCanReview(prev=> !prev)}>{ canReview ? 'Close Review' : 'Rate Product'}</button>
+                            <button className='viewAll' onClick={handleReview}>{ canReview ? 'Close Review' : 'Rate Product'}</button>
                         </div>
                     </>
                 ) : (
@@ -49,12 +62,13 @@ const Reviews = ({ reviews, ratings, starRating })=>{
                 <div className='giveReview'>
                     { reviewsData && reviewsData.length === 0 && (
                         <div>
-                            <button className='viewAll' onClick={()=> setCanReview(prev=> !prev)}>{ canReview ? 'Close Review' : 'Rate Product'}</button>    
+                            <button className='viewAll' onClick={handleReview}>{ canReview ? 'Close Review' : 'Rate Product'}</button>    
                         </div>  
                     )}
                     {canReview && <GiveReview />}
                 </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

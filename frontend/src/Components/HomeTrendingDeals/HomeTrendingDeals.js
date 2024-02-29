@@ -5,22 +5,23 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import UserContext from '../../contexts/userContext'
 import useGetData from '../../customHooks/useGetData'
+import { LimitContext } from '../../contexts/LimitContext'
+import useFetchData from '../../customHooks/useFetchData'
 
 const HomeTrendingDeals = () => {
   const navigate = useNavigate()
-  const { user } = useContext(UserContext)
-
+  const { user, token } = useContext(UserContext)
+  const {limit} = useContext(LimitContext)
 
   const url = `http://localhost:5000/api/products/trending_deals`
-  const { loading, data: { products }, error } = useGetData({ url, query: { limit: "6" }, authorization: user.token })
-
-
+  const { data: {products}, isLoading, error } = useFetchData({url, query: limit, token})    
+  
   const navigateToForYou = () => {
     navigate(`/products/for_you/trending_deals`)
   }
   return (
     <div className='homeTrendingDeals'>
-      {loading ? (
+      {isLoading ? (
         <div>
           Loading...
         </div>

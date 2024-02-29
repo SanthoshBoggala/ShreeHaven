@@ -4,19 +4,19 @@ const Products = require('../Models/productModel');
 
 const getAllReviews = asyncHandler(async (req, res) => {
     const { type } = req.user
-    // if( type !== 'admin' ) {
-    //     res.status(401);
-    //     throw new Error('only admins can access');
-    // }
+    if( type !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
     const reviews = await Reviews.find();
     res.json({ reviews });
 });
 const getAllMyReviews = asyncHandler(async (req, res) => {
     const { userId, type } = req.user
-    // if( type !== 'customer' ) {
-    //     res.status(401);
-    //     throw new Error('only customers can access');
-    // }
+    if( type !== 'customer' ) {
+        res.status(401);
+        throw new Error('only customers can access');
+    }
     const reviews = await Reviews.find({ user: userId });
     res.json({ reviews });
 });
@@ -27,10 +27,10 @@ const getSingleReview = asyncHandler(async (req, res) => {
 });
 const postSingleReview = asyncHandler(async (req, res) => {
     const { userId, type } = req.user
-    // if( type !== 'customer' ) {
-    //     res.status(401);
-    //     throw new Error('only customers can access');
-    // }
+    if( type !== 'customer' ) {
+        res.status(401);
+        throw new Error('only customers can access');
+    }
     const { key, starRating, comment } = req.body;
     if (!key || !starRating) {
         res.status(400);

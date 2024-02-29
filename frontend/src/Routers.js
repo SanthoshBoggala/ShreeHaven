@@ -27,6 +27,7 @@ const Routers = () => {
         <Route path="/products/:category" element={<ProductPage />} />
         <Route path='/products/:category/:id' element={<SingleProductPage />} />
         <Route path='/products/:category/:id/buy' element={<BuyPage />} />
+        <Route path='/products/:category/:id/edit' element={<UploadProductPage />} />
         <Route path="/products/styles/:id" element={<StylesForYouPage />} />
         <Route path="/products/top_rated/:id" element={<TopRatedPage />} />
         <Route path="/products/for_you/:id" element={<StylesForYouPage />} />

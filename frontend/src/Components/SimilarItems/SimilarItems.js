@@ -5,11 +5,21 @@ import UserContext from '../../contexts/userContext'
 import useGetData from '../../customHooks/useGetData'
 
 const SimilarItems = ({category, product}) => {
-    const { user } = useContext(UserContext)
+    const { user, token } = useContext(UserContext)
 
     const url = 'http://localhost:5000/api/products/similar_products'
-    const { loading, data: {products}, error } = useGetData({url, query: {key: product.key}, authorization: user.token})
+    const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+            category,
+            product
+        }
+      };
     
+      const { loading = null, data: {products = null}, error } = useGetData(url, config);
+      
     return (
         <div className='similarItems'>
             <div className='headingStyle'>

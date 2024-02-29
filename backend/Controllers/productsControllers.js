@@ -2,12 +2,38 @@ const asyncHandler = require("express-async-handler");
 const Products = require('../Models/productModel');
 
 const getAllProducts = asyncHandler(async (req, res) => {
-    const { limit } = req.query
- 
-    let products = Products.find();
+    const { limit, type, search } = req.query
+    const filters = req.query
 
+    let products
+    if(type){
+        products = Products.find({ type });
+    }
+    else{
+        products = Products.find()
+    }
+
+    let cates = []
+    const k = Object.keys(filters)
+
+    k.map(one => {
+        if(filters[one] == 'false'){
+            cates.push(one)
+        }
+    })
+    
+    if(filters.sortOption){
+        products = products.sort({newPrice: parseInt(filters.sortOption) })
+    }
+
+    if(cates.length !== 0){
+        products = products.find({category: { $nin: cates} })
+    }
     if(limit){
         products = products.limit(parseInt(limit))
+    }
+    if(search && search.length !== 0){
+        products = products.find({ name: {$regex: `/${search}/`} })
     }
     products = await products.exec()
 
@@ -74,14 +100,6 @@ const getAllSimilarProducts = asyncHandler(async (req, res)=>{
 
     let myProduct = products.find((one)=> one.key == key)
 
-    let similarProducts = products.filter((one)=> (one.type == myProduct.type && one.category == myProduct.category))
-
-    let nonSimilarProducts = products.filter((one)=> (one.type != myProduct.type))
-
-    products = [...similarProducts, ...nonSimilarProducts]
-
-    products = products.filter(one => one.key != myProduct.key)
-
     res.json({products})
 })
 
@@ -97,17 +115,17 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 
 const postSingleProduct =  asyncHandler(async(req, res) => {
     const {
-        name, brand, price, category, type ,discount = 5, starRating = 0, ratings = 0,
+        name, brand, price, category, productType ,discount = 0, starRating = 0, ratings = 0,
         description, images
     } = req.body;
-    // const { userId } = req.user;
+    const { userId, type } = req.user;
 
-    // if( type !== 'admin' ) {
-    //     res.status(401);
-    //     throw new Error('only admins can access');
-    // }
+    if( type !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
 
-    if(!name || !brand || !price || !category || !type || !description || !images){
+    if(!name || !brand || !price || !category || !productType || !description || !images){
         res.status(400);
         throw new Error('provide all fields');
     }
@@ -129,7 +147,7 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 
     let inStock = req.body.inStock === 'true' ? true : false
     let data = {
-        key, name, brand, category, type, price, reviews : [], newPrice, discount, inStock, ratings, starRating, description
+        key, name, brand, category, type: productType, price, reviews : [], newPrice, discount, inStock, ratings, starRating, description
     }
     let product = await new Products( data );
 
@@ -140,12 +158,14 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 });
 
 const putSingleProduct = asyncHandler(async (req, res) => {
-    const {price, discount, images} = req.body;
+    let { brand, price, category, productType ,discount, starRating, ratings,
+    description, images } = req.body;
     const { userId, type } = req.user;
-    // if( type !== 'admin' ) {
-    //     res.status(401);
-    //     throw new Error('only admins can access');
-    // }
+
+    if( type !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
 
     const productExists = await Products.findOne({ key: req.params.id });
     if(!productExists) {
@@ -171,28 +191,29 @@ const putSingleProduct = asyncHandler(async (req, res) => {
     }   
 
     let product;
-
-    if(newPrice != 0){
-        product =  Products.findOneAndUpdate(
+    let newProduct = req.body
+    productType = newProduct.productType
+    
+    delete newProduct.productType
+    if(productType) {
+        newProduct = {...newProduct, type: productType}
+    }
+    if(newPrice !== 0){
+        product = await Products.findOneAndUpdate(
             {key: req.params.id},
-            {...req.body, newPrice },
+            {...newProduct, newPrice },
             {new: true}
         );
     }
     else{
-        product =  Products.findOneAndUpdate(
+        product = await Products.findOneAndUpdate(
             {key: req.params.id},
-            {...req.body},
+            {...newProduct},
             {new: true}
         );
     }
-    if(images) {
-        product.images = images
-    }
 
-    await product.save()
-
-    res.json({product});
+    res.json({product})
 });
 
 const deleteSingleProduct = asyncHandler(async(req, res) => {

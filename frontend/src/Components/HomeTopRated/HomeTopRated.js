@@ -3,22 +3,23 @@ import React, { useContext } from 'react'
 import ItemCard from '../ItemCard/ItemCard'
 import UserContext from '../../contexts/userContext'
 import useGetData from '../../customHooks/useGetData'
+import { LimitContext } from '../../contexts/LimitContext'
+import useFetchData from '../../customHooks/useFetchData'
 
 const HomeTopRated = () => {
 
-    const { user } = useContext(UserContext)
+    const { user, token } = useContext(UserContext)
+    const {limit} = useContext(LimitContext)
 
     const url = `http://localhost:5000/api/products/top_rated`
-    const { loading, data: { products, cateCaptions }, error } = useGetData({ url, query: { limit: "6" }, authorization: user.token })
-
-
-    console.log(products)
+    const { data: {products, cateCaptions}, isLoading, error } = useFetchData({url, query: limit, token})    
+      
     return (
         <div className='homeTopRated'>
             <div className='homeHeading'>Top Rated Products</div>
-            {loading ? (
-                <div>
-                    Loading...
+            {(isLoading || error) ? (
+                <div className='m-3'>
+                    { isLoading ? 'Loading...' : 'Error in loading'}
                 </div>
             )
                 : (

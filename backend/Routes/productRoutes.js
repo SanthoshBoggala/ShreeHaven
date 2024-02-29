@@ -25,8 +25,8 @@ router.route("/similar_products").get( getAllSimilarProducts);
 
 
 router.route("/:id").get( getSingleProduct);
-router.route("/").post( postSingleProduct);
-router.route("/:id").put(  putSingleProduct);
-router.route("/:id").delete( deleteSingleProduct);
+router.route("/").post( validateToken, postSingleProduct);
+router.route("/:id").put( validateToken,  putSingleProduct);
+router.route("/:id").delete( validateToken, deleteSingleProduct);
 
 module.exports = router;

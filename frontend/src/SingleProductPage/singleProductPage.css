@@ -134,6 +134,11 @@
 .cartProductImage {
     width: 20px;
 }
+
+.gotToLogin {
+    cursor: pointer;
+    color: green;
+}
 .productBts {
     display: flex;
     justify-content: space-between;
