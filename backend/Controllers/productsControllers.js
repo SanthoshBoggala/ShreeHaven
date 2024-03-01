@@ -106,7 +106,13 @@ const getAllSimilarProducts = asyncHandler(async (req, res)=>{
 
 const getSingleProduct = asyncHandler(async (req, res) => {
     
-    let product = await Products.findOne({ key: req.params.id }).populate('reviews.review');
+    let product = await Products.findOne({ key: req.params.id }).populate({
+        path: 'reviews.review',
+        populate: {
+          path: 'user',
+          model: 'users'
+        }
+      });
     if(!product) {
         res.status(400);
         throw new Error('product not found');

@@ -4,41 +4,42 @@ const Orders = require('../Models/ordersModel');
 
 
 const getAllOrders = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
-    // if( type !== 'admin' ) {
-    //     res.status(401);
-    //     throw new Error('only admins can access');
-    // }
+    const { userId, type } = req.user
+    if( type !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
     const orders = await Orders.find()
     res.json({ orders });
 });
 const getAllMyOrders = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
-    // if( type !== 'customer' ) {
-    //     res.status(401);
-    //     throw new Error('only customers can access');
-    // }
-    const orders = await Orders.find()
+    const { userId, type } = req.user
+    if( type !== 'customer' ) {
+        res.status(401);
+        throw new Error('only customers can access');
+    }
+    const orders = await Orders.find({ user: userId }).populate('product')
+    
     res.json({ orders });
 });
 const getSingleOrder = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
-    // if( type !== 'customer' ) {
-    //     res.status(401);
-    //     throw new Error('only customers can access');
-    // }
+    const { userId, type } = req.user
+    if( type !== 'customer' ) {
+        res.status(401);
+        throw new Error('only customers can access');
+    }
     const order = await Orders.findById(req.params.id)
     res.json({ order });
 });
 const addToOrders = asyncHandler(async(req, res) => {
-    // const { userId, type } = req.user
-    // if( type !== 'customer' ) {
-    //     res.status(401);
-    //     throw new Error('only customers can access');
-    // }
-    const { key, size, quantity, price } = req.body;
+    const { userId, type } = req.user
+    if( type !== 'customer' ) {
+        res.status(401);
+        throw new Error('only customers can access');
+    }
+    const { key, size, count, color, address, paymentMethod } = req.body;
 
-    if(!size || !quantity || !price || !key){
+    if(!size ||  !count || !color || !address || !paymentMethod  || !key){
         res.status(400);
         throw new Error("provide all fields");
     }
@@ -49,18 +50,17 @@ const addToOrders = asyncHandler(async(req, res) => {
         throw new Error('product not exists');
     }
 
-    const currentDate = new Date();
-    const dateAfter6Days = new Date(currentDate);
-    dateAfter6Days.setDate(currentDate.getDate() + 6);
-
     const order = await Orders.create( 
-    {   
+        {   
+            user: userId,
             product: productExists._id,
             size,
-            quantity,
-            price,
-            expectedDeliveryDate: dateAfter6Days
-    });
+            count,
+            color,
+            address,
+            paymentMethod,
+            price : Number(count) * productExists.newPrice,
+        });
 
     res.json({order});
 });

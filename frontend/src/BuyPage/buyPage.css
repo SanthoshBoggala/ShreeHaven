@@ -1,13 +1,20 @@
 .buyPage {
-    margin-top: 60px;
     padding: 20px;
     min-height: 90vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 60px;
+    margin-left: 10px;
 }
 .productBuyDetails {
     padding: 20px;
+    padding-left: 50px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(207, 207, 207);
 }
 .buyExtra {
     display: flex;
@@ -49,6 +56,7 @@
     height: 400px;
     width: 350px;
     border-radius: 3px;
+    margin-left: 30px;
 }
 .buyImage > img {
     height: 100%;
@@ -57,14 +65,32 @@
 }
 
 .buyPage {
-    position: relative;
+    /* position: relative; */
+}
+
+.buyNowBtn, .closeNowBtn {
+    height: 40px;
+    border-radius: 3px;
+    border: none;
+    color: white;
+}
+.buyNowBtn {
+    background-color: rgb(14, 136, 61);
+}
+.closeNowBtn {
+    background-color: rgb(202, 63, 63);
+    margin-right: 30px;
 }
 .afterBuy {
-    position: absolute;
-    top: 0%;
+    /* position: absolute; */
     width: 500px;
+    background-color: white;
+    border-radius: 5px;
+    padding-top: 10px;
 }
 .modelForm {
-    padding: 30px 0px 30px 0px;
+    background-color: white;
+    border-radius: 5px;
+    padding-bottom: 20px;
 }
   

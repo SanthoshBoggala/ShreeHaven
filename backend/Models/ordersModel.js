@@ -16,13 +16,23 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    quantity: {
+    count: {
         type: Number,
+        required: true
+    },
+    color: {
+        type: String,
         required: true
     },
     price: {
         type: Number,
         required: true
+    },
+    address: {
+        type: String
+    },
+    paymentMethod: {
+        type: String
     },
     status : {
         type: String,
@@ -31,10 +41,7 @@ const orderSchema = new mongoose.Schema({
     },
     orderedDate: {
         type: Date,
-        default: Date.now()
-    },
-    expectedDeliveryDate: {
-        type: Date
+        default: new Date(Date.now()).toLocaleDateString('en-IN')
     }
 })
 

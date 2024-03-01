@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import './buyPage.css'
 import shoe2 from '../Images/mobile1.webp'
-import BuyModel from './BuyModel';
 import { SimilarItems } from '../Components';
+import MyModal from './Model';
 
 
 const BuyPage = () => {
@@ -19,7 +19,7 @@ const BuyPage = () => {
         "ratings": 30059,
         "reviews": 3599,
     }
-
+    const [viewModel, setViewModel] = useState(false)
     const [buyModel, setBuyModel] = useState(true)
     const [extra, setExtra] = useState({
         count: 1,
@@ -51,7 +51,6 @@ const BuyPage = () => {
             }))
         }
     }
-    console.log(totalPrice)
 
     const colors = {
         "Shirts": ['success', 'primary', 'info', 'secondary', 'dark', 'danger']
@@ -60,9 +59,14 @@ const BuyPage = () => {
         "Shirts": ['S', 'M', 'L', 'XL', 'XLL'],
         "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
     }
+
+    const setViewModelHelpher = ()=>{
+        setViewModel(prev => !prev)
+    }
     return (
-        <div className="buyPage row">
-            <div className="productBuyDetails col-sm-6">
+        <>
+            <div className="buyPage row g-3">
+            <div className="productBuyDetails col-md-6">
                 <div className="productBrand">
                     {product.brand}
                 </div>
@@ -118,8 +122,8 @@ const BuyPage = () => {
                 </div>
                 <div className='buyPageBtn'>
                     <button
-                        className="buyBtn"
-                        onClick={()=> setBuyModel(prev=> !prev)}
+                        className="buyNowBtn"
+                        onClick={setViewModelHelpher}
                     >
                         Buy Now
                     </button>
@@ -127,14 +131,15 @@ const BuyPage = () => {
 
             </div>
 
-            <div className="col-sm-6">
+            <div className="col-md-6">
                 <div className='buyImage'>
                     <img src={shoe2} alt={product.name} />
                 </div>
             </div>
-            { buyModel && <BuyModel extra={extra} key={product.key} />}
-            <SimilarItems product={product} category={product.category} />
+            <MyModal extra={extra} viewModel={viewModel} setViewModelHelpher={setViewModelHelpher}/>
         </div>
+        <SimilarItems product={product} category={product.category} />
+        </>
     );
 };
 
