@@ -2,7 +2,6 @@ import './homeTopRated.css'
 import React, { useContext } from 'react'
 import ItemCard from '../ItemCard/ItemCard'
 import UserContext from '../../contexts/userContext'
-import useGetData from '../../customHooks/useGetData'
 import { LimitContext } from '../../contexts/LimitContext'
 import useFetchData from '../../customHooks/useFetchData'
 

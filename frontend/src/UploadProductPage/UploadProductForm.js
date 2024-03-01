@@ -2,15 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import './uploadProduct.css'
 import UserContext from '../contexts/userContext';
 import TypesCatesContext from '../contexts/TypesCatesContext';
-import usePostData from '../customHooks/usePostData';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
-import usePutData from '../customHooks/usePutData';
+import useModifyData from '../customHooks/useModifyData';
+import { LimitContext } from '../contexts/LimitContext';
 
 const PersonalInfo = () => {
 
   const { id } = useParams()
+  const { limit } = useContext(LimitContext)
   const { user, token } = useContext(UserContext)
   const { typesCates } = useContext(TypesCatesContext)
 
@@ -29,8 +30,14 @@ const PersonalInfo = () => {
     starRating: 0,
   }
 
-  const {sending, error, sendData } = usePostData()
-  const updateData = usePutData()
+  let url
+  if(!id) {
+    url = `http://localhost:5000/api/products`
+  }
+  else{
+    url = `http://localhost:5000/api/products/${id}`
+  }
+  const { modifyData } = useModifyData({ url, query: limit , token })
 
   const [product, setProduct] = useState(initialProduct)
   const [err, setErr] = useState('')
@@ -100,41 +107,32 @@ const PersonalInfo = () => {
 
     setErr('')
 
-    let url
-    let res
-    if(!id) {
-      url = `http://localhost:5000/api/products`
-      res = await sendData({url, body: product, token})
-    }
-    else{
-      url = `http://localhost:5000/api/products/${id}`
-      res = await updateData.sendData({url, body: product, token})
-    }
+    const {isSending, error, data} = await modifyData(product)
 
     if(error){
       toast.error('Failed to upload. Please try again.')
       return
     }
 
-    if (res.msg) {
-      setErr(res.msg)
+    if (data.msg) {
+      setErr(data.msg)
     } else {
       toast.success('Uploaded successfully!')
-      if(!id) {
-        setProduct({
-          name: '',
-          brand: '',
-          category: '',
-          productType: '',
-          price: '',
-          discount: '',
-          inStock: 'true',
-          ratings: '',
-          images: '',
-          description: '',
-          starRating: 0,
-        })
-      }
+      // if(!id) {
+      //   setProduct({
+      //     name: '',
+      //     brand: '',
+      //     category: '',
+      //     productType: '',
+      //     price: '',
+      //     discount: '',
+      //     inStock: 'true',
+      //     ratings: '',
+      //     images: '',
+      //     description: '',
+      //     starRating: 0,
+      //   })
+      // }
       setErr("")
     }
 

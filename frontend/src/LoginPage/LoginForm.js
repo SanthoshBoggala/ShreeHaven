@@ -15,7 +15,7 @@ const LoginForm = () => {
   const [err, setErr] = useState("")
   const { setUser, setToken } = useContext(UserContext)
   const url = 'http://localhost:5000/api/login'
-  const { modifyData, data, isSending, error } = useModifyData({ url, method : "POST"})
+  const { modifyData } = useModifyData({ url, method : "POST"})
   
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -49,24 +49,26 @@ const LoginForm = () => {
     setErr("")
     return true
   }
-  const submitForm = async(e)=>{
+  async function submitForm(e){
     e.preventDefault()
 
     if(!validateForm()){
       return
     }
 
-    await modifyData(formData)
+    const {isSending, error, data} = await modifyData(formData)
 
     if(error){
       toast.error('Invalid credentials. Please try again.')
       return
     }
 
+    console.log(data, isSending, error)
+
     if(data.msg){
       setErr(data.msg)
     }
-    else{
+    else if(data){
       toast.success('Login successful!')
       setUser(data.user)
       setToken(data.token)

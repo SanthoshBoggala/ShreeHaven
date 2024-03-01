@@ -3,7 +3,6 @@ import './products.css'
 import ItemCard from "../ItemCard/ItemCard"
 import { useParams } from "react-router-dom"
 import UserContext from '../../contexts/userContext'
-import useGetData from "../../customHooks/useGetData"
 import { SelectedFilters } from "../../contexts/SelectedFilters"
 import useFetchData from "../../customHooks/useFetchData"
 

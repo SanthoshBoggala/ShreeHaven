@@ -4,7 +4,7 @@ export const ProductContext = createContext()
 
 const ProductContextProvider = ({ children }) =>{
     const initialState = {
-        key : null
+        key : ""
     }
     const [key, setKey] = useState(initialState);
     

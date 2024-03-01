@@ -1,6 +1,8 @@
+const { formatDistanceToNow } = require('date-fns');
 const asyncHandler = require('express-async-handler');
 const Reviews = require('../Models/reviewModel');
 const Products = require('../Models/productModel');
+
 
 const getAllReviews = asyncHandler(async (req, res) => {
     const { type } = req.user
@@ -8,7 +10,13 @@ const getAllReviews = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error('only admins can access');
     }
-    const reviews = await Reviews.find();
+    let reviews = await Reviews.find();
+
+    reviews = reviews.map((one) => {
+        const timeAgo = formatDistanceToNow( one.date, { addSuffix: true } )
+        return ({ ...one, date: timeAgo })
+    })
+
     res.json({ reviews });
 });
 const getAllMyReviews = asyncHandler(async (req, res) => {
@@ -42,7 +50,8 @@ const postSingleReview = asyncHandler(async (req, res) => {
         throw new Error('product not exists');
     }
 
-    let reviewData = { starRating };
+    let reviewData = { starRating, user: userId };
+
     if (comment) reviewData = { ...reviewData, comment }
 
     const review = await Reviews.create({ ...reviewData });
@@ -52,15 +61,17 @@ const postSingleReview = asyncHandler(async (req, res) => {
         let newStar = stars / (productExists.ratings + 1);
         let reviewMyProduct = { starRating: parseFloat(newStar).toFixed(1), ratings: productExists.ratings + 1 };
         if (comment) reviewMyProduct = { ...reviewMyProduct};
-        let product = Products.findOneAndUpdate(
+        
+        let product = await Products.findOneAndUpdate(
             { key },
-            {reviewMyProduct},
+            { $set: reviewMyProduct },
             { new: true }
-        )
-        if(comment) {
-            product.reviews.push({ review: review._id })
+        );
+    
+        if (comment) {
+            product.reviews.push({ review: review._id });
+            await product.save();
         }
-        await product.save()
     }
     res.json({ review });
 });

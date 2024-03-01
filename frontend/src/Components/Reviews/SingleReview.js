@@ -2,7 +2,7 @@ import './reviews.css'
 
 const SingleReview = ({review})=>{
 
-    const reviewRatingColor = review.rating > 3.0 ? 'primary' : 'danger'
+    const reviewRatingColor = Number(review.starRating) > 3.0 ? 'primary' : 'danger'
     
     return (
         <div className='singleReview'>
@@ -14,7 +14,7 @@ const SingleReview = ({review})=>{
                         src='https://static.vecteezy.com/system/resources/previews/002/318/271/non_2x/user-profile-icon-free-vector.jpg' 
                     />
                     <span className='reviewUser'>{review.user}</span>
-                    <span className={`badge bg-${reviewRatingColor} productStarRating`}>{review.rating + '★'}</span>
+                    <span className={`badge bg-${reviewRatingColor} productStarRating`}>{review.starRating + '★'}</span>
                 </div>
                 <div className='reviewDate'>{review.date}</div>
             </div>

@@ -2,23 +2,18 @@ import './similarItems.css'
 import ItemCard from '../ItemCard/ItemCard'
 import React, { useContext } from 'react'
 import UserContext from '../../contexts/userContext'
-import useGetData from '../../customHooks/useGetData'
+import useFetchData from '../../customHooks/useFetchData'
+import { useParams } from 'react-router-dom'
+import { ProductContext } from '../../contexts/ProductContext'
 
-const SimilarItems = ({category, product}) => {
+const SimilarItems = () => {
     const { user, token } = useContext(UserContext)
+    const { key } = useContext(ProductContext)
+    const { id } = useParams()
 
     const url = 'http://localhost:5000/api/products/similar_products'
-    const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-            category,
-            product
-        }
-      };
-    
-      const { loading = null, data: {products = null}, error } = useGetData(url, config);
+
+    const { isLoading, data: { products } , error } = useFetchData({ url, query: key , token });
       
     return (
         <div className='similarItems'>
@@ -26,10 +21,12 @@ const SimilarItems = ({category, product}) => {
                 <div className='homeHeading'>Similar Products</div>
             </div>
             <div className='trendingDealItems row m-2'>
-                { products && products.length !== 0 && (
+                { (products && products.length !== 0) ? (
                     products.map((one, index)=> (
                         <ItemCard key={index} item={one} />
                     ))
+                ) : (
+                    <h5>No Similar products</h5>
                 ) }
             </div>
         </div>

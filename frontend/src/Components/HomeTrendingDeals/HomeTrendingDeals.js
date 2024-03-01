@@ -4,7 +4,6 @@ import ItemCard from '../ItemCard/ItemCard'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import UserContext from '../../contexts/userContext'
-import useGetData from '../../customHooks/useGetData'
 import { LimitContext } from '../../contexts/LimitContext'
 import useFetchData from '../../customHooks/useFetchData'
 

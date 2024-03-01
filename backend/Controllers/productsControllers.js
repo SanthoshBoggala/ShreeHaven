@@ -1,5 +1,7 @@
+const { formatDistanceToNow } = require('date-fns')
 const asyncHandler = require("express-async-handler"); 
 const Products = require('../Models/productModel');
+
 
 const getAllProducts = asyncHandler(async (req, res) => {
     const { limit, type, search } = req.query
@@ -98,18 +100,20 @@ const getAllSimilarProducts = asyncHandler(async (req, res)=>{
 
     let products = await Products.find()
 
-    let myProduct = products.find((one)=> one.key == key)
 
     res.json({products})
 })
 
 const getSingleProduct = asyncHandler(async (req, res) => {
     
-    const product = await Products.findOne({ key: req.params.id });
+    let product = await Products.findOne({ key: req.params.id }).populate('reviews.review');
     if(!product) {
         res.status(400);
         throw new Error('product not found');
     }
+
+    product.reviews.sort((a, b) => new Date(b.review.date) - new Date(a.review.date))
+
     res.json({product});
 });
 

@@ -15,7 +15,7 @@ const reviewSchema = new mongoose.Schema({
     },
     date: {
         type: Date,
-        default: Date.now()
+        default: new Date(Date.now()).toLocaleDateString('en-IN')
     }
 });
 

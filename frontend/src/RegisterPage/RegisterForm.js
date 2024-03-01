@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import usePostData from '../customHooks/usePostData';
 import UserContext from '../contexts/userContext';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify'
@@ -22,7 +21,7 @@ const RegisterForm = () => {
   const [err, setErr] = useState("")
   const {setUser, setToken} = useContext(UserContext)
   const url = 'http://localhost:5000/api/register'
-  const { modifyData, data, isSending, error } = useModifyData({url, method : "POST"})
+  const { modifyData } = useModifyData({url, method : "POST"})
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -69,7 +68,8 @@ const RegisterForm = () => {
     if(!validateForm()) return
 
     
-    await modifyData(formData)
+    const {isSending, error, data} = await modifyData(formData)
+
     
     if(error){
       toast.error('Invalid credentials. Please try again.')

@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import './singleProductPage.css'
 import { Reviews, SimilarItems } from "../Components"
 import SingleProductImages from "./SingleProductImages"
@@ -6,20 +6,30 @@ import { useNavigate, useParams } from "react-router-dom"
 import UserContext from "../contexts/userContext"
 import { toast, ToastContainer } from 'react-toastify'
 import { LimitContext } from "../contexts/LimitContext"
+import { ProductContext } from '../contexts/ProductContext'
 import useFetchData from "../customHooks/useFetchData"
 import useModifyData from "../customHooks/useModifyData"
-
-
+import RefetchProductContext from "../contexts/RefetchProductContext"
 
 const SingleProductPage = () => {
     const { user, token } = useContext(UserContext)
+    const { refetch } = useContext(RefetchProductContext)
     const {limit} = useContext(LimitContext)
     const { id } = useParams()
     const navigate = useNavigate()
+
     let url = `http://localhost:5000/api/products/${id}`
-    const { data: {product}, isLoading, error } = useFetchData({url, query: limit, token})
+    const { data: {product}, isLoading, error } = useFetchData({url, query: refetch, token})
     url = 'http://localhost:5000/api/cart'
-    const { modifyData, data , isSending, error: addCartErr } = useModifyData({url, query: limit, token})
+    const { modifyData } = useModifyData({url, query: limit, token})
+
+    const { setKey } = useContext(ProductContext)
+    
+    useEffect(()=>{
+        setKey({ key: id })
+    }, [id])
+
+    console.log(refetch)
     // const product =  {
     //     "productKey": "Men_striped_casual_light_green_white_shirt",
     //     "name": "Men striped casual light green white shirt",
@@ -48,7 +58,7 @@ const SingleProductPage = () => {
     }
     const addToCart = async()=>{
         
-        await modifyData({key: product.key})
+        const { isSending, error, data } = await modifyData({key: product.key})
 
         if(error){
             toast.error('Failed to add cart!')
@@ -74,6 +84,7 @@ const SingleProductPage = () => {
         navigate('/login')
         return
     }
+
 
     return (
         <>
@@ -110,14 +121,14 @@ const SingleProductPage = () => {
                                         <span class="badge bg-primary productStarRating">{product.starRating + '★'}</span>
                                         <span className="productRatings">{product.ratings + ' Ratings'}</span>
                                         <span className="productRatings">and</span>
-                                        <span className="productReviews">{product.reviews + ' Reviews'}</span>
+                                        <span className="productReviews">{product.reviews.length + ' Reviews'}</span>
                                     </div>
                                     <div className="productColors">
                                         <span className="someHeadings">Available colors</span> <br />
                                         {colors[product.category] && colors[product.category].map((x) => {
                                             return (
                                                 <>
-                                                    <span className={`badge bg-${x} colorOptions`}>{x}</span>
+                                                    <span className={`badge bg-${x} colorOptions`} key={x}>{x}</span>
                                                 </>
                                             )
                                         })}
@@ -127,7 +138,7 @@ const SingleProductPage = () => {
                                         {sizes[product.category] && sizes[product.category].map((x) => {
                                             return (
                                                 <>
-                                                    <span className="badge bg-secondary sizeOptions">{x}</span>
+                                                    <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
                                                 </>
                                             )
                                         })}
@@ -210,13 +221,12 @@ const SingleProductPage = () => {
                             </div>
 
                             <Reviews
-                                productKey = {product.key} 
                                 ratings={product.ratings}
                                 starRating={product.starRating}
                                 reviews={product.reviews}
                             />
 
-                            <SimilarItems product={product} category={product.category} />
+                            <SimilarItems />
                         </div>
                     </>
                 ))
