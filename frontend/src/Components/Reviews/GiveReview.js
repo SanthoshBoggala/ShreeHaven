@@ -12,9 +12,9 @@ import RefetchProductContext from '../../contexts/RefetchProductContext'
 const GiveReview = () => {
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState("")
-    const [err, setErr] = useState("")
-    const { user, token } = useContext(UserContext)
-    const { refetch, setRefetch } = useContext(RefetchProductContext)
+    const [ err, setErr] = useState("")
+    const { token } = useContext(UserContext)
+    const { setRefetch } = useContext(RefetchProductContext)
     const { key } = useContext(ProductContext)
     const url = `http://localhost:5000/api/reviews`
     const { modifyData } = useModifyData({ url , method : "POST", token })

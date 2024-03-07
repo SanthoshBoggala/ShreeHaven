@@ -21,7 +21,7 @@ const SingleProductPage = () => {
     let url = `http://localhost:5000/api/products/${id}`
     const { data: {product}, isLoading, error } = useFetchData({url, query: refetch, token})
     url = 'http://localhost:5000/api/cart'
-    const { modifyData } = useModifyData({url, query: limit, token})
+    const { modifyData } = useModifyData({url, token})
 
     const { setKey } = useContext(ProductContext)
     
@@ -29,25 +29,6 @@ const SingleProductPage = () => {
         setKey({ key: id })
     }, [id])
 
-    console.log(refetch)
-    // const product =  {
-    //     "productKey": "Men_striped_casual_light_green_white_shirt",
-    //     "name": "Men striped casual light green white shirt",
-    //     "brand": "U TURN",
-    //     "category": "Shirts",
-    //     "price": 369,
-    //     "newPrice": 313,
-    //     "discount": 15,
-    //     "starRating": 4.5,
-    //     "ratings": 30059,
-    //     "reviews": 3599,
-    //     "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
-    //     "images": [
-    //         img1,
-    //         img2,
-    //         img3
-    //     ]
-    // }
 
     const colors = {
         "Shirts": ['success', 'primary', 'info', 'secondary', 'dark', 'danger']
@@ -69,6 +50,10 @@ const SingleProductPage = () => {
     }
 
     const goToBuyPage = () => {
+        if(!Boolean(product.inStock)){
+            toast.error('Sorry! Not available right now...')
+            return
+        }
         const currentUrl = window.location.pathname
         navigate(`${currentUrl}/buy`)
         return
@@ -197,7 +182,7 @@ const SingleProductPage = () => {
                                                             className="buyBtn"
                                                             onClick={goToBuyPage}
                                                         >
-                                                            Buy Now
+                                                            { Boolean(product.inStock) ? 'Buy Now' : 'Not Available'}
                                                         </button>
                                                     </div>
                                                 </>

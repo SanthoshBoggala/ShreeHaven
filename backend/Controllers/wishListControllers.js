@@ -13,6 +13,25 @@ const getWishListItems = asyncHandler(async (req, res) => {
     res.json({ wishListItems })
 })
 
+const getMyWishListItems = asyncHandler(async (req, res) => {
+    const { userId, type } = req.user
+    if (type !== 'customer') {
+        res.status(401)
+        throw new Error('only customer can access')
+    }
+
+    const { key } = req.query
+    const wishListItems = await WishListItems.findOne({ user: userId }).populate('products.product')
+
+    let get = false
+    if(wishListItems && wishListItems.products){
+        const oneWish = wishListItems.products.find(one => one.product.key === key)
+        if(oneWish) get = true
+    }
+
+    res.json({ wishListItem: get })
+})
+
 const addToWishList = asyncHandler(async(req, res)=>{
     const {userId, type } = req.user
     if (type !== 'customer') {
@@ -41,12 +60,28 @@ const addToWishList = asyncHandler(async(req, res)=>{
         })
     }
 
-    wishListItems = await WishListItems.findOneAndUpdate(
-        { user: userId }, 
-        { $push: { products: {product : product._id} } }
-    )
-    
-    res.json({ wishListItems })
+    let getWishListItems = await WishListItems.findOne({ user : userId }).populate('products.product')
+
+    let get = false
+    if(getWishListItems && getWishListItems.products){
+        const oneWish = getWishListItems.products.find(one => one.product.key === key)
+        if(oneWish) get = true
+    }
+
+    if(get){
+        wishListItems = await WishListItems.findOneAndUpdate(
+            { user: userId },
+            { $pull: { products: { product: product._id } } },
+            { new: true }
+        )
+    }
+    else{
+        wishListItems = await WishListItems.findOneAndUpdate(
+            { user: userId }, 
+            { $push: { products: {product : product._id} } }
+        )
+    }
+    res.json({ wishListItem: !get })
 })
 
 const removeFromWishList = asyncHandler(async (req, res) => {
@@ -80,5 +115,6 @@ const removeFromWishList = asyncHandler(async (req, res) => {
 module.exports = {
     getWishListItems,
     addToWishList,
+    getMyWishListItems,
     removeFromWishList
 }

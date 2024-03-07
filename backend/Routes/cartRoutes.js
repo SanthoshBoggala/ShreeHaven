@@ -10,6 +10,6 @@ const {
 router.route("/").get( validateToken,  getCartItems);
 router.route("/").post( validateToken, addToCartItems);
 router.route("/user").get( validateToken, getMyCartItems)
-router.route("/:id").put( validateToken, removeFromCartItems);
+router.route("/").put( validateToken, removeFromCartItems);
 
 module.exports = router;

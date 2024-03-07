@@ -1,67 +1,100 @@
 import './cartPage.css'
 import img from '../Images/mobile2.webp'
+import { useNavigate } from 'react-router-dom'
+import useModifyData from '../customHooks/useModifyData'
+import { useContext } from 'react'
+import { toast, ToastContainer } from 'react-toastify'
+import UserContext from '../contexts/userContext'
 
 
-const CartItem = ()=>{
+const CartItem = ({ item, handleRefetch })=>{
+    const navigate = useNavigate()
+    const { token } = useContext(UserContext)
+    const url = `http://localhost:5000/api/cart`
+    const { modifyData } = useModifyData({url, method: "PUT", token})
 
-    const product =  {
-        "productKey": "Men_striped_casual_light_green_white_shirt",
-        "name": "Men striped casual light green white shirt",
-        "brand": "U TURN",
-        "category": "Shirts",
-        "price": 369,
-        "newPrice": 313,
-        "discount": 15,
-        "starRating": 4,
-        "ratings": 30059,
-        "reviews": 3599,
-        "description": "Explore style with this men's striped casual light green and white shirt by U TURN. This shirt is perfect for a casual and trendy look.",
-        'image': img
+    const getDateAfterEightDays = () => {
+        const today = new Date();
+        const eightDaysLater = new Date(today);
+        eightDaysLater.setDate(today.getDate() + 8);
+      
+        const options = { weekday: 'short', month: 'short', day: '2-digit' };
+        const formattedDate = eightDaysLater.toLocaleDateString('en-US', options);
+        return formattedDate;
     }
 
-    const currentDate = new Date();
-    const deliveryDate = new Date(currentDate);
-    deliveryDate.setDate(currentDate.getDate() + 6);
-    const options = { weekday: 'short', month: 'short', day: 'numeric' };
-    const formattedDate = deliveryDate.toLocaleDateString('en-US', options);
+    const goToBuy = ()=>{
+        if(!Boolean(item.inStock)){
+            toast.error('Sorry! Not available right now...')
+            return
+        }
+        navigate(`/products/${item.type}/${item.key}/buy`)
+    }
 
+    const removeFromCart = async()=>{
+        const cartData = {
+            key: item.key
+        }
+        const { data, isSending, error } = await modifyData(cartData)
+
+        if(error){
+            toast.error('Failed to remove from cart!')
+        }
+        else{
+            setTimeout(()=>{
+                handleRefetch()
+            }, 1000)
+            toast.success('Removed from cart Successfully!')
+            
+        }
+    }
     return (
         <div className='row cartItem'>
             <div className='col-md-4 imageContainer'>
                 <img 
-                    src={product.image}
+                    src={img}
                     className='cartImage img-fluid'
-                    alt={product.name}
+                    alt={item.name}
                 />
             </div>
             <div className='col-md-8 cartItemDetails'>
                     <div className="cartItemBrand">
-                        {product.brand}
+                        {item.brand}
                     </div>
                     <div className="cartItemName">
-                        {product.name}
+                        {item.name}
                     </div>
                     <div className="cartItemPrice">
-                        <div className="cartItemDiscount me-2">{product.discount + '% off'}</div>
-                        <div className="cartItemOPrice me-2"><strike>{"₹" + product.price}</strike></div>
-                        <div className="cartItemNPrice">{"₹" + product.newPrice}</div>
+                        <div className="cartItemDiscount me-2">{item.discount + '% off'}</div>
+                        <div className="cartItemOPrice me-2"><strike>{"₹" + item.price}</strike></div>
+                        <div className="cartItemNPrice">{"₹" + item.newPrice}</div>
                     </div>
                     <div>
-                        <span class="badge bg-primary cartItemStarRating me-2">{product.starRating + '★'}</span>
-                        <span className="cartItemRatings">({product.ratings})</span>
+                        <span class="badge bg-primary cartItemStarRating me-2">{item.starRating + '★'}</span>
+                        <span className="cartItemRatings">({item.ratings})</span>
                     </div>
                     <div className='cartItemDelivery'>
-                        <span>Delivery by {formattedDate}</span>
+                        { Boolean(item.inStock) ? (<span>Delivery by {getDateAfterEightDays()}</span>)
+                        : (<span>Not available right now...</span>)
+                        }
                     </div>
                     <div className='row justify-content-center mt-2'>
                         <div className='col-6'>
-                            <button className='buyNow'>Buy this now</button>
+                            <button className='buyNow'
+                                onClick={goToBuy}
+                            >
+                                { Boolean(item.inStock) ? 'Buy this Now' : 'Not Available'}
+                            </button>
                         </div>
                         <div className='col-6'>
-                            <button className='remove'>Remove</button>
+                            <button className='remove'
+                                onClick={removeFromCart}
+                            >
+                                Remove</button>
                         </div>
                     </div>
             </div>
+            <ToastContainer />
         </div>
     )
 }

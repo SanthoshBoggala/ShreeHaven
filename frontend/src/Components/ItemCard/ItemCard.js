@@ -1,13 +1,43 @@
 import './itemCard.css'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import shoe2 from '../../Images/shoe2.webp'
 import notInWishlist from '../../Images/wishlist1.png'
 import inWishlist from '../../Images/wishlist2.avif'
+import useModifyData from '../../customHooks/useModifyData'
 import { useNavigate } from 'react-router-dom'
+import UserContext from '../../contexts/userContext'
+import axios from 'axios'
 
 const ItemCard = ({ item , caption , home = false, notProducts = false, topRated = false}) => {
     const navigate = useNavigate()
-    const [wishlist, setWishlist] = useState(false)
+    const { token } = useContext(UserContext)
+
+    const url1 = `http://localhost:5000/api/wishlist`
+    const { modifyData } = useModifyData({url: url1, token})
+
+    const [wishlist, setWishlist] = useState(null)
+
+    console.log(wishlist)
+    useEffect(()=>{
+        async function setWishListInitial(){
+            const url = `http://localhost:5000/api/wishlist/user?key=${item.key}`
+            const res = await axios.get(url,{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if(res.data.wishListItem){
+                setWishlist(res.data.wishListItem)
+            }
+            else{
+                setWishlist(false)
+            }
+        }
+        setWishListInitial()
+        .then(()=> console.log('done'))
+        .catch(()=> setWishlist(false))
+
+    },[token])
 
     const navigateToItem = () => {
         if (topRated) {
@@ -16,6 +46,22 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
         }
 
         navigate(`/products/${item.type}/${item.key}`)
+    }
+
+    const toggoleWishList = async()=>{
+        if(token.length == 0) return
+
+        const wish = {
+            key: item.key
+        }
+        const { data: { wishListItem }, error } = await modifyData(wish)
+
+        if(error){
+            console.log(error)
+        }
+        else{
+            setWishlist(wishListItem)            
+        }
     }
 return (
     <div className={ notProducts ? `itemCardMain col-6 col-sm-4 col-md-3 col-lg-2` : 'itemCardMain col-lg-2 col-md-3 col-sm-4 col-6'}>
@@ -33,7 +79,7 @@ return (
                         </div>
                         <div className='itemWishlist'>
                             <img
-                                onClick={() => setWishlist((prev) => !prev)}
+                                onClick={toggoleWishList}
                                 src={wishlist ? inWishlist : notInWishlist}
                                 alt={wishlist ? 'inWishlist' : 'notInWishlist'}
                             />
