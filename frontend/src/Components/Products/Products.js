@@ -14,12 +14,21 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
     const { filters } = useContext(SelectedFilters)
     const { category } = useParams()
 
-    let url = `http://localhost:5000/api/products?type=${category}&search=${urlSearch}`
-    if( topRatedUrl.length !== 0 ){
+    let url
+    if(category){
+        url = `http://localhost:5000/api/products?type=${category}&search=${urlSearch}`
+    }
+    else if( topRatedUrl.length !== 0 ){
         url = `http://localhost:5000/api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
     }
-    else if(urlEndPoint && urlEndPoint !== 'suggested_items') {
+    else if(['trending_deals', 'hot_deals'].includes(urlEndPoint)){
+        url = `http://localhost:5000/api/products/${urlEndPoint}?search=${urlSearch}`
+    }
+    else if(urlEndPoint !== 'suggested_items') {
         url = `http://localhost:5000/api/products/styles/${urlEndPoint}?search=${urlSearch}`
+    }
+    else{
+        url = `http://localhost:5000/api/products?search=${urlSearch}`   
     }
     const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
 

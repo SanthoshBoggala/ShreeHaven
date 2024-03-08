@@ -72,14 +72,14 @@ const RegisterForm = () => {
 
     
     if(error){
-      toast.error('Invalid credentials. Please try again.')
+      toast.error('Failed to register. Please try again.')
       return
     }
 
     if (data.msg) {
       setErr(data.msg)
     } else {
-      toast.success('Login successful!')
+      toast.success('Registered successful!')
       setUser(data.user)
       setToken(data.token)
       setTimeout(()=>{
