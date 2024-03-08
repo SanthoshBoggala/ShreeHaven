@@ -1,32 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './buyPage.css'
 import shoe2 from '../Images/mobile1.webp'
 import { SimilarItems } from '../Components';
 import MyModal from './Model';
+import { useParams } from 'react-router-dom';
+import useFetchData from '../customHooks/useFetchData';
+import { LimitContext } from '../contexts/LimitContext';
+import UserContext from '../contexts/userContext';
 
 
 const BuyPage = () => {
 
-    const product = {
-        "productKey": "Men_striped_casual_light_green_white_shirt",
-        "name": "Men striped casual light green white shirt",
-        "brand": "U TURN",
-        "category": "Shirts",
-        "price": 369,
-        "newPrice": 313,
-        "discount": 15,
-        "starRating": 4.5,
-        "ratings": 30059,
-        "reviews": 3599,
-    }
+    const { id } = useParams()
+    const { token } = useContext(UserContext)
+    const { limit } = useContext(LimitContext)
+    let url = `http://localhost:5000/api/products/${id}`
+    const { data: { product }, isLoading, error } = useFetchData({ url, query: limit, token })
+
+    // const product = {
+    //     "productKey": "Men_striped_casual_light_green_white_shirt",
+    //     "name": "Men striped casual light green white shirt",
+    //     "brand": "U TURN",
+    //     "category": "Shirts",
+    //     "price": 369,
+    //     "newPrice": 313,
+    //     "discount": 15,
+    //     "starRating": 4.5,
+    //     "ratings": 30059,
+    //     "reviews": 3599,
+    // }
     const [viewModel, setViewModel] = useState(false)
-    const [buyModel, setBuyModel] = useState(true)
     const [extra, setExtra] = useState({
         count: 1,
         color: '',
         size: '',
     })
-    const [totalPrice, setTotalPrice] = useState(product.newPrice)
+    const [totalPrice, setTotalPrice] = useState(0)
+
+    useEffect(()=>{
+        if(product){
+            setTotalPrice(product.newPrice)
+        }
+    },[product])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -60,85 +75,92 @@ const BuyPage = () => {
         "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
     }
 
-    const setViewModelHelpher = ()=>{
+    const setViewModelHelpher = () => {
         setViewModel(prev => !prev)
     }
     return (
         <>
-            <div className="buyPage row g-3">
-            <div className="productBuyDetails col-md-6">
-                <div className="productBrand">
-                    {product.brand}
-                </div>
-                <div className="productName">
-                    {product.name}
-                </div>
-                <div className="productPrice">
-                    <div className="productNPrice">{"₹" + product.newPrice}</div>
-                    <div className="productOPrice">{product.price}</div>
-                    <div className="productDiscount">{product.discount + '% off'}</div>
-                </div>
-                <div className='buyExtra extras'>
-                    Color:
-                    <select
-                        name='color'
-                        onChange={handleChange}
-                    >
-                        <option value="">Select Color</option>
-                        {colors && colors[product.category] && (
-                            colors[product.category].map((x, index) => {
-                                return (<option key={index} value={x}>{x}</option>)
-                            })
-                        )}
-                    </select>
-                </div> <br />
-                <div className='buyExtra'>
-                    Size:
-                    <select
-                        name='size'
-                        onChange={handleChange}
-                    >
-                        <option value="">Select sizes</option>
-                        {sizes && sizes[product.category] && (
-                            sizes[product.category].map((x, index) => {
-                                return (<option key={index} value={x}>{x}</option>)
-                            })
-                        )}
-                    </select>
-                </div> <br />
-                <div className='buyExtra'>
-                    Qty:
-                    <input
-                        className='count'
-                        type="number"
-                        name={'count'}
-                        onChange={handleChange}
-                        value={extra.count}
-                        min={1}
-                    />
-                </div>
-                <div className='totalPrice'>
-                    Total Price: <span>{totalPrice}</span>
-                </div>
-                <div className='buyPageBtn'>
-                    <button
-                        className="buyNowBtn"
-                        onClick={setViewModelHelpher}
-                    >
-                        Buy Now
-                    </button>
-                </div>
+            {product ? (
+                <>
+                    <div className="buyPage row g-3">
+                        <div className="productBuyDetails col-md-6">
+                            <div className="productBrand">
+                                {product.brand}
+                            </div>
+                            <div className="productName">
+                                {product.name}
+                            </div>
+                            <div className="productPrice">
+                                <div className="productNPrice">{"₹" + product.newPrice}</div>
+                                <div className="productOPrice">{product.price}</div>
+                                <div className="productDiscount">{product.discount + '% off'}</div>
+                            </div>
+                            <div className='buyExtra extras'>
+                                Color:
+                                <select
+                                    name='color'
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select Color</option>
+                                    {colors && colors[product.category] && (
+                                        colors[product.category].map((x, index) => {
+                                            return (<option key={index} value={x}>{x}</option>)
+                                        })
+                                    )}
+                                </select>
+                            </div> <br />
+                            <div className='buyExtra'>
+                                Size:
+                                <select
+                                    name='size'
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Select sizes</option>
+                                    {sizes && sizes[product.category] && (
+                                        sizes[product.category].map((x, index) => {
+                                            return (<option key={index} value={x}>{x}</option>)
+                                        })
+                                    )}
+                                </select>
+                            </div> <br />
+                            <div className='buyExtra'>
+                                Qty:
+                                <input
+                                    className='count'
+                                    type="number"
+                                    name={'count'}
+                                    onChange={handleChange}
+                                    value={extra.count}
+                                    min={1}
+                                />
+                            </div>
+                            <div className='totalPrice'>
+                                Total Price: <span>{totalPrice}</span>
+                            </div>
+                            <div className='buyPageBtn'>
+                                <button
+                                    className="buyNowBtn"
+                                    onClick={setViewModelHelpher}
+                                >
+                                    Buy Now
+                                </button>
+                            </div>
 
-            </div>
+                        </div>
 
-            <div className="col-md-6">
-                <div className='buyImage'>
-                    <img src={shoe2} alt={product.name} />
-                </div>
-            </div>
-            <MyModal extra={extra} viewModel={viewModel} setViewModelHelpher={setViewModelHelpher}/>
-        </div>
-        <SimilarItems product={product} category={product.category} />
+                        <div className="col-md-6">
+                            <div className='buyImage'>
+                                <img src={shoe2} alt={product.name} />
+                            </div>
+                        </div>
+                        <MyModal extra={extra} viewModel={viewModel} setViewModelHelpher={setViewModelHelpher} />
+                    </div>
+                    <SimilarItems product={product} category={product.category} />
+
+                </>
+            ) : (
+                <h4>Not available</h4>
+            )}
         </>
     );
 };

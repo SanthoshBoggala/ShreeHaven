@@ -5,7 +5,6 @@ import SingleProductImages from "./SingleProductImages"
 import { useNavigate, useParams } from "react-router-dom"
 import UserContext from "../contexts/userContext"
 import { toast, ToastContainer } from 'react-toastify'
-import { LimitContext } from "../contexts/LimitContext"
 import { ProductContext } from '../contexts/ProductContext'
 import useFetchData from "../customHooks/useFetchData"
 import useModifyData from "../customHooks/useModifyData"
@@ -14,9 +13,9 @@ import RefetchProductContext from "../contexts/RefetchProductContext"
 const SingleProductPage = () => {
     const { user, token } = useContext(UserContext)
     const { refetch } = useContext(RefetchProductContext)
-    const {limit} = useContext(LimitContext)
     const { id } = useParams()
     const navigate = useNavigate()
+
 
     let url = `http://localhost:5000/api/products/${id}`
     const { data: {product}, isLoading, error } = useFetchData({url, query: refetch, token})
@@ -112,9 +111,7 @@ const SingleProductPage = () => {
                                         <span className="someHeadings">Available colors</span> <br />
                                         {colors[product.category] && colors[product.category].map((x) => {
                                             return (
-                                                <>
                                                     <span className={`badge bg-${x} colorOptions`} key={x}>{x}</span>
-                                                </>
                                             )
                                         })}
                                     </div>
@@ -122,9 +119,7 @@ const SingleProductPage = () => {
                                         <span className="someHeadings">Available sizes</span> <br />
                                         {sizes[product.category] && sizes[product.category].map((x) => {
                                             return (
-                                                <>
                                                     <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
-                                                </>
                                             )
                                         })}
                                     </div>

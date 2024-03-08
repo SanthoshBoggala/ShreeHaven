@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import "./buyPage.css"
 import { toast, ToastContainer } from 'react-toastify'
@@ -7,22 +7,19 @@ import UserContext from '../contexts/userContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const MyModal = ({ setViewModelHelpher, viewModel, extra }) => {
-    const { token } = useContext(UserContext)
+    const { user, token } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
     const url = 'http://localhost:5000/api/orders'
     const { modifyData } = useModifyData({ url, method: "POST", token })
 
-    const addrs = [
-        "123 Main St, Cityville",
-        "456 Oak Ave, Townburg",
-        "789 Pine Ln, Villagetown"
-    ]
+    let addrs = user.addresses.map((one)=> one.address)
 
     const paymentMethods = [
         "Credit Card",
         "PayPal",
-        "Google Pay"
+        "Google Pay",
+        "Cash On Delivery (Free Delivery)"
     ]
 
     const [err, setErr] = useState("")
@@ -48,21 +45,20 @@ const MyModal = ({ setViewModelHelpher, viewModel, extra }) => {
             setErr("Invalid color/size selected")
             return
         }
-        if ((formData.address.length || formData.paymentMethod.length) === 0) {
+        if (formData.address.length === 0 || formData.paymentMethod.length === 0) {
             setErr("Invalid selected address/payment method")
             return
         }
 
         const orderData = { ...extra, ...formData, key: id }
 
-        const { data, isSending, error } = await modifyData(orderData)
+        const { error } = await modifyData(orderData)
 
         if (error) {
             toast.error("Order Failed! Try again...")
             setErr("")
             return
         }
-        console.log(data)
         toast.success("Ordered Succesfully!")
         setErr("")
     }

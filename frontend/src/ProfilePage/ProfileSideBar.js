@@ -90,7 +90,7 @@ const ProfileSideBar = ({active}) => {
                             />
                         </div>
                         <div className='sideBarUserName'>
-                            santhosh
+                            {user.username}
                         </div>
                     </div>
                     <div

@@ -7,7 +7,7 @@ const TopRatedPage = () => {
   const { id } = useParams()
   return (
     <div className='topRatedPage row'>
-      <Products topRated = {true}/>
+      <Products topRated = {true} topRatedUrl={id}/>
     </div>
   )
 }

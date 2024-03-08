@@ -18,7 +18,7 @@ const getAllMyOrders = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error('only customers can access');
     }
-    const orders = await Orders.find({ user: userId }).populate('product')
+    const orders = await Orders.find({ user: userId }).populate('product').sort({ orderedDate: -1 })
     
     res.json({ orders });
 });

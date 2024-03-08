@@ -6,7 +6,7 @@ import useFetchData from '../../customHooks/useFetchData'
 import {LimitContext} from '../../contexts/LimitContext'
 
 const MyOrders = () => {
-  const { user, token } = useContext(UserContext)
+  const { token } = useContext(UserContext)
   const { limit } = useContext(LimitContext)
   const url = 'http://localhost:5000/api/orders/user'
   const { isLoading, data : {orders}, error } = useFetchData({ url, query: limit, token })

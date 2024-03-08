@@ -11,6 +11,7 @@ const SingleOrder = (order) => {
         const newDate = new Date(d)
         let newDate1 = new Date(d)
         newDate1.setDate(newDate1.getDate() + 6)
+
         const orderDate = newDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -25,7 +26,7 @@ const SingleOrder = (order) => {
         return {orderDate, deliveryDate};
     }
 
-    const { orderDate, deliveryDate } = findOrderAndDeliverDate(order.orderedDate)
+    const { orderDate, deliveryDate } = findOrderAndDeliverDate(String(order.orderedDate))
 
     const goToProduct = ()=>{
         navigate(`/products/${order.product.type}/${order.product.key}`)

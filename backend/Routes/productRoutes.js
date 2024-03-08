@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const upload = require('../Middlewares/uploadFiles');
 const validateToken = require('../Middlewares/validateToken');
 const {
     getAllProducts,
+    getAllStyleProducts,
     getAllHotProducts,
     getAllTrendingProducts,
     getAllTopRatedProducts,
@@ -18,6 +18,7 @@ const {
 
 router.route("/").get( getAllProducts);
 
+router.route("/styles/:cate").get( getAllStyleProducts);
 router.route("/hot_deals").get( getAllHotProducts);
 router.route("/trending_deals").get( getAllTrendingProducts);
 router.route("/top_rated").get( getAllTopRatedProducts);

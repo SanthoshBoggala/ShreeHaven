@@ -9,30 +9,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "pls provide unique email"],
   },
-  phoneNumber: {
-    type: Number,
-    required: true
-  },
   type: {
     type: String,
     required: true
   },
-  area: {
-    type: String,
-    required: [true, "pls provide area"]
-  },
-  district: {
-    type: String,
-    required: true
-  },
-  state: {
-    type: String,
-    required: true
-  },
-  pincode: {
-    type: Number,
-    required: [true, "pls provide pincode"]
-  },
+  addresses: [{
+    address: {
+      type: String
+    }
+  }],
   password: {
     type: String,
     required: [true, "pls provide password"]

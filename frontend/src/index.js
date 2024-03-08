@@ -7,6 +7,7 @@ import { TypesCatesContextProvider } from './contexts/TypesCatesContext';
 import LimitContextProvider from './contexts/LimitContext';
 import ProductContextProvider from './contexts/ProductContext';
 import { RefetchProductContextProvider } from './contexts/RefetchProductContext';
+import SelectedFiltersProvider from './contexts/SelectedFilters';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,9 +15,11 @@ root.render(
   <TypesCatesContextProvider>
   <LimitContextProvider>
   <ProductContextProvider>
+  <SelectedFiltersProvider>
   <RefetchProductContextProvider>
       <App />
   </RefetchProductContextProvider>
+  </SelectedFiltersProvider>
   </ProductContextProvider>
   </LimitContextProvider>
   </TypesCatesContextProvider>

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './personalInfo.css';
+import UserContext from '../../contexts/userContext';
 
 const PersonalInfo = () => {
+  const { user: userDetails } = useContext(UserContext)
   const initialUser = {
-    username: 'santhosh',
-    email: 'bs@gmail.com',
-    phoneNumber: 9885823771,
-    area: 'gd nellore',
-    pincode: 6875855,
-    district: 'chittoor',
-    state: 'ap',
+    username: userDetails.username,
+    email: userDetails.email
   };
 
+  userDetails.addresses.forEach((one,index) => {
+    initialUser[`address${index + 1}`] = one.address
+  })
 
-  // Use state to track changes to user object
+
   const [user, setUser] = useState(initialUser);
 
-  // Event handler to update user state when input values change
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [id]: value }));
@@ -59,51 +58,11 @@ const PersonalInfo = () => {
             />
           </div>
           <div>
-            <label htmlFor='phno'>Phone Number:</label>
+            <label htmlFor='area'>Address1:</label>
             <input
               type='text'
-              id='phno'
-              value={user.phoneNumber}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='area'>Area:</label>
-            <input
-              type='text'
-              id='area'
-              value={user.area}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='pincode'>pincode:</label>
-            <input
-              type='text'
-              id='pincode'
-              value={user.pincode}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='district'>District:</label>
-            <input
-              type='text'
-              id='district'
-              value={user.district}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor='state'>State:</label>
-            <input
-              type='text'
-              id='state'
-              value={user.state}
+              id='address1'
+              value={user.address1}
               onChange={handleInputChange}
               required
             />

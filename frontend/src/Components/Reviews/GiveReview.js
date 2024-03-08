@@ -58,7 +58,6 @@ const GiveReview = () => {
 
         const { isSending, error,  data } = await modifyData(formData)
 
-        console.log(isSending, error, data)
 
         if(error){
             toast.error("Review failed! Try again...")
@@ -129,6 +128,9 @@ const GiveReview = () => {
                     onChange={(e)=> setComment(e.target.value)}
                     placeholder='How is the product? What do you like?What do you hate?'>
                 </textarea>
+                <div className='error'>
+                    {err}
+                </div>
                 <button 
                     onClick={sendReview} 
                 >

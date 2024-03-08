@@ -5,11 +5,12 @@ import './reviews.css'
 import { toast, ToastContainer } from 'react-toastify'
 import UserContext from '../../contexts/userContext'
 
-const Reviews = ({ reviews, ratings, starRating })=>{
+const Reviews = ({ reviews , ratings , starRating })=>{
     const [canReview, setCanReview] = useState(false)
     const [viewMore, setViewMore] = useState(2)
     const {user, token} = useContext(UserContext)
-    reviews = reviews.filter(one => one.review.hasOwnProperty('comment'))
+
+    reviews = reviews.filter(one => one.review && one.review.hasOwnProperty('comment'))
     
     const limitedReviews = reviews.slice(0,viewMore)
 

@@ -7,7 +7,6 @@ const SelectedFiltersProvider = ({ children }) =>{
         priceUnder: 100000 ,
         sortOption: 1,
         ratings: 4,
-        search: ''
     }
     const [filters, setFilters] = useState(initialState);
     

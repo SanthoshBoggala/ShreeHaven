@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema({
     },
     orderedDate: {
         type: Date,
-        default: new Date(Date.now()).toLocaleDateString('en-IN')
+        default: Date.now()
     }
 })
 

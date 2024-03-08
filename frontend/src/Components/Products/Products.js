@@ -6,15 +6,20 @@ import UserContext from '../../contexts/userContext'
 import { SelectedFilters } from "../../contexts/SelectedFilters"
 import useFetchData from "../../customHooks/useFetchData"
 
-const Products = ({ urlEndPoint, stylesForYouPage = false, topRated = false }) => {
-    // const [products, setProducts] = useState(null)
-    const { user, token } = useContext(UserContext)
-    const { filters, setFilters } = useContext(SelectedFilters)
+const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, topRated = false }) => {
+    const [search, setSearch] = useState("")
+    const [urlSearch, setUrlSearch] = useState("")
+    const { token } = useContext(UserContext)
+
+    const { filters } = useContext(SelectedFilters)
     const { category } = useParams()
 
-    let url = `http://localhost:5000/api/products?type=${category}`
-    if (urlEndPoint && urlEndPoint !== 'suggested_items') {
-        url = `http://localhost:5000/api/products/${urlEndPoint}`
+    let url = `http://localhost:5000/api/products?type=${category}&search=${urlSearch}`
+    if( topRatedUrl.length !== 0 ){
+        url = `http://localhost:5000/api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
+    }
+    else if(urlEndPoint && urlEndPoint !== 'suggested_items') {
+        url = `http://localhost:5000/api/products/styles/${urlEndPoint}?search=${urlSearch}`
     }
     const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
 
@@ -55,9 +60,12 @@ const Products = ({ urlEndPoint, stylesForYouPage = false, topRated = false }) =
     // const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 87, 43]
     // const productDetails = arr.map(() => Details)
 
-    const seachChange = (e) => {
-        const { name, value } = e.target
-        setFilters(prev => ({ ...prev, [name]: value }))
+
+    const searchChange = (e) => {
+        setSearch(e.target.value)
+    }
+    const searchItems = ()=>{
+        setUrlSearch(search)
     }
     return (
         <div className='products'>
@@ -70,10 +78,16 @@ const Products = ({ urlEndPoint, stylesForYouPage = false, topRated = false }) =
                         <input
                             type="text"
                             name='search'
-                            value={filters.search}
+                            value={search}
                             placeholder="search"
-                            onChange={seachChange}
+                            onChange={searchChange}
                         />
+                        <button 
+                            className="searchBtn"
+                            onClick={searchItems}
+                        >
+                            Search
+                        </button>
                     </div>
                 </div>
             )}

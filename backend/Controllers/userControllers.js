@@ -19,9 +19,11 @@ const register = asyncHandler(async (req, res)=>{
             return;
         }
 
+        const add = area + ", " + district + ", " + pincode + ", " + state + ", " + phoneNumber
+
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = await Users.create({
-            username, email, phoneNumber, area, district, state, pincode, type: userType, password: hashedPassword
+            username, email, type: userType, password: hashedPassword, addresses: [{address: add}]
         })
 
         res.json({user})

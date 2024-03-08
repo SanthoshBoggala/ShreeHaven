@@ -63,8 +63,6 @@ const LoginForm = () => {
       return
     }
 
-    console.log(data, isSending, error)
-
     if(data.msg){
       setErr(data.msg)
     }

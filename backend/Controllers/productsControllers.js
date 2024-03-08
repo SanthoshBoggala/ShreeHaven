@@ -34,13 +34,24 @@ const getAllProducts = asyncHandler(async (req, res) => {
     if(limit){
         products = products.limit(parseInt(limit))
     }
-    if(search && search.length !== 0){
-        products = products.find({ name: {$regex: `/${search}/`} })
-    }
+
     products = await products.exec()
 
     res.json({products});
 });
+
+const getAllStyleProducts = asyncHandler(async(req, res)=>{
+    const {cate} = req.params
+    const {search} = req.query
+
+    if(search.length !== 0){
+
+    }
+
+    let products = await Products.find({category: cate})
+
+    res.json({products})
+})
 
 const getAllHotProducts = asyncHandler(async (req, res) => {
     const { limit } = req.query;
@@ -65,7 +76,7 @@ const getAllTrendingProducts = asyncHandler(async (req, res) => {
 });
 
 const getAllTopRatedProducts = asyncHandler(async (req, res) => {
-    const { limit } = req.query;
+    const { limit, category } = req.query;
 
     let products = await Products.find().sort({ starRating: -1 });
     let topRated = {}
@@ -91,6 +102,9 @@ const getAllTopRatedProducts = asyncHandler(async (req, res) => {
         shuffleArray(cateCaptions)
 
         products = Object.values(topRated)
+    }
+    else{
+        products = await Products.find({ category })
     }
     res.json({products, cateCaptions});
 });
@@ -175,7 +189,8 @@ const putSingleProduct = asyncHandler(async (req, res) => {
     if( type !== 'admin' ) {
         res.status(401);
         throw new Error('only admins can access');
-    }
+    }const upload = require('../Middlewares/uploadFiles');
+
 
     const productExists = await Products.findOne({ key: req.params.id });
     if(!productExists) {
@@ -238,6 +253,7 @@ const deleteSingleProduct = asyncHandler(async(req, res) => {
 
 module.exports = {
     getAllProducts,
+    getAllStyleProducts,
     getAllHotProducts,
     getAllTrendingProducts,
     getAllTopRatedProducts,

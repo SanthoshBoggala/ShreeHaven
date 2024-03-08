@@ -10,14 +10,13 @@ import axios from 'axios'
 
 const ItemCard = ({ item , caption , home = false, notProducts = false, topRated = false}) => {
     const navigate = useNavigate()
-    const { token } = useContext(UserContext)
+    const { user,token } = useContext(UserContext)
 
     const url1 = `http://localhost:5000/api/wishlist`
     const { modifyData } = useModifyData({url: url1, token})
 
-    const [wishlist, setWishlist] = useState(null)
+    const [wishlist, setWishlist] = useState(false)
 
-    console.log(wishlist)
     useEffect(()=>{
         async function setWishListInitial(){
             const url = `http://localhost:5000/api/wishlist/user?key=${item.key}`
@@ -33,11 +32,12 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
                 setWishlist(false)
             }
         }
-        setWishListInitial()
-        .then(()=> console.log('done'))
-        .catch(()=> setWishlist(false))
-
-    },[token])
+        if(user.type == 'customer'){
+            setWishListInitial()
+            .then(()=> {})
+            .catch(()=> setWishlist(false))
+        }
+    },[token, user])
 
     const navigateToItem = () => {
         if (topRated) {
@@ -49,7 +49,7 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
     }
 
     const toggoleWishList = async()=>{
-        if(token.length == 0) return
+        if(user.type !== 'customer') return
 
         const wish = {
             key: item.key
@@ -57,7 +57,7 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
         const { data: { wishListItem }, error } = await modifyData(wish)
 
         if(error){
-            console.log(error)
+            console.log('only customers can control wishlist mechanism....')
         }
         else{
             setWishlist(wishListItem)            

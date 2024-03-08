@@ -25,3 +25,13 @@
     border: 1px solid gray;
     border-radius: 4px;
 }
+
+.searchBtn {
+    color: white;
+    background-color: rgb(75, 142, 173);
+    height: 40px;
+    border: none;
+    border-radius: 3px;
+    padding: 0px 10px 0px 10px;
+    margin-left: 3px;
+}
