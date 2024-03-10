@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const validateToken = require('../Middlewares/validateToken');
+const upload = require('../Middlewares/uploadFiles')
 const {
     getAllProducts,
     getAllStyleProducts,
@@ -26,7 +27,7 @@ router.route("/similar_products").get( getAllSimilarProducts);
 
 
 router.route("/:id").get( getSingleProduct);
-router.route("/").post( validateToken, postSingleProduct);
+router.route("/").post( validateToken, upload.array('images[]'),  postSingleProduct);
 router.route("/:id").put( validateToken,  putSingleProduct);
 router.route("/:id").delete( validateToken, deleteSingleProduct);
 

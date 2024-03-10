@@ -23,7 +23,7 @@ const SingleProductImages = ({images}) => {
             <div className="col-sm-9 col-10 mainImage">
                 <div className="itemImg1">
                     <img
-                        src={`../../${imgs[currentImg]}`}
+                        src={imgs[currentImg]}
                         alt={imgs[currentImg]}
                         className="img-fluid"
                     />

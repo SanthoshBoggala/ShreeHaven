@@ -1,35 +1,6 @@
-const path = require('path');
 const multer = require('multer');
 
-var storage = multer.diskStorage({
-    destination: function(req, file, cb){
-        cb(null, path.join(__dirname, '../..', 'frontend/public/uploadedImages'));
-    },
-    filename: function(req, file, cb){
-        let ext = path.extname(file.originalname);
-        let name = path.basename(file.originalname, ext);
-        cb(null, name + Date.now() + ext);
-    }
-});
-
-var upload = multer({
-    storage: storage,
-    fileFilter: function(req, file, cb){
-        if(
-            file.mimetype == 'image/png' ||
-            file.mimetype == 'image/jpg' ||
-            file.mimetype == 'image/webp'
-        ){
-            cb(null, true);
-        }
-        else {
-            console.log("only pnh, jpg, webp can upload");
-            cb(null, false);
-        }
-    },
-    limits: {
-        fileSize: 1024 * 1024 * 2
-    }
-});
+var storage = multer.memoryStorage();
+var upload = multer({storage})
 
 module.exports = upload;

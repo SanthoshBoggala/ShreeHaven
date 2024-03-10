@@ -63,13 +63,14 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
             setWishlist(wishListItem)            
         }
     }
+
 return (
     <div className={ notProducts ? `itemCardMain col-6 col-sm-4 col-md-3 col-lg-2` : 'itemCardMain col-lg-2 col-md-3 col-sm-4 col-6'}>
         <div className='itemCard'>
             <div className='itemImg img-fluid' style={{ height: home ? '300px' : '250px' }}>
                 <img
-                    src={shoe2}
-                    alt={''}
+                    src={item.images.split(',')[0]}
+                    alt={item.name}
                     onClick={navigateToItem}
                 />
                 {topRated ||

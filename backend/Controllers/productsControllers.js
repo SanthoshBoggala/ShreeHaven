@@ -1,6 +1,8 @@
-const { formatDistanceToNow } = require('date-fns')
+require('dotenv').config();
+
 const asyncHandler = require("express-async-handler"); 
 const Products = require('../Models/productModel');
+const uploadToS3 = require('../s3')
 
 
 const getAllProducts = asyncHandler(async (req, res) => {
@@ -140,8 +142,9 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 const postSingleProduct =  asyncHandler(async(req, res) => {
     const {
         name, brand, price, category, productType ,discount = 0, starRating = 0, ratings = 0,
-        description, images
+        description
     } = req.body;
+
     const { userId, type } = req.user;
 
     if( type !== 'admin' ) {
@@ -149,18 +152,39 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
         throw new Error('only admins can access');
     }
 
-    if(!name || !brand || !price || !category || !productType || !description || !images){
+    const files = req.files
+
+    if(!files || files.length < 3){
+        res.status(400);
+        throw new Error('min 3 images should be uploaded');
+    }
+
+    if(!name || !brand || !price || !category || !productType || !description){
         res.status(400);
         throw new Error('provide all fields');
     }
 
-    const key = name.split(' ').join('_');
+    const productKey = name.split(' ').join('_');
 
-    const productExists = await Products.findOne({ key });
+    const productExists = await Products.findOne({ key: productKey });
     if(productExists) {
         res.json({msg : "product already exists"});
         return;
     }
+
+    let s3res = await Promise.all( files.map(async(file)=>{
+        const s3file = await uploadToS3({ file, productKey })
+        return s3file
+    }))
+
+    const er = s3res.find((one) => one && one.error)
+
+    if(er){
+        res.status(500);
+        throw new Error('error in uploading to s3');
+    }
+
+    imageUrls = s3res.map(one => process.env.AWS_URL_PREFIX+one.key)
 
     const modifiedPrice = (price, dis)=>{
         const nprice = (price * (100-dis))/100;
@@ -169,14 +193,13 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 
     const newPrice = modifiedPrice(Number(price), Number(discount));
 
-    let inStock = req.body.inStock === 'true' ? true : false
+    let images = imageUrls.join(",")
+    let inStock = req.body.inStock === 'true' ? true : false;
     let data = {
-        key, name, brand, category, type: productType, price, reviews : [], newPrice, discount, inStock, ratings, starRating, description
+        key: productKey, name, brand, category, type: productType, price,
+        newPrice, discount, inStock, ratings, starRating, description, images
     }
-    let product = await new Products( data );
-
-    product.images = images
-    product.save();
+    let product = await Products.create( data );
 
     res.json({product});
 });

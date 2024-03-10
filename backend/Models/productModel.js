@@ -45,7 +45,6 @@ const productSchema = new mongoose.Schema({
         review: {
             type : mongoose.Schema.Types.ObjectId,
             ref: 'reviews',
-            unique: true
         }
     }],
     description : {
@@ -61,5 +60,6 @@ const productSchema = new mongoose.Schema({
         required: true
     }
 });
+productSchema.path('reviews').default([]);
 
 module.exports = mongoose.model("products", productSchema);

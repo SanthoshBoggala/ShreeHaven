@@ -24,7 +24,7 @@ const PersonalInfo = () => {
     price: '',
     discount: '',
     inStock: 'true',
-    ratings: '',
+    ratings: 0,
     images: '',
     description: '',
     starRating: 0,
@@ -40,6 +40,7 @@ const PersonalInfo = () => {
   const { modifyData } = useModifyData({ url, query: limit , token })
 
   const [product, setProduct] = useState(initialProduct)
+  const [imgs, setImages] = useState([])
   const [err, setErr] = useState('')
   const [categoryList, setCategoryList] = useState([])
 
@@ -87,60 +88,81 @@ const PersonalInfo = () => {
     setProduct((prevProduct) => ({ ...prevProduct, [name]: value }));
   }
 
-  const validateProduct = () => {
-    if (0 >= Number(product.starRating) >= 5) {
-      setErr('star rating should be only in 0-5')
-      return false
+  const validFileTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/webp']
+  const handleImages = (e) => {
+    const { files } = e.target
+    let check = true
+  
+    Array.from(files).forEach((one) => {
+      if (!validFileTypes.includes(one.type)) {
+        setErr("Only jpeg, jpg, png, and webp files allowed")
+        setImages([])
+        check = false
+      }})
+  
+    if (check) {
+      setImages(Array.from(files))
     }
-    let imgs = product.images.split(',')
-    if(imgs.length < 3 || imgs[imgs.length-1] === 0){
-      setErr('min 3 images should be uploaded')
-      return false
-    }
+  }
 
+  const validateProduct = ()=>{
+    if(imgs.length < 3){
+      setErr("min 3 images should be uploaded")
+      return false
+    }
     return true
   }
-  const uploadProduct = async(e) => {
+  
+  const uploadProduct = async (e) => {
     e.preventDefault()
-
+  
     if (!validateProduct()) return
-
+  
     setErr('')
 
-    const {isSending, error, data} = await modifyData(product)
-
-    if(error){
-      toast.error('Failed to upload. Please try again.')
-      return
+  
+    let formData = new FormData()
+  
+    for (const key in product) {
+      formData.append(key, product[key])
     }
 
-    if (data.msg) {
-      setErr(data.msg)
-    } else {
-      toast.success('Uploaded successfully!')
-      // if(!id) {
-      //   setProduct({
-      //     name: '',
-      //     brand: '',
-      //     category: '',
-      //     productType: '',
-      //     price: '',
-      //     discount: '',
-      //     inStock: 'true',
-      //     ratings: '',
-      //     images: '',
-      //     description: '',
-      //     starRating: 0,
-      //   })
-      // }
-      setErr("")
+    for (let i = 0; i < imgs.length; i++) {
+      formData.append(`images[]`, imgs[i])
+    }
+
+    
+    try{
+      url = "http://localhost:5000/api/products"
+
+      const res = await axios.post(url, formData , {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      console.log(res.data)
+
+
+      if (res && res.data.msg) {
+        setErr(res.data.msg)
+      } else {
+        toast.success('Uploaded successfully!')
+        setErr("")
+      }
+      formData = new FormData()
+    }
+    catch(error){
+      console.log(error)
+      formData = new FormData()
+      toast.error('Failed to upload. Please try again.')
+      return
     }
 
   }
 
   return (
     <div className='uploadProductForm row'>
-      <form className='col-11 col-md-10' onSubmit={(e)=>uploadProduct(e)}>
+      <form className='col-11 col-md-10' onSubmit={uploadProduct} encType="multipart/form-data">
         <fieldset className='formInfo'>
           <legend>{ id ? 'Edit Existing Product' :  'Upload New Product'}</legend>
           <div>
@@ -250,16 +272,12 @@ const PersonalInfo = () => {
           </div>
           <div>
             <label> Images: </label> <br />
-            <textarea
-              className='textAreaDesc'
-              onChange={handleInputChange}
+            <input 
+              type='file'
               name='images'
-              value={product.images}
-              placeholder="Drive Links(seperate using ',')"
-              rows={2}
-              cols={35}
-            >
-            </textarea>
+              onChange={handleImages}
+              multiple
+            />
           </div>
           <div>
             <label> Description: </label> <br />
