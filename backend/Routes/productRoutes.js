@@ -19,7 +19,7 @@ const {
 
 router.route("/").get( getAllProducts);
 
-router.route("/styles/:cate").get( getAllStyleProducts);
+router.route("/styles/:category").get( getAllStyleProducts);
 router.route("/hot_deals").get( getAllHotProducts);
 router.route("/trending_deals").get( getAllTrendingProducts);
 router.route("/top_rated").get( getAllTopRatedProducts);

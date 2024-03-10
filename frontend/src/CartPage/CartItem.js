@@ -1,5 +1,4 @@
 import './cartPage.css'
-import img from '../Images/mobile2.webp'
 import { useNavigate } from 'react-router-dom'
 import useModifyData from '../customHooks/useModifyData'
 import { useContext } from 'react'
@@ -52,7 +51,7 @@ const CartItem = ({ item, handleRefetch })=>{
         <div className='row cartItem'>
             <div className='col-md-4 imageContainer'>
                 <img 
-                    src={img}
+                    src={item.images.split(",")[0]}
                     className='cartImage img-fluid'
                     alt={item.name}
                 />

@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import useFetchData from '../customHooks/useFetchData';
 import { LimitContext } from '../contexts/LimitContext';
 import UserContext from '../contexts/userContext';
+import { FashionDataContext } from '../contexts/FashionDataContext'
 
 
 const BuyPage = () => {
@@ -14,6 +15,8 @@ const BuyPage = () => {
     const { id } = useParams()
     const { token } = useContext(UserContext)
     const { limit } = useContext(LimitContext)
+    const { fashionData } = useContext(FashionDataContext)
+
     let url = `http://localhost:5000/api/products/${id}`
     const { data: { product }, isLoading, error } = useFetchData({ url, query: limit, token })
 
@@ -37,11 +40,11 @@ const BuyPage = () => {
     })
     const [totalPrice, setTotalPrice] = useState(0)
 
-    useEffect(()=>{
-        if(product){
+    useEffect(() => {
+        if (product) {
             setTotalPrice(product.newPrice)
         }
-    },[product])
+    }, [product])
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -67,12 +70,13 @@ const BuyPage = () => {
         }
     }
 
-    const colors = {
-        "Shirts": ['success', 'primary', 'info', 'secondary', 'dark', 'danger']
-    }
-    const sizes = {
-        "Shirts": ['S', 'M', 'L', 'XL', 'XLL'],
-        "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
+    if (product) {
+        fashionData.forEach(one => {
+            if (one.category == product.category) {
+                product['colors'] = one.colors
+                product['sizes'] = one.sizes
+            }
+        })
     }
 
     const setViewModelHelpher = () => {
@@ -95,34 +99,39 @@ const BuyPage = () => {
                                 <div className="productOPrice">{product.price}</div>
                                 <div className="productDiscount">{product.discount + '% off'}</div>
                             </div>
-                            <div className='buyExtra extras'>
-                                Color:
-                                <select
-                                    name='color'
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select Color</option>
-                                    {colors && colors[product.category] && (
-                                        colors[product.category].map((x, index) => {
-                                            return (<option key={index} value={x}>{x}</option>)
-                                        })
-                                    )}
-                                </select>
-                            </div> <br />
-                            <div className='buyExtra'>
-                                Size:
-                                <select
-                                    name='size'
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Select sizes</option>
-                                    {sizes && sizes[product.category] && (
-                                        sizes[product.category].map((x, index) => {
-                                            return (<option key={index} value={x}>{x}</option>)
-                                        })
-                                    )}
-                                </select>
-                            </div> <br />
+                            { product.category !== ('Watches' || 'Sarees') && (
+                                <>
+                                    <div className='buyExtra extras'>
+                                        Color:
+                                        <select
+                                            name='color'
+                                            onChange={handleChange}
+                                        >
+                                            <option value="">Select Color</option>
+                                            {product.colors && (
+                                                product.colors.map((x, index) => {
+                                                    return (<option key={index} value={x}>{x}</option>)
+                                                })
+                                            )}
+                                        </select>
+                                    </div> <br />
+                                    <div className='buyExtra'>
+                                        Size:
+                                        <select
+                                            name='size'
+                                            onChange={handleChange}
+                                        >
+                                            <option value="">Select sizes</option>
+                                            {product.sizes && (
+                                                product.sizes.map((x, index) => {
+                                                    return (<option key={index} value={x}>{x}</option>)
+                                                })
+                                            )}
+                                        </select>
+                                    </div>
+                                </>
+                            )}
+                            <br />
                             <div className='buyExtra'>
                                 Qty:
                                 <input
@@ -150,10 +159,10 @@ const BuyPage = () => {
 
                         <div className="col-md-6">
                             <div className='buyImage'>
-                                <img src={shoe2} alt={product.name} />
+                                <img src={product.images.split(",")[0]} alt={product.name} />
                             </div>
                         </div>
-                        <MyModal extra={extra} viewModel={viewModel} setViewModelHelpher={setViewModelHelpher} />
+                        <MyModal extra={extra} category={product.category} viewModel={viewModel} setViewModelHelpher={setViewModelHelpher} />
                     </div>
                     <SimilarItems product={product} category={product.category} />
 

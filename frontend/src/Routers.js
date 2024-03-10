@@ -34,6 +34,7 @@ const Routers = () => {
         <Route path="/my/cart" element={<CartPage />} />
         <Route path="/my/profile" element={<ProfilePage />} />
         <Route path="/my/orders" element={<MyOrdersPage />} />
+        <Route path="/my/all_orders" element={<MyOrdersPage />} />
         <Route path="/my/reviews" element={<ProfilePage />} />
         <Route path="/my/upload_product" element={<UploadProductPage />} />
         <Route path="/my/type_category" element={<TypeCategory />} />

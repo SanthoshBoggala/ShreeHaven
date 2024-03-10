@@ -6,7 +6,7 @@ import useModifyData from '../customHooks/useModifyData';
 import UserContext from '../contexts/userContext';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const MyModal = ({ setViewModelHelpher, viewModel, extra }) => {
+const MyModal = ({category, setViewModelHelpher, viewModel, extra }) => {
     const { user, token } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
@@ -41,9 +41,11 @@ const MyModal = ({ setViewModelHelpher, viewModel, extra }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if ((extra.color.length || extra.size.length) === 0) {
-            setErr("Invalid color/size selected")
-            return
+        if( category !== ('Watches' || 'Sarees')){
+            if ((extra.color.length || extra.size.length) === 0) {
+                setErr("Invalid color/size selected")
+                return
+            }
         }
         if (formData.address.length === 0 || formData.paymentMethod.length === 0) {
             setErr("Invalid selected address/payment method")

@@ -9,7 +9,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
         res.status(401);
         throw new Error('only admins can access');
     }
-    const orders = await Orders.find()
+    const orders = await Orders.find( { status: ( 'Pending' || 'Return Pending') } ).populate('product').sort({ orderedDate: -1 })
     res.json({ orders });
 });
 const getAllMyOrders = asyncHandler(async (req, res) => {
@@ -39,7 +39,7 @@ const addToOrders = asyncHandler(async(req, res) => {
     }
     const { key, size, count, color, address, paymentMethod } = req.body;
 
-    if(!size ||  !count || !color || !address || !paymentMethod  || !key){
+    if( !count || !address || !paymentMethod  || !key){
         res.status(400);
         throw new Error("provide all fields");
     }
@@ -50,28 +50,42 @@ const addToOrders = asyncHandler(async(req, res) => {
         throw new Error('product not exists');
     }
 
-    const order = await Orders.create( 
-        {   
-            user: userId,
-            product: productExists._id,
-            size,
-            count,
-            color,
-            address,
-            paymentMethod,
-            price : Number(count) * productExists.newPrice,
-        });
-
+    let order
+    if(color){
+        order = await Orders.create( 
+            {   
+                user: userId,
+                product: productExists._id,
+                size,
+                count,
+                color,
+                address,
+                paymentMethod,
+                price : Number(count) * productExists.newPrice,
+            });
+    }
+    else{
+        order = await Orders.create( 
+            {   
+                user: userId,
+                product: productExists._id,
+                count,
+                address,
+                paymentMethod,
+                price : Number(count) * productExists.newPrice,
+            });
+    }
+    
     res.json({order});
 });
 
 const updateOrder = asyncHandler(async (req, res) => {
-    // const { userId, type } = req.user
-    // if( type !== 'admin' ) {
-    //     res.status(401);
-    //     throw new Error('only admins can access');
-    // }
-    const orderId = req.params.id;
+    const { userId, type } = req.user
+    if( type !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
+    const orderId  = req.params.id;
     const { status } = req.body;
 
     if (!orderId || !status) {

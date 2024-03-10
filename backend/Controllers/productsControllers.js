@@ -43,14 +43,14 @@ const getAllProducts = asyncHandler(async (req, res) => {
 });
 
 const getAllStyleProducts = asyncHandler(async(req, res)=>{
-    const {cate} = req.params
+    const {category} = req.params
     const {search} = req.query
 
     if(search.length !== 0){
 
     }
 
-    let products = await Products.find({category: cate})
+    const products = await Products.find({ category })
 
     res.json({products})
 })
@@ -114,10 +114,16 @@ const getAllTopRatedProducts = asyncHandler(async (req, res) => {
 const getAllSimilarProducts = asyncHandler(async (req, res)=>{
     const {key} = req.query
 
+    const presentProduct = await Products.findOne({ key })
     let products = await Products.find()
 
+    let similarProducts = products.filter(one => (one.category == presentProduct.category && one.key != key ))
 
-    res.json({products})
+    // let getSomeExtra = products.map(one =>{ if(one.type == presentProduct.type && one.category != presentProduct.category && one.key != key){
+    //     similarProducts.push(one)
+    // }})
+        
+    res.json({products: similarProducts})
 })
 
 const getSingleProduct = asyncHandler(async (req, res) => {

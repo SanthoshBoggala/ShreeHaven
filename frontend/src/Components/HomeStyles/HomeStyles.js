@@ -8,11 +8,7 @@ const HomeStyles = () => {
   const styleData = [
     {
       image: styles1,
-      name: 'Shirts'
-    },
-    {
-      image: styles2,
-      name: 'Trousers'
+      name: 'Dresses'
     },
     {
       image: styles1,
@@ -20,15 +16,19 @@ const HomeStyles = () => {
     },
     {
       image: styles1,
-      name: 'Hoodies'
+      name: 'Winter Wear'
+    },
+    {
+      image: styles2,
+      name: 'Sarees'
     },
     {
       image: styles1,
-      name: 'Goddi '
+      name: 'Watches'
     },
     {
       image: styles1,
-      name: 'Goddilo'
+      name: 'Formal-Shirts'
     }
   ]
   return (

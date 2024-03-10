@@ -9,47 +9,52 @@ import { ProductContext } from '../contexts/ProductContext'
 import useFetchData from "../customHooks/useFetchData"
 import useModifyData from "../customHooks/useModifyData"
 import RefetchProductContext from "../contexts/RefetchProductContext"
+import { FashionDataContext } from "../contexts/FashionDataContext"
 
 const SingleProductPage = () => {
     const { user, token } = useContext(UserContext)
     const { refetch } = useContext(RefetchProductContext)
+    const { fashionData } = useContext(FashionDataContext)
     const { id } = useParams()
     const navigate = useNavigate()
 
 
     let url = `http://localhost:5000/api/products/${id}`
-    const { data: {product}, isLoading, error } = useFetchData({url, query: refetch, token})
+    const { data: { product }, isLoading, error } = useFetchData({ url, query: refetch, token })
     url = 'http://localhost:5000/api/cart'
-    const { modifyData } = useModifyData({url, token})
+    const { modifyData } = useModifyData({ url, token })
 
     const { setKey } = useContext(ProductContext)
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         setKey({ key: id })
     }, [id])
 
 
-    const colors = {
-        "Shirts": ['success', 'primary', 'info', 'secondary', 'dark', 'danger']
-    }
-    const sizes = {
-        "Shirts": ['S', 'M', 'L', 'XL', 'XLL'],
-        "Trousers": [28, 30, 32, 34, 36, 38, 40, 42]
-    }
-    const addToCart = async()=>{
-        
-        const { isSending, error, data } = await modifyData({key: product.key})
 
-        if(error){
+    if (product) {
+        fashionData.forEach(one => {
+            if (one.category == product.category) {
+                product['colors'] = one.colors
+                product['sizes'] = one.sizes
+            }
+        })
+    }
+
+    const addToCart = async () => {
+
+        const { isSending, error, data } = await modifyData({ key: product.key })
+
+        if (error) {
             toast.error('Failed to add cart!')
         }
-        else{
+        else {
             toast.success('Added to cart Successfully!')
         }
     }
 
     const goToBuyPage = () => {
-        if(!Boolean(product.inStock)){
+        if (!Boolean(product.inStock)) {
             toast.error('Sorry! Not available right now...')
             return
         }
@@ -58,13 +63,13 @@ const SingleProductPage = () => {
         return
     }
 
-    const gotoEditProduct = ()=>{
+    const gotoEditProduct = () => {
         const currentUrl = window.location.pathname
         navigate(`${currentUrl}/edit`)
-        return 
+        return
     }
 
-    const goToLogin = ()=>{
+    const goToLogin = () => {
         navigate('/login')
         return
     }
@@ -107,22 +112,26 @@ const SingleProductPage = () => {
                                         <span className="productRatings">and</span>
                                         <span className="productReviews">{product.reviews.length + ' Reviews'}</span>
                                     </div>
-                                    <div className="productColors">
-                                        <span className="someHeadings">Available colors</span> <br />
-                                        {colors[product.category] && colors[product.category].map((x) => {
-                                            return (
-                                                    <span className={`badge bg-${x} colorOptions`} key={x}>{x}</span>
-                                            )
-                                        })}
-                                    </div>
-                                    <div className="productSizes">
-                                        <span className="someHeadings">Available sizes</span> <br />
-                                        {sizes[product.category] && sizes[product.category].map((x) => {
-                                            return (
-                                                    <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
-                                            )
-                                        })}
-                                    </div>
+                                    { !['Watches','Sarees'].includes(product.category) && (
+                                        <>
+                                            <div className="productColors">
+                                                <span className="someHeadings">Available colors</span> <br />
+                                                {product.colors.map((x) => {
+                                                    return (
+                                                        <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
+                                                    )
+                                                })}
+                                            </div>
+                                            <div className="productSizes">
+                                                <span className="someHeadings">Available sizes</span> <br />
+                                                { product.sizes.map((x) => {
+                                                    return (
+                                                        <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
+                                                    )
+                                                })}
+                                            </div>
+                                        </>
+                                    )}
                                     <div className="productDescription">
                                         <span className="someHeadings">Description</span> <br />
                                         <div className="innerDescription">{product.description}</div>
@@ -177,7 +186,7 @@ const SingleProductPage = () => {
                                                             className="buyBtn"
                                                             onClick={goToBuyPage}
                                                         >
-                                                            { Boolean(product.inStock) ? 'Buy Now' : 'Not Available'}
+                                                            {Boolean(product.inStock) ? 'Buy Now' : 'Not Available'}
                                                         </button>
                                                     </div>
                                                 </>

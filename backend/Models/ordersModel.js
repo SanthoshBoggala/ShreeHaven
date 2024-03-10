@@ -14,7 +14,6 @@ const orderSchema = new mongoose.Schema({
     },
     size : {
         type: String,
-        required: true
     },
     count: {
         type: Number,
@@ -22,7 +21,6 @@ const orderSchema = new mongoose.Schema({
     },
     color: {
         type: String,
-        required: true
     },
     price: {
         type: Number,

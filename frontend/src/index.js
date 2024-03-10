@@ -8,6 +8,7 @@ import LimitContextProvider from './contexts/LimitContext';
 import ProductContextProvider from './contexts/ProductContext';
 import { RefetchProductContextProvider } from './contexts/RefetchProductContext';
 import SelectedFiltersProvider from './contexts/SelectedFilters';
+import FashionDataContextProvider from './contexts/FashionDataContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -17,7 +18,9 @@ root.render(
   <ProductContextProvider>
   <SelectedFiltersProvider>
   <RefetchProductContextProvider>
+  <FashionDataContextProvider>
       <App />
+  </FashionDataContextProvider>
   </RefetchProductContextProvider>
   </SelectedFiltersProvider>
   </ProductContextProvider>

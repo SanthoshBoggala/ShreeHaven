@@ -9,7 +9,6 @@ import { ProductContext } from '../../contexts/ProductContext'
 const SimilarItems = () => {
     const { user, token } = useContext(UserContext)
     const { key } = useContext(ProductContext)
-    const { id } = useParams()
 
     const url = 'http://localhost:5000/api/products/similar_products'
 
