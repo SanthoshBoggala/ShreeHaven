@@ -1,10 +1,11 @@
 {
-  "name": "ecommerceapi",
+  "name": "shreehavenAPI",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "build": "npm i"
   },
   "keywords": [],
   "author": "",

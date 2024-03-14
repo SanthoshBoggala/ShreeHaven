@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const connectUrl = process.env.MONGODB_URL;
+const connectUrl = process.env.MONGO_ATLAS_URL;
 
 const userRoutes = require('./Routes/userRoutes');
 const productRoutes = require("./Routes/productRoutes");
