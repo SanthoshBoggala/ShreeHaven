@@ -5,14 +5,10 @@ import TypesCatesContext from '../contexts/TypesCatesContext';
 import { useParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios';
-import useModifyData from '../customHooks/useModifyData';
-import { LimitContext } from '../contexts/LimitContext';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 const PersonalInfo = () => {
 
   const { id } = useParams()
-  const { limit } = useContext(LimitContext)
   const { user: { type }, token } = useContext(UserContext)
   const { typesCates } = useContext(TypesCatesContext)
 
@@ -63,7 +59,7 @@ const PersonalInfo = () => {
       })
     }
     getProduct()
-  }, [id])
+  }, [id, typesCates])
 
 
   const handleInputChange = (e) => {

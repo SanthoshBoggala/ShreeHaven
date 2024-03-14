@@ -9,7 +9,7 @@ import { toast, ToastContainer } from 'react-toastify'
 
 const CanModify = () => {
     const { typesCates ,setTypesCates } = useContext(TypesCatesContext)
-    const { user, token } = useContext(UserContext)
+    const { token } = useContext(UserContext)
     const url = `http://localhost:5000/api/type_category`
 
     const { modifyData } = useModifyData({url, token})
@@ -23,9 +23,8 @@ const CanModify = () => {
     const addNewType = async()=>{
         if(newOne.length === 0) return
 
-        let res
         try {
-            res = await modifyData({type: newOne})
+            await modifyData({type: newOne})
             
             setTypesCates([])
             setNewOne("")

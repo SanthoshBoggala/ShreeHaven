@@ -9,7 +9,7 @@ import TypesCatesContext from '../contexts/TypesCatesContext'
 
 const Type = ({ type, categories }) => {
     const { setTypesCates } = useContext(TypesCatesContext)
-    const { user, token } = useContext(UserContext)
+    const { token } = useContext(UserContext)
     const url = `http://localhost:5000/api/type_category`
 
     const { modifyData } = useModifyData({url, token})
@@ -24,9 +24,8 @@ const Type = ({ type, categories }) => {
     const addNewCategory = async()=>{
         if(newOne.length === 0) return
 
-        let res
         try {
-            res = await modifyData({category: newOne, type})
+            await modifyData({category: newOne, type})
             
             setTypesCates([])
             toast.success("Successfully added new category")
@@ -35,9 +34,8 @@ const Type = ({ type, categories }) => {
         }
     }
     const deleteType = async()=>{
-        let res
         try {
-            res = await deleteCategory({type})
+            await deleteCategory({type})
             
             setTypesCates([])
             toast.success("Successfully added new category")

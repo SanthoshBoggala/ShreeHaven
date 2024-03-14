@@ -129,12 +129,16 @@
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
-
+.orderFilters {
+    font-size: 18px;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+}
 .updateOrder {
     margin-top: 10px;
-    padding: 4px 10px 4px 10px;
+    padding: 5px 15px;
     color: white;
     border: none;
     border-radius: 3px;
-    background-color: rgb(101, 150, 101);
+    background-color: rgb(90, 158, 90);
 }

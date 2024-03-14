@@ -12,9 +12,8 @@ const Category = ({type, category }) => {
 
   const { modifyData } = useModifyData({url, method: "PUT", token})
   const removeCategory = async()=>{
-    let res
     try {
-        res = await modifyData({category, type})
+        await modifyData({category, type})
         
         toast.success("Successfully deleted category")
         setTypesCates([])

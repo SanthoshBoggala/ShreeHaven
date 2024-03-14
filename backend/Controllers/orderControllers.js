@@ -5,20 +5,50 @@ const Orders = require('../Models/ordersModel');
 
 const getAllOrders = asyncHandler(async (req, res) => {
     const { userId, type } = req.user
+    const { status } = req.query
     if( type !== 'admin' ) {
         res.status(401);
         throw new Error('only admins can access');
     }
-    const orders = await Orders.find( { status: ( 'Pending' || 'Return Pending') } ).populate('product').sort({ orderedDate: -1 })
+    let orders = []
+    if(status && status.length != 0){
+        orders = await Orders.find( { status } ).populate('product').sort({ orderedDate: -1 })
+    }
+    else{
+        allOrders = await Orders.find().populate('product').sort({ orderedDate: -1 })
+        allOrders.map(one => {
+            if(one.status == 'Pending'){
+                orders.push(one)
+            }
+        })
+        allOrders.map(one => {
+            if(one.status == 'Return'){
+                orders.push(one)
+            }
+        })
+        allOrders.map(one => {
+            if(one.status == 'Delivered'){
+                orders.push(one)
+            }
+        })
+    }
+    
     res.json({ orders });
 });
 const getAllMyOrders = asyncHandler(async (req, res) => {
     const { userId, type } = req.user
+    const { status } = req.query
     if( type !== 'customer' ) {
         res.status(401);
         throw new Error('only customers can access');
     }
-    const orders = await Orders.find({ user: userId }).populate('product').sort({ orderedDate: -1 })
+    let orders
+    if(status && status.length !== 0){
+        orders = await Orders.find({ user: userId, status }).populate('product').sort({ orderedDate: -1 })
+    }
+    else{
+        orders = await Orders.find({ user: userId }).populate('product').sort({ orderedDate: -1 })
+    }
     
     res.json({ orders });
 });

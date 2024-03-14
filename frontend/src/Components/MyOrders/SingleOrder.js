@@ -69,14 +69,16 @@ const SingleOrder = (order) => {
         <div className='orderDiv mb-4'>
             <div className='orderUpper row'>
                 <div className='orderIdDiv col-sm-7'>
-                    <div className='orderIdFront'>Order</div>
-                    <div className='orderId'>{` #${order._id}`}</div>
-                    {type === 'admin' &&
+                    {type === 'admin' ?
                         <>
-                            <br />
                             <div className='orderIdFront'>Customer</div>
                             <div className='orderId'>{` #${order.user}`}</div>
-                        </>
+                        </> : (
+                            <>
+                                <div className='orderIdFront'>Order</div>
+                                <div className='orderId'>{` #${order._id}`}</div>
+                            </>
+                        )
                     }
                 </div>
                 <div className='orderedDate col-sm-5'>{`Order Placed: ${orderDate}`}</div>
@@ -95,15 +97,15 @@ const SingleOrder = (order) => {
                     <div className='orderName'>{order.product.name}</div>
                     <div className='orderBrand'>{`By: ${order.product.brand}`}</div>
                     <div className='orderOtherDetails'>
-                        <div className='orderSize'>{`Size ${order.size}`}</div>
-                        <div className='orderQuantity'>{`Qty: ${order.count}`}</div>
+                        <div className='orderSize'>{order.size && `Size ${order.size}`}</div>
+                        <div className='orderQuantity'>{order.count && `Qty: ${order.count}`}</div>
                         <div className='orderPrice'>{`Rs. ${order.price}`}</div>
                     </div>
                 </div>
                 <div className='orderStatusDiv col-md-2'>
                     <div className='status'>Current Status</div>
                     <div className='orderStatus'>
-                        {type == 'admin' ? (
+                        {type == 'admin' && !['Delivered', 'Failed'].includes(order.status)  ? (
                             <>
                                 <select
                                     className='orderStatusForm'
@@ -123,17 +125,17 @@ const SingleOrder = (order) => {
                 <div className='orderDateDiv col-md-3'>
                     {order.deliveredDate ? (
                         <>
-                            <div className='date'>Delivered Expected by:</div>
+                            <div className='date'>Delivered on:</div>
                             <div className='orderDate'>{deliveryDate}</div>
                         </>
                     ) : (
                         <>
-                            <div className='date'>Delivery Expected by:</div>
+                            <div className='date'>Expected Delivery on:</div>
                             <div className='orderDate'>{deliveryDate}</div>
                         </>
                     )}
                     <ToastContainer />
-                    {type === 'admin' && (
+                    {type === 'admin' && !['Delivered', 'Failed'].includes(order.status)&& (
                         <button
                             className='updateOrder'
                             onClick={updateOrder}
