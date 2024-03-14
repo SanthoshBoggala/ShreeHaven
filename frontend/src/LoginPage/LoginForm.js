@@ -17,7 +17,7 @@ const LoginForm = () => {
   })
   const [err, setErr] = useState("")
   const { setUser, setToken } = useContext(UserContext)
-  const url = 'http://localhost:5000/api/login'
+  const url = 'https://shreehaven.onrender.com/api/login'
   const { modifyData } = useModifyData({ url, method : "POST"})
   
   const handleInputChange = (e) => {

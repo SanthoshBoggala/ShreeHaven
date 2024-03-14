@@ -16,19 +16,19 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
 
     let url
     if(category){
-        url = `http://localhost:5000/api/products?type=${category}&search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/products?type=${category}&search=${urlSearch}`
     }
     else if( topRatedUrl.length !== 0 ){
-        url = `http://localhost:5000/api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
     }
     else if(['trending_deals', 'hot_deals'].includes(urlEndPoint)){
-        url = `http://localhost:5000/api/products/${urlEndPoint}?search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/products/${urlEndPoint}?search=${urlSearch}`
     }
     else if(urlEndPoint !== 'suggested_items') {
-        url = `http://localhost:5000/api/products/styles/${urlEndPoint}?search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/products/styles/${urlEndPoint}?search=${urlSearch}`
     }
     else{
-        url = `http://localhost:5000/api/products?search=${urlSearch}`   
+        url = `https://shreehaven.onrender.com/products?search=${urlSearch}`   
     }
     const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
 

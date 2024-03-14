@@ -3,7 +3,6 @@ import './myOrders.css'
 import SingleOrder from './SingleOrder'
 import UserContext from '../../contexts/userContext'
 import useFetchData from '../../customHooks/useFetchData'
-import { LimitContext } from '../../contexts/LimitContext'
 
 const MyOrders = () => {
   const [getOrders, setGetOrders] = useState("")
@@ -12,18 +11,18 @@ const MyOrders = () => {
 
 
   const { user, token } = useContext(UserContext)
-  let url = 'http://localhost:5000/api/orders/user'
+  let url = 'https://shreehaven.onrender.com/api/orders/user'
   if (getOrders && getOrders.length !== 0) {
-    url = `http://localhost:5000/api/orders/user?status=${getOrders}`
+    url = `https://shreehaven.onrender.com/api/orders/user?status=${getOrders}`
   }
 
   if (user && user.type == 'admin') {
-    url = 'http://localhost:5000/api/orders'
+    url = 'https://shreehaven.onrender.com/api/orders'
     if (getOrders && getOrders.length !== 0) {
-      url = `http://localhost:5000/api/orders?status=${getOrders}`
+      url = `https://shreehaven.onrender.com/api/orders?status=${getOrders}`
     }
   }
-  const { isLoading, data: { orders }, error } = useFetchData({ url, query: refetch, token })
+  const { isLoading, data: { orders } } = useFetchData({ url, query: refetch, token })
 
   let limitedOrders = []
 

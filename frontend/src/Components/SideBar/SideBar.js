@@ -10,7 +10,7 @@ import axios from 'axios'
 
 const SideBar = ({ ChangeFilterShow, filterShow }) => {
     const { filters, setFilters } = useContext(SelectedFilters)
-    const { user, token } = useContext(UserContext)
+    const { token } = useContext(UserContext)
     const { category } = useParams()
 
     useEffect(()=>{

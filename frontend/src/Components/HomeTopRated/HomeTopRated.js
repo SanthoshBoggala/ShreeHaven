@@ -7,10 +7,10 @@ import useFetchData from '../../customHooks/useFetchData'
 
 const HomeTopRated = () => {
 
-    const { user, token } = useContext(UserContext)
+    const { token } = useContext(UserContext)
     const {limit} = useContext(LimitContext)
 
-    const url = `http://localhost:5000/api/products/top_rated`
+    const url = `https://shreehaven.onrender.com/api/products/top_rated`
     const { data: {products, cateCaptions}, isLoading, error } = useFetchData({url, query: limit, token})    
       
     return (

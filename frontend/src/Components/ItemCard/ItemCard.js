@@ -11,14 +11,14 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
     const navigate = useNavigate()
     const { user,token } = useContext(UserContext)
 
-    const url1 = `http://localhost:5000/api/wishlist`
+    const url1 = `https://shreehaven.onrender.com/api/wishlist`
     const { modifyData } = useModifyData({url: url1, token})
 
     const [wishlist, setWishlist] = useState(false)
 
     useEffect(()=>{
         async function setWishListInitial(){
-            const url = `http://localhost:5000/api/wishlist/user?key=${item.key}`
+            const url = `https://shreehaven.onrender.com/api/wishlist/user?key=${item.key}`
             const res = await axios.get(url,{
                 headers: {
                     Authorization: `Bearer ${token}`

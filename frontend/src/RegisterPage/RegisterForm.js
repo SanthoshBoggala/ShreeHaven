@@ -20,7 +20,7 @@ const RegisterForm = () => {
   })
   const [err, setErr] = useState("")
   const {setUser, setToken} = useContext(UserContext)
-  const url = 'http://localhost:5000/api/register'
+  const url = 'https://shreehaven.onrender.com/api/register'
   const { modifyData } = useModifyData({url, method : "POST"})
 
   const handleInputChange = (e) => {

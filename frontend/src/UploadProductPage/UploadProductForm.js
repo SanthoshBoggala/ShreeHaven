@@ -38,7 +38,7 @@ const PersonalInfo = () => {
       return
     }
     async function getProduct() {
-      const res = await axios.get(`http://localhost:5000/api/products/${id}`)
+      const res = await axios.get(`https://shreehaven.onrender.com/api/products/${id}`)
       const item = res.data.product
 
       setProduct(() => ({
@@ -126,7 +126,7 @@ const PersonalInfo = () => {
       let url
       let res
       if (!id) {
-        url = `http://localhost:5000/api/products`
+        url = `https://shreehaven.onrender.com/api/products`
 
         res = await axios.post(url, formData, {
           headers: {
@@ -135,7 +135,7 @@ const PersonalInfo = () => {
         })
       }
       else {
-        url = `http://localhost:5000/api/products/${id}`
+        url = `https://shreehaven.onrender.com/api/products/${id}`
 
         res = await axios.put(url, product, {
           headers: {

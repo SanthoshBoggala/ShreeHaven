@@ -10,7 +10,7 @@ export const TypesCatesContextProvider = ({children}) => {
 
     useEffect(()=>{
       async function getCates(){
-        const url = `http://localhost:5000/api/type_category`
+        const url = `https://shreehaven.onrender.com/api/type_category`
 
         const res = await axios.get(url)
 

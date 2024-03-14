@@ -2,7 +2,6 @@ import CartItem from './CartItem'
 import './cartPage.css'
 import useFetchData from '../customHooks/useFetchData'
 import { useContext, useState } from 'react'
-import { LimitContext } from '../contexts/LimitContext'
 import UserContext from '../contexts/userContext'
 import NotFoundAndUnAuthorized from '../Components/NotFoundAndUnAuthorized/NotFoundAndUnAuthorized'
 
@@ -10,10 +9,9 @@ const CartPage = ()=>{
     const { user, token } = useContext(UserContext)
 
     const [refetch, setRefetch] = useState(0)
-    const { limit } = useContext(LimitContext)
     
-    const url = 'http://localhost:5000/api/cart/user'
-    const { data: { cart } , isLoading, error } = useFetchData({url, query: refetch ,token})
+    const url = 'https://shreehaven.onrender.com/cart/user'
+    const { data: { cart } } = useFetchData({url, query: refetch ,token})
 
     const cartItems = (cart && cart.items) ? cart.items : []
 

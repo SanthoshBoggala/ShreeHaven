@@ -20,9 +20,9 @@ const SingleProductPage = () => {
     const navigate = useNavigate()
 
 
-    let url = `http://localhost:5000/api/products/${id}`
+    let url = `https://shreehaven.onrender.com/api/products/${id}`
     const { data: { product }, isLoading, error } = useFetchData({ url, query: refetch, token })
-    url = 'http://localhost:5000/api/cart'
+    url = 'https://shreehaven.onrender.com/api/cart'
     const { modifyData } = useModifyData({ url, token })
 
     const { setKey } = useContext(ProductContext)
@@ -51,7 +51,7 @@ const SingleProductPage = () => {
 
     const addToCart = async () => {
 
-        const { isSending, error, data } = await modifyData({ key: product.key })
+        const { error } = await modifyData({ key: product.key })
 
         if (error) {
             toast.error('Failed to add cart!')

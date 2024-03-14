@@ -16,7 +16,7 @@ const BuyPage = () => {
     const { limit } = useContext(LimitContext)
     const { fashionData } = useContext(FashionDataContext)
 
-    let url = `http://localhost:5000/api/products/${id}`
+    let url = `https://shreehaven.onrender.com/api/products/${id}`
     const { data: { product }, isLoading, error } = useFetchData({ url, query: limit, token })
 
     // const product = {

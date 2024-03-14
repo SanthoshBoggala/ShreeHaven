@@ -10,7 +10,7 @@ const MyModal = ({category, setViewModelHelpher, viewModel, extra }) => {
     const { user, token } = useContext(UserContext)
     const { id } = useParams()
     const navigate = useNavigate()
-    const url = 'http://localhost:5000/api/orders'
+    const url = 'https://shreehaven.onrender.com/api/orders'
     const { modifyData } = useModifyData({ url, method: "POST", token })
 
     let addrs = user.addresses.map((one)=> one.address)

@@ -10,11 +10,11 @@ import ra1 from '../../Images/rightArrow.png'
 
 const HomeTrendingDeals = () => {
   const navigate = useNavigate()
-  const { user, token } = useContext(UserContext)
-  const {limit} = useContext(LimitContext)
+  const { token } = useContext(UserContext)
+  const { limit } = useContext(LimitContext)
 
-  const url = `http://localhost:5000/api/products/trending_deals`
-  const { data: {products}, isLoading, error } = useFetchData({url, query: limit, token})    
+  const url = `https://shreehaven.onrender.com/api/products/trending_deals`
+  const { data: {products}, isLoading } = useFetchData({url, query: limit, token})    
   
   const navigateToForYou = () => {
     navigate(`/products/for_you/trending_deals`)

@@ -3,16 +3,15 @@ import ItemCard from '../ItemCard/ItemCard'
 import React, { useContext } from 'react'
 import UserContext from '../../contexts/userContext'
 import useFetchData from '../../customHooks/useFetchData'
-import { useParams } from 'react-router-dom'
 import { ProductContext } from '../../contexts/ProductContext'
 
 const SimilarItems = () => {
-    const { user, token } = useContext(UserContext)
+    const { token } = useContext(UserContext)
     const { key } = useContext(ProductContext)
 
-    const url = 'http://localhost:5000/api/products/similar_products'
+    const url = 'https://shreehaven.onrender.com/api/products/similar_products'
 
-    const { isLoading, data: { products } , error } = useFetchData({ url, query: key , token });
+    const { data: { products } } = useFetchData({ url, query: key , token });
       
     return (
         <div className='similarItems'>
