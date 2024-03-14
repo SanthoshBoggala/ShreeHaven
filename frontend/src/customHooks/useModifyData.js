@@ -21,7 +21,7 @@ const useModifyData = ({ url, method = "POST", token = "" }) => {
       } else if (method === "DELETE") {
         response = await axios.delete(url, { ...data }, {
           headers: {
-            authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
         })
       }

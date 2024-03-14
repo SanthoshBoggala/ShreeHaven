@@ -26,7 +26,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
         }
     })
 
-    if(search){
+    if(search && search.length !== 0){
         products = products.find({name: { $regex: new RegExp(search, 'i') }});
     }
     if(filters.sortOption){
@@ -38,6 +38,14 @@ const getAllProducts = asyncHandler(async (req, res) => {
     }
     if(limit){
         products = products.limit(parseInt(limit))
+    }
+    if(filters.ratings){
+        const rating = Number(filters.ratings)
+        products = products.find({ $or: [{ ratings: { $gte: rating } }, { ratings: 0 }] })
+    }
+    if(filters.priceUnder){
+        const higherBound = Number(filters.priceUnder)
+        products = products.find({ newPrice: { $lte: higherBound} })
     }
 
     products = await products.exec()
@@ -228,15 +236,14 @@ const postSingleProduct =  asyncHandler(async(req, res) => {
 });
 
 const putSingleProduct = asyncHandler(async (req, res) => {
-    let { brand, price, category, productType ,discount, starRating, ratings,
-    description, images } = req.body;
+    let { brand, price, category, productType ,discount, inStock, starRating, ratings,
+    description } = req.body;
     const { userId, type } = req.user;
 
     if( type !== 'admin' ) {
         res.status(401);
         throw new Error('only admins can access');
-    }const upload = require('../Middlewares/uploadFiles');
-
+    }
 
     const productExists = await Products.findOne({ key: req.params.id });
     if(!productExists) {
@@ -266,6 +273,7 @@ const putSingleProduct = asyncHandler(async (req, res) => {
     productType = newProduct.productType
     
     delete newProduct.productType
+    
     if(productType) {
         newProduct = {...newProduct, type: productType}
     }

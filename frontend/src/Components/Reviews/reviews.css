@@ -9,6 +9,12 @@
     font-weight: bold;
     font-family: sans-serif;
 }
+.leftPadding {
+    color: rgb(78, 85, 85);
+    font-size: 23px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
 .reviewBox {
     margin: 10px;
     margin-bottom: 20px;

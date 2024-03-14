@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useState } from "react"
 import './products.css'
 import ItemCard from "../ItemCard/ItemCard"
 import { useParams } from "react-router-dom"
@@ -81,7 +81,7 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
             {isLoading ? <h4>Loading</h4> : (
                 <div className={category ? 'productsTop' : 'noProductsTop' } >
                     <div className="productsCount">
-                        {`CheckOut (${products ? products.length : 0}) products`}
+                        {`View (${products ? products.length : 0}) products`}
                     </div>
                     <div className="productSearch">
                         <input

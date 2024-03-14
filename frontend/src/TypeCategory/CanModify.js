@@ -1,101 +1,40 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './typeCategory.css'
+import TypesCatesContext from '../contexts/TypesCatesContext'
 import Type from './Type'
+import useModifyData from '../customHooks/useModifyData'
+import UserContext from '../contexts/userContext'
+import { toast, ToastContainer } from 'react-toastify'
+
 
 const CanModify = () => {
+    const { typesCates ,setTypesCates } = useContext(TypesCatesContext)
+    const { user, token } = useContext(UserContext)
+    const url = `http://localhost:5000/api/type_category`
 
-    const [typesData, setTypesData] = useState({
-        productType: '',
-        category: ''
-    })
+    const { modifyData } = useModifyData({url, token})
+    const [view, setView] = useState(false)
+    const [newOne, setNewOne] = useState('')
 
-    const data = [
-        {
-            "_id": "65c4b1d47afeb81df8b7c4b6",
-            "type": "Men",
-            "categories": [
-                {
-                    "category": "Shirts",
-                    "_id": "65c4b1f27afeb81df8b7c4ba"
-                },
-                {
-                    "category": "T-Shirts",
-                    "_id": "65c4b2027afeb81df8b7c4be"
-                },
-                {
-                    "category": "Winter Wear",
-                    "_id": "65c4b20f7afeb81df8b7c4c3"
-                },
-                {
-                    "category": "Jeans & Trousers",
-                    "_id": "65c4b21c7afeb81df8b7c4c9"
-                },
-                {
-                    "category": "Shorts",
-                    "_id": "65c4b22b7afeb81df8b7c4d0"
-                },
-                {
-                    "category": "Formal-Shirts",
-                    "_id": "65c4b2357afeb81df8b7c4d8"
-                },
-                {
-                    "category": "Watches",
-                    "_id": "65c4b2417afeb81df8b7c4e1"
-                }
-            ],
-            "__v": 7
-        },
-        {
-            "_id": "65c4b25c7afeb81df8b7c4ec",
-            "type": "Women",
-            "categories": [
-                {
-                    "category": "Sarees",
-                    "_id": "65c4b25c7afeb81df8b7c4ee"
-                },
-                {
-                    "category": "Dresses",
-                    "_id": "65c4b26b7afeb81df8b7c4f2"
-                },
-                {
-                    "category": "Jeans",
-                    "_id": "65c4b2727afeb81df8b7c4f7"
-                },
-                {
-                    "category": "T-shirts",
-                    "_id": "65c4b2807afeb81df8b7c4fd"
-                },
-                {
-                    "category": "Trousers",
-                    "_id": "65c4b2897afeb81df8b7c504"
-                },
-                {
-                    "category": "Kurtas",
-                    "_id": "65c4b2927afeb81df8b7c50c"
-                },
-                {
-                    "category": "Winter Wear",
-                    "_id": "65c4b29c7afeb81df8b7c515"
-                },
-                {
-                    "category": "Watches",
-                    "_id": "65c4b2a67afeb81df8b7c51f"
-                }
-            ],
-            "__v": 8
+    const viewAddOne = () =>{
+        setNewOne("")
+        setView(prev => !prev)
+    }
+    const addNewType = async()=>{
+        if(newOne.length === 0) return
+
+        let res
+        try {
+            res = await modifyData({type: newOne})
+            
+            setTypesCates([])
+            setNewOne("")
+            toast.success("Successfully added new product type")
+        } catch (error) {
+            toast.error("Failed to add one!")
         }
-    ]
-
-    const handleTypesData = (e) => {
-        const { name, value } = e.target
-        setTypesData(prevData => ({ ...prevData, [name]: value }))
     }
 
-    const handleTypesSubmit = (e)=>{
-        e.preventDefault()
-
-        console.log(typesData)
-    }
     return (
         <div className='canModify'>
             <div className='typeCategoryDiv'>
@@ -103,8 +42,8 @@ const CanModify = () => {
                     Available Types & Categories
                 </div>
                 <div className='typeCategory'>
-                    {(data && data.length !== 0) && (
-                        data.map(one => {
+                    {(typesCates && typesCates.length !== 0) && (
+                        typesCates.map(one => {
                             return (
                                 <Type key={one._id} {...one} />
                             )
@@ -112,41 +51,36 @@ const CanModify = () => {
                     )
                     }
                 </div>
-                <div className='getTypeCategory'>
-                    <form onSubmit={handleTypesSubmit}>
-                        <fieldset className='formInfo'>
-                            <legend>Add a Type/Category</legend>
-                            <div>
-                                <label htmlFor='name'>Product Type:</label>
-                                <input
-                                    className='profileInput'
-                                    type='text'
-                                    name='productType'
-                                    value={typesData.productType}
-                                    onChange={handleTypesData}
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor='name'>Category:</label>
-                                <input
-                                    className='profileInput'
-                                    type='text'
-                                    name='category'
-                                    value={typesData.category}
-                                    onChange={handleTypesData}
-                                />
-                            </div>
-                            <div>
-                                <button
-                                    type='submit'
-                                    className='updateBtn'
-                                >
-                                    Update
-                                </button>
-                            </div>
-                        </fieldset>
-                    </form>
-                </div>
+                { view && (
+                    <div className='addTypes'>
+                        <input
+                            className='addCatesInput'
+                            type='text'
+                            placeholder='Add new one'                            
+                            value={newOne}
+                            onChange={(e)=> setNewOne(e.target.value)}
+                        />
+                        <span
+                            onClick={addNewType}
+                            className='addSpan'
+                        >✅
+                        </span>
+                        <span
+                            onClick={viewAddOne}
+                            className='addSpan'
+                        >🚫
+                        </span>
+                    </div>
+                )
+                }
+                { 
+                    <div className='addTypes'
+                        onClick={viewAddOne}
+                    >
+                    {`Add new product type  ➕`} 
+                    </div>
+                }
+                <ToastContainer />
             </div>
         </div>
     )

@@ -21,7 +21,7 @@
 .itemImg1 {
     height: 450px;
     width: 350px;
-    padding: 5px;
+    padding: 3px;
     border-radius: 8px;
     border: 1px solid rgb(102, 153, 173);
     box-shadow: 8px 8px 10px rgb(102, 153, 173) ;
@@ -48,7 +48,7 @@
 .itemImg1 > img, .itemImgs > img{
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 .itemImgs > img {
     border-radius: 4px;
@@ -136,8 +136,12 @@
 }
 
 .gotToLogin {
-    cursor: pointer;
-    color: green;
+    color: rgb(245, 245, 245);
+    background-color: #20a6d3;
+    letter-spacing: 1px;
+    border: none;
+    border-radius: 3px;
+    padding: 8px 20px;
 }
 .productBts {
     display: flex;

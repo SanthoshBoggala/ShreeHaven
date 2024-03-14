@@ -31,7 +31,7 @@ const SingleProductPage = () => {
         setKey({ key: id })
     }, [id])
 
-    if(!product){
+    if(!isLoading && !product){
         return (
             <NotFoundAndUnAuthorized type={'notFound'}/>
         )
@@ -210,7 +210,7 @@ const SingleProductPage = () => {
                                             )
                                         ) : (
                                             <h3>
-                                                <span className="gotToLogin" onClick={goToLogin}>Login </span> to move further
+                                                <button className="gotToLogin" onClick={goToLogin}>Login </button> To Proceed
                                             </h3>
                                         )}
                                     </div>

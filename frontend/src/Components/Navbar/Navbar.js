@@ -11,9 +11,6 @@ const NavbarDummy = () => {
   const { user } = useContext(UserContext)
   const { typesCates } = useContext(TypesCatesContext)
 
-  const categories = ['Men', 'Women', 'Other', 'Mobiles']
-
-
 
   return (
     <Navbar expand="lg" className='fixed-top nabar'>

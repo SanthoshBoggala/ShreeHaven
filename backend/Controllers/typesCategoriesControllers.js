@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const TypeCategory = require('../Models/typeCategoryModel');
+const Products = require('../Models/productModel');
 
 const getAllTypesCategories = asyncHandler(async(req, res)=>{
     const {type} = req.query 
@@ -15,25 +16,28 @@ const getAllTypesCategories = asyncHandler(async(req, res)=>{
 });
 const addTypesCategories = asyncHandler(async(req, res)=>{
 
-    const { productType, category } = req.body;
+    const { type, category } = req.body;
+    const { type: userType } = req.user;
 
 
-    if(productType && !category ) {
-        const typecategory = await TypeCategory.findOne({ type: productType });
+    if( userType !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
+
+    if(type && !category ) {
+        const typecategory = await TypeCategory.findOne({ type });
         if(typecategory) {
             res.status(400);
             throw new Error('Product type already exists');
         }
-        const newType = await TypeCategory.create({ type: productType, categories: [] });
+        const newType = await TypeCategory.create({ type, categories: [] });
 
         res.json({newType});
     }
-    else if( productType && category )
+    else if( type && category )
     {
-        let typecategory = await TypeCategory.findOne({ type: productType });
-        if(!typecategory) {
-            typecategory = await TypeCategory.create({ type: productType, categories: [] });
-        }
+        let typecategory = await TypeCategory.findOne({ type });
 
         const categoryExists = typecategory.categories.find( cat => cat.category === category );
         if(categoryExists) {
@@ -52,7 +56,35 @@ const addTypesCategories = asyncHandler(async(req, res)=>{
     }
 });
 const removeTypesCategories = asyncHandler(async(req, res)=>{
-    res.json({msg: 'work on later'})
+    const { type, category } = req.body;
+    const { type: userType } = req.user;
+
+
+    if( userType !== 'admin' ) {
+        res.status(401);
+        throw new Error('only admins can access');
+    }
+
+    if(type && !category){
+        const typecategory = await TypeCategory.findOneAndDelete({ type })
+        const deletedProducts = await Products.deleteMany({ type })
+        res.json({typecategory})
+        return
+    }
+    else if(type && category){
+        let typecategory = await TypeCategory.findOne({ type })
+        if(!typecategory) {
+            res.status(400);
+            throw new Error('Product type doesnt exists');
+        }
+        typecategory.categories = typecategory.categories.filter( cat => cat.category != category );
+
+        await typecategory.save();
+        const deletedProducts = await Products.deleteMany({ category })
+
+        res.json({typecategory})
+        return;
+    }
 });
 
 module.exports = {

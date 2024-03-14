@@ -1,67 +1,29 @@
-import { createContext, useState } from "react";
+import axios from "axios"
+import { createContext, useEffect, useState } from "react"
 
 const TypesCatesContext = createContext()
 
 export default TypesCatesContext
 
 export const TypesCatesContextProvider = ({children}) => {
-    const [typesCates, setTypesCates ] = useState([
-        {
-          type: "Men",
-          categories: [
-            {
-              category: "Shirts",
-            },
-            {
-              category: "T-Shirts",
-            },
-            {
-              category: "Winter Wear",
-            },
-            {
-              category: "Jeans & Trousers",
-            },
-            {
-              category: "Shorts",
-            },
-            {
-              category: "Formal-Shirts",
-            },
-            {
-              category: "Watches",
-            }
-          ]
-        },
-        {
-          type: "Women",
-          categories: [
-            {
-              category: "Sarees",
-            },
-            {
-              category: "Dresses",
-            },
-            {
-              category: "Jeans",
-            },
-            {
-              category: "T-shirts",
-            },
-            {
-              category: "Trousers",
-            },
-            {
-              category: "Kurtas",
-            },
-            {
-              category: "Winter Wear",
-            },
-            {
-              category: "Watches",
-            }
-          ]
-        }
-      ])
+    const [typesCates, setTypesCates ] = useState([])
+
+    useEffect(()=>{
+      async function getCates(){
+        const url = `http://localhost:5000/api/type_category`
+
+        const res = await axios.get(url)
+
+        setTypesCates(res.data.typecategories)
+
+      }
+
+      try {
+        getCates()
+      } catch (error) {
+        console.log(error)
+      }
+    }, [typesCates])
 
     return (
         <TypesCatesContext.Provider value = {{ typesCates, setTypesCates }}>

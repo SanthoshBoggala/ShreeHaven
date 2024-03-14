@@ -64,7 +64,7 @@ const Reviews = ({ reviews , ratings , starRating })=>{
                         </div>
                     </>
                 ) : (
-                    <h4 className='homeHeading'>No Reviews Available</h4>
+                    <h4 className='leftPadding'>No Reviews Available</h4>
                 )
                 }
                 <div className='giveReview'>

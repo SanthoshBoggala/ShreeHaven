@@ -10,7 +10,7 @@ const {
 
 
 router.route("/").get( getAllTypesCategories);
-router.route("/").post( addTypesCategories);
-router.route("/:id").delete( removeTypesCategories);
+router.route("/").post(validateToken, addTypesCategories);
+router.route("/").put(validateToken, removeTypesCategories);
 
 module.exports = router;

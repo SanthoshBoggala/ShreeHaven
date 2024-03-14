@@ -24,9 +24,9 @@ const SingleOrder = (order) => {
             newDate1 = new Date(d);
             newDate1.setDate(newDate1.getDate() + 6);
         }
-        
 
-        
+
+
         const orderDate = newDate.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -71,6 +71,13 @@ const SingleOrder = (order) => {
                 <div className='orderIdDiv col-sm-7'>
                     <div className='orderIdFront'>Order</div>
                     <div className='orderId'>{` #${order._id}`}</div>
+                    {type === 'admin' &&
+                        <>
+                            <br />
+                            <div className='orderIdFront'>Customer</div>
+                            <div className='orderId'>{` #${order.user}`}</div>
+                        </>
+                    }
                 </div>
                 <div className='orderedDate col-sm-5'>{`Order Placed: ${orderDate}`}</div>
             </div>
@@ -116,25 +123,25 @@ const SingleOrder = (order) => {
                 <div className='orderDateDiv col-md-3'>
                     {order.deliveredDate ? (
                         <>
-                            <div className = 'date'>Delivered Expected by:</div>
+                            <div className='date'>Delivered Expected by:</div>
                             <div className='orderDate'>{deliveryDate}</div>
                         </>
-                    ): (
+                    ) : (
                         <>
-                            <div className = 'date'>Delivery Expected by:</div>
+                            <div className='date'>Delivery Expected by:</div>
                             <div className='orderDate'>{deliveryDate}</div>
                         </>
                     )}
-            <ToastContainer />
-            {type === 'admin' && (
-                <button
-                    className='updateOrder'
-                    onClick={updateOrder}
-                >
-                    Update Order
-                </button>
-            )}
-        </div>
+                    <ToastContainer />
+                    {type === 'admin' && (
+                        <button
+                            className='updateOrder'
+                            onClick={updateOrder}
+                        >
+                            Update Order
+                        </button>
+                    )}
+                </div>
             </div >
         </div >
     )

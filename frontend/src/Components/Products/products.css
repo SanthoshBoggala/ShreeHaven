@@ -1,5 +1,6 @@
 .products {
     padding: 0px 10px 10px 10px;
+    min-height: 100vh;
 }
 .productsTop {
     display: flex;
