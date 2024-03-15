@@ -37,8 +37,8 @@ const NavbarDummy = () => {
                 </NavDropdown.Item>
             ))}
           </NavDropdown>
-          <Nav.Link as={NavLink} className='navItem' to="/my/wishList_products" onClick={closeNavbar}>
-            wishlist
+          <Nav.Link as={NavLink} className='navItem' to="/about" onClick={closeNavbar}>
+            About
           </Nav.Link>
           <Nav.Link as={NavLink} className='navItem' to="/contact" onClick={closeNavbar}>
             Contact
