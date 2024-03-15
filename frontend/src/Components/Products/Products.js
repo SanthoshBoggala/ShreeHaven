@@ -25,7 +25,7 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
         url = `https://shreehaven.onrender.com/api/products/${urlEndPoint}?search=${urlSearch}`
     }
     else if(wishlist){
-        url = `https://shreehaven.onrender.com/api/wishList?search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/api/wishList/user?search=${urlSearch}`
     }
     else if(urlEndPoint !== 'suggested_items') {
         url = `https://shreehaven.onrender.com/api/products/styles/${urlEndPoint}?search=${urlSearch}`
@@ -34,9 +34,11 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
         url = `https://shreehaven.onrender.com/api/products?search=${urlSearch}`   
     }
 
-    const { data: { products }, isLoading } = useFetchData({ url, query: filters, token })
+    const { data: { products , wishListItems : { products : wishListItems }}, isLoading } = useFetchData({ url, query: filters, token })
 
-   
+    products = products || wishListItems
+    
+    console.log(products)
     const searchChange = (e) => {
         setSearch(e.target.value)
     }
