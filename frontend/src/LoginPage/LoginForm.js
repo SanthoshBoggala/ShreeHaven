@@ -60,7 +60,7 @@ const LoginForm = () => {
       return
     }
 
-    const {isSending, error, data} = await modifyData(formData)
+    const { error, data} = await modifyData(formData)
 
     if(error){
       toast.error('Invalid credentials. Please try again.')
@@ -83,8 +83,8 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="loginForm">
-      <form onSubmit={submitForm}>
+    <div className="loginForm col-md-8">
+      <form onSubmit={submitForm} className=''>
         <div className='loginHeading'>Login</div>
         
         <div className="mb-3">

@@ -26,14 +26,14 @@
     font-size: 14px;
     padding: 5px;
     margin-left: 10px;
-    width: 200px;
+    width: 160px;
 }
 .count {
     font-size: 14px;
     padding: 5px;
     margin-left: 10px;
     margin-bottom: 10px;
-    width: 200px;
+    width: 160px;
 }
 .extras {
     padding-top: 20px;
@@ -53,21 +53,19 @@
     width: 200px;
 }
 .buyImage {
-    height: 400px;
-    width: 350px;
+    /* height: 400px;
+    max-width: 350px;
     border-radius: 3px;
-    margin-left: 30px;
+    margin-left: 30px; */
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
 }
 .buyImage > img {
     height: 100%;
     width: 100%;
     border-radius: 3px;
 }
-
-.buyPage {
-    /* position: relative; */
-}
-
 .buyNowBtn, .closeNowBtn {
     height: 40px;
     border-radius: 3px;
@@ -79,11 +77,10 @@
 }
 .closeNowBtn {
     background-color: rgb(202, 63, 63);
-    margin-right: 30px;
+    margin-bottom: 5px;
 }
 .afterBuy {
-    /* position: absolute; */
-    width: 500px;
+    max-width: 500px;
     background-color: white;
     border-radius: 5px;
     padding-top: 10px;
@@ -93,4 +90,3 @@
     border-radius: 5px;
     padding-bottom: 20px;
 }
-  

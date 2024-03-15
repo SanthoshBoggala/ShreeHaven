@@ -13,7 +13,7 @@ const HomeCarousel = () => {
   const img = 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/carousel2.webp'
 
   return (
-    <div className='homeCarousel'>
+    <div className='homeCarousel '>
       <Carousel activeIndex={index} onSelect={handleSelect}>
         <Carousel.Item>
           <img

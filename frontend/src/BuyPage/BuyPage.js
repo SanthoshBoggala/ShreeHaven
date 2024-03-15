@@ -17,7 +17,7 @@ const BuyPage = () => {
     const { fashionData } = useContext(FashionDataContext)
 
     let url = `https://shreehaven.onrender.com/api/products/${id}`
-    const { data: { product }, isLoading, error } = useFetchData({ url, query: limit, token })
+    const { data: { product } } = useFetchData({ url, query: limit, token })
 
     // const product = {
     //     "productKey": "Men_striped_casual_light_green_white_shirt",
@@ -105,7 +105,9 @@ const BuyPage = () => {
                                             name='size'
                                             onChange={handleChange}
                                         >
-                                            <option value="">Select sizes</option>
+                                            <option 
+                                                value=""
+                                            >Select sizes</option>
                                             {product.sizes && (
                                                 product.sizes.map((x, index) => {
                                                     return (<option key={index} value={x}>{x}</option>)

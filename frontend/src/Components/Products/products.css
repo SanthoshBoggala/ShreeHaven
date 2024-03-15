@@ -5,26 +5,38 @@
 .productsTop {
     display: flex;
     align-items: center;
-    padding: 10px 40px 20px 35px;
+    padding: 10px 10px 20px 35px;
     justify-content: space-between;
 }
 .noProductsTop {
     display: flex;
     align-items: center;
-    padding: 10px 40px 20px 0px;
+    padding: 10px 10px 20px 0px;
     justify-content: space-between;
 }
 .productsCount {
     font-size: 1.4em;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+@media (max-width: 576px) {
+    .productsCount {
+      font-size: 0.9em; 
+    }
+}
+  
 .productSearch > input {
     height: 40px;
-    width: 250px;
+    width: 300px;
     padding-left: 5px;
     font-family: sans-serif;
     border: none;
     border-bottom: 1px solid gray;
+}
+@media (max-width: 576px) {
+    .productSearch > input {
+        width: 80px;
+        font-size: 15px;
+    }
 }
 .searchBtn {
     color: white;

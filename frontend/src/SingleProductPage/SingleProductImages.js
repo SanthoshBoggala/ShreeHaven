@@ -7,7 +7,7 @@ const SingleProductImages = ({images}) => {
     const imgs = images.split(',')
     return (
         <>
-            <div className="col-sm-3 col-10 otherImages">
+            <div className="col-sm-3 otherImages">
                 {imgs && imgs.length !== 0 && (
                     imgs.map((img, index) => (
                     <OtherImages 

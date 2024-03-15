@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import './productsPage.css'
 import { SideBar, Products } from "../Components"
-import sbIcon from '../Images/sideBarIcon.png'
 
 const ProductPage = () => {
     const [filterShow, setFilterShow] = useState('show')
@@ -15,7 +14,7 @@ const ProductPage = () => {
             <div className="productsPage minHeight">
                 <div className='outfilterIcon'>
                     <img
-                        src={sbIcon}
+                        src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/sideBarIcon.png'}
                         alt='side-bar-icon'
                         onClick={ChangeFilterShow}
                     />

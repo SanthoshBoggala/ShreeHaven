@@ -14,6 +14,7 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
     const { filters } = useContext(SelectedFilters)
     const { category } = useParams()
 
+    let wishlistIcon = ""
     let url
     if(category){
         url = `https://shreehaven.onrender.com/api/products?type=${category}&search=${urlSearch}`
@@ -25,6 +26,7 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
         url = `https://shreehaven.onrender.com/api/products/${urlEndPoint}?search=${urlSearch}`
     }
     else if(wishlist){
+        wishlistIcon = "wishlist"
         url = `https://shreehaven.onrender.com/api/wishList/user?search=${urlSearch}`
     }
     else if(urlEndPoint !== 'suggested_items') {
@@ -56,7 +58,7 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
     return (
         <div className='products'>
             {isLoading ? <h4>Loading</h4> : (
-                <div className={category ? 'productsTop' : 'noProductsTop' } >
+                <div className={(category || wishlistIcon.length !== 0) ? 'productsTop' : 'noProductsTop' } >
                     <div className="productsCount">
                         {`View (${products ? products.length : 0}) products`}
                     </div>

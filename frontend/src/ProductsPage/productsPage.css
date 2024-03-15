@@ -1,7 +1,7 @@
 .productsPage {
     margin-top: 60px;
     padding: 2px;
-    position: relative; 
+    position: relative;
 }
 .outfilterIcon {
     height: 40px;
@@ -10,6 +10,12 @@
     top: 0.7%;
     left: -0.9%;
     cursor: pointer;
+}
+@media (max-width: 576px) {
+    .outfilterIcon {
+        top: 0.2%;
+        left: -3%;
+    }
 }
 .outfilterIcon > img {
     width: 100%;

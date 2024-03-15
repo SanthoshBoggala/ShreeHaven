@@ -22,7 +22,6 @@ const ProfilePage = () => {
                 <PersonalInfo />
             </div>
         </SideBarContextProvider>
-
     )
 }
 

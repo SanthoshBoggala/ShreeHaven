@@ -1,22 +1,17 @@
 .registerPage {
-    height: 95vh;
+    min-height: 95vh;
     margin-top: 55px;
-    background-repeat: no-repeat; 
-    background-size: cover;
-    background-image: url('./loginbg.webp');
-
     display: flex;
     justify-content: center;
 }
 .registerForm {
     background-color: rgb(1, 60, 99);
-    padding: 10px 50px 10px 50px;
+    padding: 5px 50px 5px 50px;
     border-radius: 3px;
     color: white;
     margin-top: 20px;
-    max-width: 700px;
+    margin-bottom: 30px;
     font-size: 14px;
-    position: absolute;
 }
 .registerHeading {
     text-align: center;

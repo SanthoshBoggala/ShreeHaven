@@ -1,21 +1,20 @@
 .loginPage {
-    height: 95vh;
+    min-height: 95vh;
     margin-top: 55px;
-    position: relative;
-    background-repeat: no-repeat; 
-    background-size: cover;
-    background-image: url('./loginbg.webp');
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .loginForm {
-    background-color: rgb(1, 60, 99);
-    padding: 10px 50px 30px 50px;
+    background-color: rgb(8, 64, 109); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding for content */
+    padding: 10px 30px 30px 30px;
     border-radius: 3px;
     color: white;
     max-width: 500px;
     font-size: 14px;
-    position: absolute;
-    right: 10%;
-    top: 10%;
 }
 .loginHeading {
     text-align: center;
@@ -28,7 +27,7 @@
 .loginInputs {
     margin: 5px 0px 5px 10px;
     height: 40px;
-    width: 250px;
+    width: 80%;
     color: rgb(80, 80, 80);
     font-size: 15px;
     padding: 5px;
