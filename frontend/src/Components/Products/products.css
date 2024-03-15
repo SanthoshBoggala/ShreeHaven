@@ -5,13 +5,13 @@
 .productsTop {
     display: flex;
     align-items: center;
-    padding: 10px 40px 10px 35px;
+    padding: 10px 40px 20px 35px;
     justify-content: space-between;
 }
 .noProductsTop {
     display: flex;
     align-items: center;
-    padding: 10px 40px 10px 0px;
+    padding: 10px 40px 20px 0px;
     justify-content: space-between;
 }
 .productsCount {
@@ -24,13 +24,11 @@
     padding-left: 5px;
     font-family: sans-serif;
     border: none;
-    border: 1px solid gray;
-    border-radius: 4px;
+    border-bottom: 1px solid gray;
 }
-
 .searchBtn {
     color: white;
-    background-color: #20a6d3;
+    font-size: 18px;
     height: 40px;
     border: none;
     border-radius: 3px;
@@ -38,5 +36,5 @@
     margin-left: 3px;
 }
 .searchBtn:hover {
-    background-color: #1b8db3;
+    background-color: #4cb5d8;
 }

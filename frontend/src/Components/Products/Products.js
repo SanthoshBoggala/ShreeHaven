@@ -34,11 +34,18 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
         url = `https://shreehaven.onrender.com/api/products?search=${urlSearch}`   
     }
 
-    const { data: { products , wishListItems : { products : wishListItems }}, isLoading } = useFetchData({ url, query: filters, token })
+    const { data: { products : nrmalProducts, wishListItems }, isLoading } = useFetchData({ url, query: filters, token })
 
-    products = products || wishListItems
-    
-    console.log(products)
+    let products
+    if(!isLoading){
+        if(wishListItems && wishListItems.products && wishListItems.products.length !== 0){
+            products = wishListItems.products.map(one => one.product)   
+        }
+        else{
+            products = nrmalProducts
+        }
+    }
+
     const searchChange = (e) => {
         setSearch(e.target.value)
     }
@@ -58,14 +65,14 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
                             type="text"
                             name='search'
                             value={search}
-                            placeholder="search"
+                            placeholder="🔍 search for items"
                             onChange={searchChange}
                         />
                         <button 
                             className="searchBtn"
                             onClick={searchItems}
                         >
-                            Search
+                            🔍
                         </button>
                     </div>
                 </div>
