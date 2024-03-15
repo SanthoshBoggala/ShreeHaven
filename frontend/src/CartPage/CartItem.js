@@ -34,7 +34,7 @@ const CartItem = ({ item, handleRefetch })=>{
         const cartData = {
             key: item.key
         }
-        const { data, isSending, error } = await modifyData(cartData)
+        const { error } = await modifyData(cartData)
 
         if(error){
             toast.error('Failed to remove from cart!')

@@ -10,7 +10,7 @@ const CartPage = ()=>{
 
     const [refetch, setRefetch] = useState(0)
     
-    const url = 'https://shreehaven.onrender.com/cart/user'
+    const url = 'https://shreehaven.onrender.com/api/cart/user'
     const { data: { cart } } = useFetchData({url, query: refetch ,token})
 
     const cartItems = (cart && cart.items) ? cart.items : []
