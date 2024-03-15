@@ -31,10 +31,10 @@ const BuyPage = () => {
     //     "ratings": 30059,
     //     "reviews": 3599,
     // }
+
     const [viewModel, setViewModel] = useState(false)
     const [extra, setExtra] = useState({
         count: 1,
-        color: '',
         size: '',
     })
     const [totalPrice, setTotalPrice] = useState(0)
@@ -72,7 +72,6 @@ const BuyPage = () => {
     if (product) {
         fashionData.forEach(one => {
             if (one.category === product.category) {
-                product['colors'] = one.colors
                 product['sizes'] = one.sizes
             }
         })
@@ -98,22 +97,8 @@ const BuyPage = () => {
                                 <div className="productOPrice">{product.price}</div>
                                 <div className="productDiscount">{product.discount + '% off'}</div>
                             </div>
-                            { !['Watches' , 'Sarees'].includes(product.category) && (
+                            { !['Watches' , 'Sarees'].includes(product.category) && product.sizes && (
                                 <>
-                                    <div className='buyExtra extras'>
-                                        Color:
-                                        <select
-                                            name='color'
-                                            onChange={handleChange}
-                                        >
-                                            <option value="">Select Color</option>
-                                            {product.colors && (
-                                                product.colors.map((x, index) => {
-                                                    return (<option key={index} value={x}>{x}</option>)
-                                                })
-                                            )}
-                                        </select>
-                                    </div> <br />
                                     <div className='buyExtra'>
                                         Size:
                                         <select
@@ -143,7 +128,7 @@ const BuyPage = () => {
                                 />
                             </div>
                             <div className='totalPrice'>
-                                Total Price: <span>{totalPrice}</span>
+                                Total Price: <span>{"₹" + totalPrice}</span>
                             </div>
                             <div className='buyPageBtn'>
                                 <button

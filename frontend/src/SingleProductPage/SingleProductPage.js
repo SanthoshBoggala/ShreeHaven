@@ -21,7 +21,7 @@ const SingleProductPage = () => {
 
 
     let url = `https://shreehaven.onrender.com/api/products/${id}`
-    const { data: { product }, isLoading, error } = useFetchData({ url, query: refetch, token })
+    const { data: { product }, isLoading } = useFetchData({ url, query: refetch, token })
     url = 'https://shreehaven.onrender.com/api/cart'
     const { modifyData } = useModifyData({ url, token })
 
@@ -29,24 +29,20 @@ const SingleProductPage = () => {
 
     useEffect(() => {
         setKey({ key: id })
-    }, [id])
+
+        if (product) {
+            fashionData.forEach(one => {
+                if (one.category == product.category) {
+                    product['sizes'] = one.sizes
+                }
+            })
+        }
+    }, [id, product, fashionData])
 
     if(!isLoading && !product){
         return (
             <NotFoundAndUnAuthorized type={'notFound'}/>
         )
-    }
-
-
-
-
-    if (product) {
-        fashionData.forEach(one => {
-            if (one.category == product.category) {
-                product['colors'] = one.colors
-                product['sizes'] = one.sizes
-            }
-        })
     }
 
     const addToCart = async () => {
@@ -81,7 +77,6 @@ const SingleProductPage = () => {
         navigate('/login')
         return
     }
-
 
     return (
         <>
@@ -120,16 +115,8 @@ const SingleProductPage = () => {
                                         <span className="productRatings">and</span>
                                         <span className="productReviews">{product.reviews.length + ' Reviews'}</span>
                                     </div>
-                                    { !['Watches','Sarees'].includes(product.category) && (
+                                    { !['Watches','Sarees'].includes(product.category) && product.sizes && (
                                         <>
-                                            <div className="productColors">
-                                                <span className="someHeadings">Available colors</span> <br />
-                                                {product.colors.map((x) => {
-                                                    return (
-                                                        <span className="badge bg-secondary sizeOptions" key={x}>{x}</span>
-                                                    )
-                                                })}
-                                            </div>
                                             <div className="productSizes">
                                                 <span className="someHeadings">Available sizes</span> <br />
                                                 { product.sizes.map((x) => {

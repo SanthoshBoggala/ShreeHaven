@@ -67,7 +67,7 @@ const addToOrders = asyncHandler(async(req, res) => {
         res.status(401);
         throw new Error('only customers can access');
     }
-    const { key, size, count, color, address, paymentMethod } = req.body;
+    const { key, size, count, address, paymentMethod } = req.body;
 
     if( !count || !address || !paymentMethod  || !key){
         res.status(400);
@@ -81,14 +81,13 @@ const addToOrders = asyncHandler(async(req, res) => {
     }
 
     let order
-    if(color){
+    if(size){
         order = await Orders.create( 
             {   
                 user: userId,
                 product: productExists._id,
                 size,
                 count,
-                color,
                 address,
                 paymentMethod,
                 price : Number(count) * productExists.newPrice,
@@ -110,7 +109,7 @@ const addToOrders = asyncHandler(async(req, res) => {
 });
 
 const updateOrder = asyncHandler(async (req, res) => {
-    const { userId, type } = req.user
+    const { type } = req.user
     if( type !== 'admin' ) {
         res.status(401);
         throw new Error('only admins can access');

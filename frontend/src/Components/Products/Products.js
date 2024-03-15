@@ -30,8 +30,8 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
     else{
         url = `https://shreehaven.onrender.com/api/products?search=${urlSearch}`   
     }
-    
-    const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
+
+    const { data: { products }, isLoading } = useFetchData({ url, query: filters, token })
 
    
     const searchChange = (e) => {

@@ -8,11 +8,11 @@ import UserContext from '../../contexts/userContext'
 const Reviews = ({ reviews , ratings , starRating })=>{
     const [canReview, setCanReview] = useState(false)
     const [viewMore, setViewMore] = useState(2)
-    const {user, token} = useContext(UserContext)
+    const {user} = useContext(UserContext)
 
-    reviews = reviews.filter(one => one.review && one.review.hasOwnProperty('comment'))
+    reviews = reviews.length !== 0 ? reviews.filter(one => one.review && one.review.hasOwnProperty('comment')) : []
     
-    const limitedReviews = reviews.slice(0,viewMore)
+    const limitedReviews = reviews.length !== 0 ? reviews.slice(0,viewMore) : []
 
     // const reviewsData = [
     //     {
@@ -56,7 +56,7 @@ const Reviews = ({ reviews , ratings , starRating })=>{
                         <div className='ratings'>{reviews.length + ' Reviews'}</div>
                     </div>
                     {limitedReviews && limitedReviews.length !== 0 ? (
-                    <>  
+                    <> 
                         {limitedReviews.map((review, index) => <SingleReview  key={index} review={review.review}/>)}
                         <div className='viewAllDiv'>
                             <button className='viewAll' onClick={showAll}>{ limitedReviews.length < 3 ? 'View All' : 'View Less'}</button>

@@ -25,7 +25,7 @@ const FashionDataContextProvider = ({ children }) =>{
           colors: ['Charcoal', 'Burgundy', 'Forest Green', 'Navy', 'Camel', 'Olive Green']
         },
         {
-            category: "Jeans & Trousers",
+            category: "Trousers",
             sizes: ['28', '30', '32', '34', '36','38', '40'],
             colors: ['Indigo Blue', 'Black', 'Khaki', 'Grey', 'Dark Brown', 'Brown', 'Beige']
         },

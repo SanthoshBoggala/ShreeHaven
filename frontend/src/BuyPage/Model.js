@@ -42,8 +42,8 @@ const MyModal = ({category, setViewModelHelpher, viewModel, extra }) => {
         e.preventDefault()
 
         if( !['Watches' , 'Sarees'].includes(category)){
-            if ((extra.color.length || extra.size.length) === 0) {
-                setErr("Invalid color/size selected")
+            if (extra.size.length === 0) {
+                setErr("Invalid size")
                 return
             }
         }
