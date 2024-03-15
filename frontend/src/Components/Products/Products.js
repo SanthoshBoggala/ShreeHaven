@@ -16,19 +16,19 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
 
     let url
     if(category){
-        url = `https://shreehaven.onrender.com/products?type=${category}&search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/api/products?type=${category}&search=${urlSearch}`
     }
     else if( topRatedUrl.length !== 0 ){
-        url = `https://shreehaven.onrender.com/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
     }
     else if(['trending_deals', 'hot_deals'].includes(urlEndPoint)){
-        url = `https://shreehaven.onrender.com/products/${urlEndPoint}?search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/api/products/${urlEndPoint}?search=${urlSearch}`
     }
     else if(urlEndPoint !== 'suggested_items') {
-        url = `https://shreehaven.onrender.com/products/styles/${urlEndPoint}?search=${urlSearch}`
+        url = `https://shreehaven.onrender.com/api/products/styles/${urlEndPoint}?search=${urlSearch}`
     }
     else{
-        url = `https://shreehaven.onrender.com/products?search=${urlSearch}`   
+        url = `https://shreehaven.onrender.com/api/products?search=${urlSearch}`   
     }
     const { data: { products }, isLoading, error } = useFetchData({ url, query: filters, token })
 
