@@ -17,7 +17,7 @@ const ProfilePage = () => {
 
     return (
         <SideBarContextProvider>
-            <div className='profilePage'>
+            <div className='profilePage minHeight'>
                 <ProfileSideBar active={'profile'}/>
                 <PersonalInfo />
             </div>

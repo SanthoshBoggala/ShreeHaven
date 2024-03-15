@@ -7,7 +7,7 @@ const StylesForYouPage = () => {
     const { id } = useParams()
 
     return (
-        <div className='stylesForYouPage row'>
+        <div className='stylesForYouPage minHeight row'>
             <Products stylesForYouPage = {true} urlEndPoint={id}/>
         </div>
     )

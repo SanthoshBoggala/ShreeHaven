@@ -35,7 +35,7 @@ const CanModify = () => {
     }
 
     return (
-        <div className='canModify'>
+        <div className='canModify minHeight'>
             <div className='typeCategoryDiv'>
                 <div className='typesHeading'>
                     Available Types & Categories

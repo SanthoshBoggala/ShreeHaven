@@ -12,7 +12,7 @@ const ProductPage = () => {
 
     return (
         <>
-            <div className="productsPage">
+            <div className="productsPage minHeight">
                 <div className='outfilterIcon'>
                     <img
                         src={sbIcon}

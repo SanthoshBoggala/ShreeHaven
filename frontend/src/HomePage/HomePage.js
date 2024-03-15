@@ -5,7 +5,7 @@ import { HomeCarousel, HomeHotDeals, HomeStyles, HomeSuggestedItems, HomeTopRate
 const HomePage = () => {
 
   return (
-      <div className='homePage'>
+      <div className='homePage minHeight'>
         <HomeCarousel />
         <HomeStyles />
         <HomeTopRated />

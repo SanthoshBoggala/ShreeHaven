@@ -18,7 +18,7 @@ const UploadProductPage = () => {
 
     return (
         <SideBarContextProvider>
-            <div>
+            <div className='minHeight'>
                 <ProfileSideBar active={'upload_product'} />
                 <UploadProductForm />
             </div>

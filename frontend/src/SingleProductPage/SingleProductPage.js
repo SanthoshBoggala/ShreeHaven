@@ -87,7 +87,7 @@ const SingleProductPage = () => {
             ) : (
                 (product && (
                     <>
-                        <div className="productPage">
+                        <div className="productPage minHeight">
                             <div className="row singleProductPage">
                                 <div className="col-lg-6 productImageDiv">
                                     <div className="row productImage">

@@ -26,7 +26,7 @@ const CartPage = ()=>{
     }
 
     return (
-        <div className='cartPage'>
+        <div className='cartPage minHeight'>
             <h2 className='text-center'>My Cart</h2>
             { token && token.length !== 0 ? 
             (cartItems && cartItems.length !== 0) ? (
