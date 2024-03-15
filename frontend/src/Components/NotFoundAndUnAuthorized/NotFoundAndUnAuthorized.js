@@ -1,13 +1,12 @@
 import React from 'react'
-import page401 from '../../Images/401UnAuthorized.png'
-import page404 from '../../Images/404NotFound.webp'
 import './notFoundAndUnAuthorized.css'
 
 const NotFoundAndUnAuthorized = ({type}) => {
+  const img = `https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/${type === "notFound" ? '404NotFound.webp' : '401UnAuthorized.png'}`
   return (
     <div className='notFoundAndUnAuthorized'>
         <img 
-            src= { type === "notFound" ? page404 : page401}
+            src= { img }
             className='img-fluid'
             alt={'notFoundAndUnAuthorized'}
         />

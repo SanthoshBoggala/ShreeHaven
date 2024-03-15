@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom'
 import UserContext from '../../contexts/userContext'
 import { LimitContext } from '../../contexts/LimitContext'
 import useFetchData from '../../customHooks/useFetchData'
-import ra1 from '../../Images/rightArrow.png'
 
 
 
@@ -37,7 +36,7 @@ const HomeSuggestedItems = () => {
           <img 
             onClick={navigateToForYou}
             className='img-fluid'
-            src={ra1}
+            src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/rightArrow.png'}
             alt='rightArrow'
           />
         </div>

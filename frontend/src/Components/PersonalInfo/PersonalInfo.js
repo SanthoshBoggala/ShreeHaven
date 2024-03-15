@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './personalInfo.css';
 import UserContext from '../../contexts/userContext';
-import userIcon from '../../Images/username.png'
 
 const PersonalInfo = () => {
   const { user: userDetails } = useContext(UserContext)
@@ -29,7 +28,7 @@ const PersonalInfo = () => {
           <div className='image'>
             <div className='userImg'>
               <img
-                src={userIcon}
+                src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/username.png'}
                 alt='profilepic'
                 className='img-fluid'
               />
