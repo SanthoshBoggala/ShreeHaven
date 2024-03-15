@@ -20,9 +20,20 @@ const getMyWishListItems = asyncHandler(async (req, res) => {
         throw new Error('only customer can access')
     }
 
-    const { key } = req.query
-    const wishListItems = await WishListItems.findOne({ user: userId }).populate('products.product')
+    const { key, search } = req.query
 
+    let wishListItems = await WishListItems.findOne({ user: userId }).populate('products.product')
+
+    if(!key){
+        if(search && search.length !== 0){
+            wishListItems = await WishListItems.find({ user: userId,  name: { $regex: new RegExp(search, 'i') }}).populate('products.product');
+        }
+        else{
+            wishListItems = await WishListItems.find({ user: userId}).populate('products.product');
+        }
+        res.json({ wishListItems });
+        return;
+    }
     let get = false
     if(wishListItems && wishListItems.products){
         const oneWish = wishListItems.products.find(one => one.product.key === key)

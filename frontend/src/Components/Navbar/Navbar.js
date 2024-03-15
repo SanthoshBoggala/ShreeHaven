@@ -11,6 +11,13 @@ const NavbarDummy = () => {
   const { user } = useContext(UserContext)
   const { typesCates } = useContext(TypesCatesContext)
 
+  const closeNavbar = () => {
+    const navbarToggle = document.querySelector('.navbar-toggler');
+    if (navbarToggle && window.innerWidth < 992) {
+      navbarToggle.click();
+    }
+  }
+
 
   return (
     <Navbar expand="lg" className='fixed-top nabar'>
@@ -18,26 +25,26 @@ const NavbarDummy = () => {
       <Navbar.Toggle aria-controls="navbarSupportedContent" />
       <Navbar.Collapse id="navbarSupportedContent">
         <Nav className="ms-auto">
-          <Nav.Link as={NavLink} className='navItem' to="/">
+          <Nav.Link as={NavLink} className='navItem' to="/" onClick={closeNavbar}>
             Home
           </Nav.Link>
           <NavDropdown title="Categories" id="basic-nav-dropdown">
             { typesCates && typesCates.length !== 0 && 
             typesCates.map((category, index) =>
             (
-                <NavDropdown.Item key={index} as={NavLink} to={`/products/${category.type}`}>
+                <NavDropdown.Item key={index} as={NavLink} to={`/products/${category.type}`} onClick={closeNavbar}>
                   {category.type}
                 </NavDropdown.Item>
             ))}
           </NavDropdown>
-          <Nav.Link as={NavLink} className='navItem' to="/about">
-            About
+          <Nav.Link as={NavLink} className='navItem' to="/my/wishList_products" onClick={closeNavbar}>
+            wishlist
           </Nav.Link>
-          <Nav.Link as={NavLink} className='navItem' to="/contact">
+          <Nav.Link as={NavLink} className='navItem' to="/contact" onClick={closeNavbar}>
             Contact
           </Nav.Link>
         </Nav>
-        <EndComponents user={user}/>
+        <EndComponents user={user} closeNavbar={closeNavbar}/>
       </Navbar.Collapse>
     </Navbar>
   );

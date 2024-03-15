@@ -1,10 +1,8 @@
 import './itemCard.css'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import useModifyData from '../../customHooks/useModifyData'
 import { useNavigate } from 'react-router-dom'
 import UserContext from '../../contexts/userContext'
-import red from '../../Images/red.png'
-import grey from '../../Images/wishlist1.png'
 import axios from 'axios'
 
 const ItemCard = ({ item , caption , home = false, notProducts = false, topRated = false}) => {
@@ -63,7 +61,9 @@ const ItemCard = ({ item , caption , home = false, notProducts = false, topRated
         }
     }
 
-return (
+    const star = `https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/${wishlist ? 'red.png' : 'wishlist1.png'}`
+
+    return (
     <div className={ notProducts ? `itemCardMain col-6 col-sm-4 col-md-3 col-lg-2` : 'itemCardMain col-lg-2 col-md-3 col-sm-4 col-6'}>
         <div className='itemCard'>
             <div className='itemImg img-fluid' style={{ height: home ? '300px' : '250px' }}>
@@ -80,7 +80,7 @@ return (
                         <div className='itemWishlist'>
                             <img
                                 onClick={toggoleWishList}
-                                src={wishlist ? red : grey}
+                                src={star}
                                 alt={wishlist ? 'inWishlist' : 'notInWishlist'}
                             />
                         </div>

@@ -47,6 +47,9 @@ const CartItem = ({ item, handleRefetch })=>{
             
         }
     }
+    const goToProduct = ()=>{
+        navigate(`/products/${item.type}/${item.key}`)
+    }
     return (
         <div className='row cartItem'>
             <div className='col-md-4 imageContainer'>
@@ -54,6 +57,7 @@ const CartItem = ({ item, handleRefetch })=>{
                     src={item.images.split(",")[0]}
                     className='cartImage img-fluid'
                     alt={item.name}
+                    onClick={goToProduct}
                 />
             </div>
             <div className='col-md-8 cartItemDetails'>

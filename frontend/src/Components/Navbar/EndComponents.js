@@ -5,18 +5,18 @@ import { useContext } from 'react';
 import UserContext from '../../contexts/userContext';
 
 
-const EndComponents = ({ user }) => {
+const EndComponents = ({ user, closeNavbar }) => {
     const { user: userName } = useContext(UserContext)
     return (
         <>
             {(user && user.type )? (
                 <Nav className='ms-auto'>
-                    <Nav.Link as={NavLink} className='navItem' to="/my/profile">
+                    <Nav.Link as={NavLink} className='navItem' to="/my/profile" onClick={closeNavbar}>
                         {userName.username}
                     </Nav.Link>
                     {
                         user.type === 'customer' && (
-                            <Nav.Link as={NavLink} className='navItem' to="/my/cart">
+                            <Nav.Link as={NavLink} className='navItem' to="/my/cart" onClick={closeNavbar}>
                                 Cart
                             </Nav.Link>
                         )
@@ -25,10 +25,10 @@ const EndComponents = ({ user }) => {
             )
                 : (
                     <Nav className='ms-auto'>
-                        <Nav.Link as={NavLink} className='navItem' to="/login">
+                        <Nav.Link as={NavLink} className='navItem' to="/login" onClick={closeNavbar}>
                             Login
                         </Nav.Link>
-                        <Nav.Link as={NavLink} className='navItem' to="/register">
+                        <Nav.Link as={NavLink} className='navItem' to="/register" onClick={closeNavbar}>
                             Register
                         </Nav.Link>
                     </Nav>

@@ -5,8 +5,6 @@ import UserContext from '../../contexts/userContext'
 import { ProductContext } from '../../contexts/ProductContext'
 import { toast, ToastContainer } from 'react-toastify'
 import RefetchProductContext from '../../contexts/RefetchProductContext'
-import grn from '../../Images/ratedStar.png'
-import wte from '../../Images/notRatedStar.png'
 
 
 const GiveReview = () => {
@@ -56,7 +54,7 @@ const GiveReview = () => {
             formData = {...formData, comment }
         }
 
-        const { isSending, error,  data } = await modifyData(formData)
+        const { error } = await modifyData(formData)
 
 
         if(error){
@@ -72,6 +70,8 @@ const GiveReview = () => {
         }
 
     }
+    const wte = 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/notRatedStar.png'
+    const grn = 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/ratedStar.png'
     return (
         <>
             <div className='giveStarRating'>

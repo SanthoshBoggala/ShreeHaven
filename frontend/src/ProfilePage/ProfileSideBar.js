@@ -3,8 +3,6 @@ import './profilePage.css'
 import {SideBarContext} from '../contexts/SideBarContext'
 import UserContext from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
-import sbIcon from '../Images/sideBarIcon.png'
-import userIcon from '../Images/username.png'
 
 const ProfileSideBar = ({active}) => {
 
@@ -24,21 +22,13 @@ const ProfileSideBar = ({active}) => {
                 display: 'My Orders'
             },
             {
+                url: 'wishlist_products',
+                display: 'My Wishlist'
+            },
+            {
                 url: 'cart',
                 display: 'My Cart'
-            },
-            {
-                url: 'reviews',
-                display: 'My Reviews'
-            },
-            {
-                url: 'addresses',
-                display: 'Addresses'
-            },
-            {
-                url: 'help',
-                display: 'Need Help'
-            },
+            }
         ]
     }
     else{
@@ -58,11 +48,7 @@ const ProfileSideBar = ({active}) => {
             {
                 url: 'upload_product',
                 display: 'Upload Product'
-            },
-            {
-                url: 'help',
-                display: 'Need Help'
-            },
+            }
         ]
     }
     const handleSideBar = ()=>{
@@ -78,6 +64,7 @@ const ProfileSideBar = ({active}) => {
         navigate('/')
         return
     }
+
     return (
         <>
             <div className={`offcanvas offcanvas-start ${sideBar.show ? 'show' : ''} profileSideBar`}>
@@ -85,7 +72,7 @@ const ProfileSideBar = ({active}) => {
                     <div className='userSideBar'>
                         <div className='userImg'>
                             <img
-                                src={userIcon}
+                                src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/username.png'}
                                 alt='profilepic'
                                 className='img-fluid'
                             />
@@ -99,7 +86,7 @@ const ProfileSideBar = ({active}) => {
                         onClick={handleSideBar}
                     >
                         <img
-                            src={sbIcon}
+                            src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/sideBarIcon.png'}
                             alt='side-bar-icon'
                         />
                     </div>
@@ -131,7 +118,7 @@ const ProfileSideBar = ({active}) => {
             </div>
             <div className='outSideIcon'>
                 <img
-                    src={sbIcon}
+                    src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/sideBarIcon.png'}
                     alt='side-bar-icon'
                     onClick={handleSideBar}
                 />

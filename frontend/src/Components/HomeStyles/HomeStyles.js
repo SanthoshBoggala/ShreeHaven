@@ -1,37 +1,31 @@
 import React from 'react'
 import './homeStyles.css'
 import StyleComponent from './StyleComponent'
-import tShirts from '../../Images/t-shirts.webp'
-import winterWear from '../../Images/winterWear.png'
-import mobiles from '../../Images/mobiles.jpg'
-import sarees from '../../Images/sarees.jpg'
-import watches from '../../Images/watches.jpg'
-import formalShirts from '../../Images/formal-shirts.jpeg'
 
 const HomeStyles = () => {
   const styleData = [
     {
-      image: tShirts,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/t-shirts.webp',
       name: 'T-Shirts'
     },
     {
-      image: winterWear,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/winterWear.png',
       name: 'Winter Wear'
     },
     {
-      image: mobiles,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/mobiles.jpg',
       name: 'Mobiles'
     },
     {
-      image: sarees,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/sarees.jpg',
       name: 'Sarees'
     },
     {
-      image: watches,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/watches.jpg',
       name: 'Watches'
     },
     {
-      image: formalShirts,
+      image: 'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/formal-shirts.jpeg',
       name: 'Formal-Shirts'
     }
   ]

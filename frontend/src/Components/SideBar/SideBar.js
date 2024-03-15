@@ -4,7 +4,6 @@ import { useContext, useEffect } from 'react'
 import { SelectedFilters } from '../../contexts/SelectedFilters'
 import UserContext from '../../contexts/userContext'
 import { useParams } from 'react-router-dom'
-import sbIcon from '../../Images/sideBarIcon.png'
 import axios from 'axios'
 
 
@@ -45,7 +44,7 @@ const SideBar = ({ ChangeFilterShow, filterShow }) => {
                 <div className='filterHeading'>Filter</div>
                 <div className='filterIcon'>
                     <img
-                        src={sbIcon}
+                        src={'https://s3.ap-south-1.amazonaws.com/santhosh.shreehaven/ShreeHaven/otherImages/sideBarIcon.png'}
                         alt='side-bar-icon'
                         onClick={ChangeFilterShow}
                     />

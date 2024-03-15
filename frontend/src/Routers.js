@@ -16,6 +16,7 @@ import StylesForYouPage from './StylesForYouPage/StylesForYouPage';
 import TopRatedPage from './TopRatedPage/TopRatedPage';
 import BuyPage from './BuyPage/BuyPage';
 import NotFoundAndUnAuthorized from './Components/NotFoundAndUnAuthorized/NotFoundAndUnAuthorized';
+import WishListPage from './WishListPage/WishListPage';
 
 const Routers = () => {
   return ( 
@@ -37,6 +38,7 @@ const Routers = () => {
         <Route path="/my/orders" element={<MyOrdersPage />} />
         <Route path="/my/all_orders" element={<MyOrdersPage />} />
         <Route path="/my/reviews" element={<ProfilePage />} />
+        <Route path="/my/wishlist_products" element={<WishListPage />} />
         <Route path="/my/upload_product" element={<UploadProductPage />} />
         <Route path="/my/type_category" element={<TypeCategory />} />
         <Route path='/:notAPage' element={<NotFoundAndUnAuthorized type={'notFound'}/>} />

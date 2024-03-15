@@ -6,7 +6,7 @@ import UserContext from '../../contexts/userContext'
 import { SelectedFilters } from "../../contexts/SelectedFilters"
 import useFetchData from "../../customHooks/useFetchData"
 
-const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, topRated = false }) => {
+const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYouPage = false, topRated = false }) => {
     const [search, setSearch] = useState("")
     const [urlSearch, setUrlSearch] = useState("")
     const { token } = useContext(UserContext)
@@ -24,6 +24,9 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
     else if(['trending_deals', 'hot_deals'].includes(urlEndPoint)){
         url = `https://shreehaven.onrender.com/api/products/${urlEndPoint}?search=${urlSearch}`
     }
+    else if(wishlist){
+        url = `https://shreehaven.onrender.com/api/wishList?search=${urlSearch}`
+    }
     else if(urlEndPoint !== 'suggested_items') {
         url = `https://shreehaven.onrender.com/api/products/styles/${urlEndPoint}?search=${urlSearch}`
     }
@@ -40,6 +43,7 @@ const Products = ({ urlEndPoint, topRatedUrl = "", stylesForYouPage = false, top
     const searchItems = ()=>{
         setUrlSearch(search)
     }
+
     return (
         <div className='products'>
             {isLoading ? <h4>Loading</h4> : (
