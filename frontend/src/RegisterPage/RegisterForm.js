@@ -37,26 +37,26 @@ const RegisterForm = () => {
 
   const validateForm = ()=>{
 
-    // if(formData.userType.length === 0){
-    //   setErr("Invalid user type")
-    //   return false
-    // }
-    // if (formData.password.length < 6) {
-    //   setErr("Password must be at least 6 characters long")
-    //   return false
-    // }
-    // if (!isValidEmail(formData.email)) {
-    //   setErr("Enter a valid email address")
-    //   return false
-    // }
-    // if(formData.phoneNumber.length !== 10){
-    //   setErr("Enter valid phone number")
-    //   return false
-    // }
-    // if (formData.pincode.length !== 6) {
-    //   setErr("Enter a valid 6-digit pincode")
-    //   return false
-    // }
+    if(formData.userType.length === 0){
+      setErr("Invalid user type")
+      return false
+    }
+    if (formData.password.length < 6) {
+      setErr("Password must be at least 6 characters long")
+      return false
+    }
+    if (!isValidEmail(formData.email)) {
+      setErr("Enter a valid email address")
+      return false
+    }
+    if(formData.phoneNumber.length !== 10){
+      setErr("Enter valid phone number")
+      return false
+    }
+    if (formData.pincode.length !== 6) {
+      setErr("Enter a valid 6-digit pincode")
+      return false
+    }
 
     setErr("")
     return true
@@ -68,7 +68,7 @@ const RegisterForm = () => {
     if(!validateForm()) return
 
     
-    const {isSending, error, data} = await modifyData(formData)
+    const { error, data} = await modifyData(formData)
 
     
     if(error){

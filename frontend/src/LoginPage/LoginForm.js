@@ -35,10 +35,11 @@ const LoginForm = () => {
 
   const validateForm = ()=>{
 
-    // if (formData.password.length < 6) {
-    //   setErr("Password must be at least 6 characters long")
-    //   return false
-    // }
+    if (formData.password.length < 6) {
+      setErr("Password must be at least 6 characters long")
+      return false
+    }
+    
     if (!isValidEmail(formData.email)) {
       setErr("Enter a valid email address")
       return false
