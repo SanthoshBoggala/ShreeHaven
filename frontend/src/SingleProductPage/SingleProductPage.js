@@ -81,7 +81,7 @@ const SingleProductPage = () => {
     return (
         <>
             {isLoading ? (
-                <div className="productPage">
+                <div className="productPage minHeight">
                     Loading...
                 </div>
             ) : (
