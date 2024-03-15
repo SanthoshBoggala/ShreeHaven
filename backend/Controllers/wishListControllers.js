@@ -27,10 +27,10 @@ const getMyWishListItems = asyncHandler(async (req, res) => {
     if(!key){
         
         if(search && search.length !== 0){
-            wishListItems = await WishListItems.find({ user: userId,  name: { $regex: new RegExp(search, 'i') }}).populate('products.product');
+            wishListItems = await WishListItems.findOne({ user: userId,  name: { $regex: new RegExp(search, 'i') }}).populate('products.product');
         }
         else{
-            wishListItems = await WishListItems.find({ user: userId}).populate('products.product');
+            wishListItems = await WishListItems.findOne({ user: userId}).populate('products.product');
         }
         res.json({ wishListItems });
         return;
