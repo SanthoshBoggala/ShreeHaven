@@ -2,13 +2,9 @@
     margin-bottom: 12px;
 }
 .itemCard {
-    /* background-color: rgb(128, 226, 233); */
-    /* border: 1px solid rgb(65, 171, 179); */
     border-radius: 5px;
     max-width: 200px;
-    box-shadow: 0px 0px 10px  #1c89ad;
-    /* width: 250px;
-    margin: 5px; */
+    box-shadow: 0px 0px 10px  #144e5f;
     transition: transform 0.3s ease;
 }
 .itemCard:hover {

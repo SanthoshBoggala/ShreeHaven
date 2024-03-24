@@ -1,0 +1,56 @@
+.aboutPage {
+    margin: 20px;
+    padding-top: 40px;
+    font-family: sans-serif;
+}
+.whoWeAre {
+    align-items: center;
+    justify-content: center;
+}
+.lightBorder {
+    border: 2px solid rgb(10, 134, 192);
+    max-width: 80px;
+    margin-bottom: 10px;
+}
+.bigText {
+    font-size: 35px;
+    font-weight: 550;
+    margin-bottom: 20px;
+}
+.normalText {
+    font-size: 16px;
+}
+
+.ourTeam {
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+}
+.teamMembers {
+    margin-top: 20px;
+    text-align: center;
+}
+.teams {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.oneTeam {
+    text-align: center;
+}
+.headName {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.features {
+    margin: auto;
+    padding: 50px 10px;
+}
+.features > div {
+    text-align: center;
+}
+.featureImg {
+    width: 80px;
+    margin-bottom: 10px;
+}

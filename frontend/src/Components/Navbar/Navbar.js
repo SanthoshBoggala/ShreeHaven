@@ -21,14 +21,14 @@ const NavbarDummy = () => {
 
   return (
     <Navbar expand="lg" className='fixed-top nabar'>
-      <Navbar.Brand className='brand'>Shree Haven</Navbar.Brand>
-      <Navbar.Toggle aria-controls="navbarSupportedContent" />
+      <Navbar.Brand className='brand'><div className='navItemBrand'>Shree Haven</div></Navbar.Brand>
+      <Navbar.Toggle aria-controls="navbarSupportedContent" className='navbar-toggler'/>
       <Navbar.Collapse id="navbarSupportedContent">
         <Nav className="ms-auto">
-          <Nav.Link as={NavLink} className='navItem' to="/" onClick={closeNavbar}>
-            Home
+          <Nav.Link as={NavLink} to="/" onClick={closeNavbar} className='navItem'>
+              Home
           </Nav.Link>
-          <NavDropdown title="Categories" id="basic-nav-dropdown">
+          <NavDropdown title="Categories" id="basic-nav-dropdown" className="custom-dropdown">
             { typesCates && typesCates.length !== 0 && 
             typesCates.map((category, index) =>
             (

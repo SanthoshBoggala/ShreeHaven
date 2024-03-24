@@ -67,7 +67,7 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
                             type="text"
                             name='search'
                             value={search}
-                            placeholder="🔍 search for items"
+                            placeholder="Search for items..."
                             onChange={searchChange}
                         />
                         <button 
