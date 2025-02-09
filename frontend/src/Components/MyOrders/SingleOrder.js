@@ -10,7 +10,7 @@ const SingleOrder = (order) => {
 
     const navigate = useNavigate()
     const { user: { type }, token } = useContext(UserContext)
-    const url = `https://shreehaven.onrender.com/api/orders/${order._id}`
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/orders/${order._id}`
     const { modifyData } = useModifyData({ url, method: "PUT", token })
     const [orderStatus, setOrderStatus] = useState(null)
 

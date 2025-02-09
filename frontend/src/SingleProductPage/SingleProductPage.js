@@ -20,9 +20,9 @@ const SingleProductPage = () => {
     const navigate = useNavigate()
 
 
-    let url = `https://shreehaven.onrender.com/api/products/${id}`
+    let url = `${process.env.REACT_APP_BACKEND_URL}api/products/${id}`
     const { data: { product }, isLoading } = useFetchData({ url, query: refetch, token })
-    url = 'https://shreehaven.onrender.com/api/cart'
+    url = `${process.env.REACT_APP_BACKEND_URL}api/cart`
     const { modifyData } = useModifyData({ url, token })
 
     const { setKey } = useContext(ProductContext)

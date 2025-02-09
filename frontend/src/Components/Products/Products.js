@@ -17,23 +17,23 @@ const Products = ({ urlEndPoint, wishlist = false, topRatedUrl = "", stylesForYo
     let wishlistIcon = ""
     let url
     if(category){
-        url = `https://shreehaven.onrender.com/api/products?type=${category}&search=${urlSearch}`
+        url = `${process.env.REACT_APP_BACKEND_URL}api/products?type=${category}&search=${urlSearch}`
     }
     else if( topRatedUrl.length !== 0 ){
-        url = `https://shreehaven.onrender.com/api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
+        url = `${process.env.REACT_APP_BACKEND_URL}api/products/top_rated?category=${topRatedUrl}&search=${urlSearch}`
     }
     else if(['trending_deals', 'hot_deals'].includes(urlEndPoint)){
-        url = `https://shreehaven.onrender.com/api/products/${urlEndPoint}?search=${urlSearch}`
+        url = `${process.env.REACT_APP_BACKEND_URL}api/products/${urlEndPoint}?search=${urlSearch}`
     }
     else if(wishlist){
         wishlistIcon = "wishlist"
-        url = `https://shreehaven.onrender.com/api/wishList/user?search=${urlSearch}`
+        url = `${process.env.REACT_APP_BACKEND_URL}api/wishList/user?search=${urlSearch}`
     }
     else if(urlEndPoint !== 'suggested_items') {
-        url = `https://shreehaven.onrender.com/api/products/styles/${urlEndPoint}?search=${urlSearch}`
+        url = `${process.env.REACT_APP_BACKEND_URL}api/products/styles/${urlEndPoint}?search=${urlSearch}`
     }
     else{
-        url = `https://shreehaven.onrender.com/api/products?search=${urlSearch}`   
+        url = `${process.env.REACT_APP_BACKEND_URL}api/products?search=${urlSearch}`   
     }
 
     const { data: { products : nrmalProducts, wishListItems }, isLoading } = useFetchData({ url, query: filters, token })

@@ -8,7 +8,7 @@ import TypesCatesContext from '../contexts/TypesCatesContext'
 const Category = ({type, category }) => {
   const { token } = useContext(UserContext)
   const { setTypesCates } = useContext(TypesCatesContext)
-  const url = `https://shreehaven.onrender.com/api/type_category`
+  const url = `${process.env.REACT_APP_BACKEND_URL}api/type_category`
 
   const { modifyData } = useModifyData({url, method: "PUT", token})
   const removeCategory = async()=>{

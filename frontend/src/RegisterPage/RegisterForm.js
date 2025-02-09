@@ -20,7 +20,7 @@ const RegisterForm = () => {
   })
   const [err, setErr] = useState("")
   const { setUser, setToken } = useContext(UserContext)
-  const url = 'https://shreehaven.onrender.com/api/register'
+  const url = `${process.env.REACT_APP_BACKEND_URL}/register`
   const { modifyData } = useModifyData({ url, method: "POST" })
 
   const handleInputChange = (e) => {

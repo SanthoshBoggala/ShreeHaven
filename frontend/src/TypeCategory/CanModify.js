@@ -10,7 +10,7 @@ import { toast, ToastContainer } from 'react-toastify'
 const CanModify = () => {
     const { typesCates ,setTypesCates } = useContext(TypesCatesContext)
     const { token } = useContext(UserContext)
-    const url = `https://shreehaven.onrender.com/api/type_category`
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/type_category`
 
     const { modifyData } = useModifyData({url, token})
     const [view, setView] = useState(false)

@@ -11,15 +11,15 @@ const MyOrders = () => {
 
 
   const { user, token } = useContext(UserContext)
-  let url = 'https://shreehaven.onrender.com/api/orders/user'
+  let url = `${process.env.REACT_APP_BACKEND_URL}api/orders/user`
   if (getOrders && getOrders.length !== 0) {
-    url = `https://shreehaven.onrender.com/api/orders/user?status=${getOrders}`
+    url = `${process.env.REACT_APP_BACKEND_URL}api/orders/user?status=${getOrders}`
   }
 
   if (user && user.type == 'admin') {
-    url = 'https://shreehaven.onrender.com/api/orders'
+    url = `${process.env.REACT_APP_BACKEND_URL}/orders`
     if (getOrders && getOrders.length !== 0) {
-      url = `https://shreehaven.onrender.com/api/orders?status=${getOrders}`
+      url = `${process.env.REACT_APP_BACKEND_URL}api/orders?status=${getOrders}`
     }
   }
   const { isLoading, data: { orders } } = useFetchData({ url, query: refetch, token })

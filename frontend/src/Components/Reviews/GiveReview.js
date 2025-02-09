@@ -14,7 +14,7 @@ const GiveReview = () => {
     const { token } = useContext(UserContext)
     const { setRefetch } = useContext(RefetchProductContext)
     const { key } = useContext(ProductContext)
-    const url = `https://shreehaven.onrender.com/api/reviews`
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/reviews`
     const { modifyData } = useModifyData({ url , method : "POST", token })
     let stars = []
     let lastStar = rating

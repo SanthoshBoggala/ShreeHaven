@@ -11,7 +11,7 @@ const HomeHotDeals = () => {
   const { token } = useContext(UserContext)
   const { limit } = useContext(LimitContext)
 
-  const url = `https://shreehaven.onrender.com/api/products/hot_deals`
+  const url = `${process.env.REACT_APP_BACKEND_URL}api/products/hot_deals`
   const {data: {products}, isLoading } = useFetchData({url, query: limit, token})
   
   const navigateToForYou = () => {

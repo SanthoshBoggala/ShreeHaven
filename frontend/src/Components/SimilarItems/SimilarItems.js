@@ -9,7 +9,7 @@ const SimilarItems = () => {
     const { token } = useContext(UserContext)
     const { key } = useContext(ProductContext)
 
-    const url = 'https://shreehaven.onrender.com/api/products/similar_products'
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/products/similar_products`
 
     const { data: { products } } = useFetchData({ url, query: key , token });
       

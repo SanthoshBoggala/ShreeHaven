@@ -14,7 +14,7 @@ const HomeSuggestedItems = () => {
   const {limit} = useContext(LimitContext)
 
 
-  const url = `https://shreehaven.onrender.com/api/products`
+  const url = `${process.env.REACT_APP_BACKEND_URL}api/products`
   const { data: {products}, isLoading } = useFetchData({url, query: limit, token})
   
   const navigateToForYou = ()=>{

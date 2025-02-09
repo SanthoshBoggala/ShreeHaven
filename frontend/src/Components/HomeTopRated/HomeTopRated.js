@@ -10,7 +10,7 @@ const HomeTopRated = () => {
     const { token } = useContext(UserContext)
     const {limit} = useContext(LimitContext)
 
-    const url = `https://shreehaven.onrender.com/api/products/top_rated`
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/products/top_rated`
     const { data: {products, cateCaptions}, isLoading, error } = useFetchData({url, query: limit, token})    
       
     return (

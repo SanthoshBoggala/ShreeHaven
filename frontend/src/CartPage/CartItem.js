@@ -9,7 +9,7 @@ import UserContext from '../contexts/userContext'
 const CartItem = ({ item, handleRefetch })=>{
     const navigate = useNavigate()
     const { token } = useContext(UserContext)
-    const url = `https://shreehaven.onrender.com/api/cart`
+    const url = `${process.env.REACT_APP_BACKEND_URL}api/cart`
     const { modifyData } = useModifyData({url, method: "PUT", token})
 
     const getDateAfterEightDays = () => {

@@ -14,7 +14,7 @@ const SideBar = ({ ChangeFilterShow, filterShow }) => {
 
     useEffect(()=>{
         async function getCates() {
-            const myCates = await axios.get(`https://shreehaven.onrender.com/api/type_category?type=${category}`, {
+            const myCates = await axios.get(`${process.env.REACT_APP_BACKEND_URL}api/type_category?type=${category}`, {
                 headers: {
                     authorization: `Bearer ${token}`
                 }
