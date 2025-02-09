@@ -17,7 +17,7 @@ const MyOrders = () => {
   }
 
   if (user && user.type == 'admin') {
-    url = `${process.env.REACT_APP_BACKEND_URL}/orders`
+    url = `${process.env.REACT_APP_BACKEND_URL}orders`
     if (getOrders && getOrders.length !== 0) {
       url = `${process.env.REACT_APP_BACKEND_URL}api/orders?status=${getOrders}`
     }

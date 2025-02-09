@@ -177,7 +177,8 @@ const PersonalInfo = () => {
                   name='name'
                   value={product.name}
                   onChange={handleInputChange}
-                  disabled
+                  required
+                  disabled = {id ? true : false }
                 />
               </>
             ) : (
@@ -287,7 +288,7 @@ const PersonalInfo = () => {
             required
           />
         </div>
-        {type && type !== 'admin' &&
+        { id ? <div></div> : 
           <div>
             <label> Images: </label> <br />
             <input
@@ -296,7 +297,8 @@ const PersonalInfo = () => {
               onChange={handleImages}
               multiple
             />
-          </div>}
+          </div>
+        }
         <div>
           <label> Description: </label> <br />
           <textarea

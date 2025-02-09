@@ -19,8 +19,7 @@ const RegisterForm = () => {
     userType: '',
   })
   const [err, setErr] = useState("")
-  const { setUser, setToken } = useContext(UserContext)
-  const url = `${process.env.REACT_APP_BACKEND_URL}/register`
+  const url = `${process.env.REACT_APP_BACKEND_URL}api/register`
   const { modifyData } = useModifyData({ url, method: "POST" })
 
   const handleInputChange = (e) => {
@@ -80,8 +79,6 @@ const RegisterForm = () => {
       setErr(data.msg)
     } else {
       toast.success('Registered successful!')
-      setUser(data.user)
-      setToken(data.token)
       setTimeout(() => {
         navigate('/login')
       }, 2000)

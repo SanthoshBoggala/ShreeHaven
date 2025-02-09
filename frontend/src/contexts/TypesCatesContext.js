@@ -15,7 +15,6 @@ export const TypesCatesContextProvider = ({children}) => {
         const res = await axios.get(url)
 
         setTypesCates(res.data.typecategories)
-
       }
 
       try {
@@ -23,7 +22,7 @@ export const TypesCatesContextProvider = ({children}) => {
       } catch (error) {
         console.log(error)
       }
-    }, [typesCates])
+    }, [])
 
     return (
         <TypesCatesContext.Provider value = {{ typesCates, setTypesCates }}>
