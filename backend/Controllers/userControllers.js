@@ -49,7 +49,7 @@ const login = asyncHandler(async (req, res)=>{
         if( await bcrypt.compare(password, user.password)){
             const token = await jwt.sign(
                 {userId: user._id, email: user.email, type: user.type},
-                process.env.JWT_ACCESSCODE,
+                process.env.JWT_ACCESSCODE || "default123",
                 {expiresIn: '30d'}
                 );
             
