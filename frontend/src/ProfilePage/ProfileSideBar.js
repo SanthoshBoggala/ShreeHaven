@@ -61,8 +61,12 @@ const ProfileSideBar = ({active}) => {
     const signOut = ()=>{
         setUser({})
         setToken({})
-        navigate('/')
-        return
+        
+        // Clear localStorage to remove persisted data
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+
+        navigate("/");
     }
 
     return (
