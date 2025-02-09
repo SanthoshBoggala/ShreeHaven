@@ -7,6 +7,7 @@ export default TypesCatesContext
 
 export const TypesCatesContextProvider = ({children}) => {
     const [typesCates, setTypesCates ] = useState([])
+    const [refresh, setRefresh] = useState(false)
 
     useEffect(()=>{
       async function getCates(){
@@ -22,10 +23,15 @@ export const TypesCatesContextProvider = ({children}) => {
       } catch (error) {
         console.log(error)
       }
-    }, [])
+    }, [refresh])
+
+    const refreshCategories = () => {
+      setTypesCates([]);
+      setRefresh((prev) => !prev);
+    }
 
     return (
-        <TypesCatesContext.Provider value = {{ typesCates, setTypesCates }}>
+        <TypesCatesContext.Provider value = {{ typesCates, setTypesCates, refreshCategories }}>
             {children}
         </TypesCatesContext.Provider>   
     )

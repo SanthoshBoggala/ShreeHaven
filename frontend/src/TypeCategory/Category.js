@@ -7,7 +7,7 @@ import TypesCatesContext from '../contexts/TypesCatesContext'
 
 const Category = ({type, category }) => {
   const { token } = useContext(UserContext)
-  const { setTypesCates } = useContext(TypesCatesContext)
+  const { refreshCategories } = useContext(TypesCatesContext)
   const url = `${process.env.REACT_APP_BACKEND_URL}api/type_category`
 
   const { modifyData } = useModifyData({url, method: "PUT", token})
@@ -16,7 +16,7 @@ const Category = ({type, category }) => {
         await modifyData({category, type})
         
         toast.success("Successfully deleted category")
-        setTypesCates([])
+        refreshCategories()
         
     } catch (error) {
         toast.error("Failed to delete one!")

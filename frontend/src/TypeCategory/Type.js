@@ -8,7 +8,7 @@ import TypesCatesContext from '../contexts/TypesCatesContext'
 
 
 const Type = ({ type, categories }) => {
-    const { setTypesCates } = useContext(TypesCatesContext)
+    const { refreshCategories } = useContext(TypesCatesContext)
     const { token } = useContext(UserContext)
     const url = `${process.env.REACT_APP_BACKEND_URL}api/type_category`
 
@@ -27,7 +27,7 @@ const Type = ({ type, categories }) => {
         try {
             await modifyData({category: newOne, type})
             
-            setTypesCates([])
+            refreshCategories()
             toast.success("Successfully added new category")
         } catch (error) {
             toast.error("Failed to add one!")
@@ -36,8 +36,7 @@ const Type = ({ type, categories }) => {
     const deleteType = async()=>{
         try {
             await deleteCategory({type})
-            
-            setTypesCates([])
+            refreshCategories()
             toast.success("Successfully added new category")
         } catch (error) {
             toast.error("Failed to add one!")

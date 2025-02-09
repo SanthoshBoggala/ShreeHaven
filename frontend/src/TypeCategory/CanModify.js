@@ -8,7 +8,7 @@ import { toast, ToastContainer } from 'react-toastify'
 
 
 const CanModify = () => {
-    const { typesCates ,setTypesCates } = useContext(TypesCatesContext)
+    const { typesCates , refreshCategories } = useContext(TypesCatesContext)
     const { token } = useContext(UserContext)
     const url = `${process.env.REACT_APP_BACKEND_URL}api/type_category`
 
@@ -25,8 +25,7 @@ const CanModify = () => {
 
         try {
             await modifyData({type: newOne})
-            
-            setTypesCates([])
+            refreshCategories()
             setNewOne("")
             toast.success("Successfully added new product type")
         } catch (error) {
