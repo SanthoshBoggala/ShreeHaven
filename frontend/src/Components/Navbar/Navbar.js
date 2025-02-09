@@ -40,9 +40,6 @@ const NavbarDummy = () => {
           <Nav.Link as={NavLink} className='navItem' to="/about" onClick={closeNavbar}>
             About
           </Nav.Link>
-          <Nav.Link as={NavLink} className='navItem' to="/contact" onClick={closeNavbar}>
-            Contact
-          </Nav.Link>
         </Nav>
         <EndComponents user={user} closeNavbar={closeNavbar}/>
       </Navbar.Collapse>
