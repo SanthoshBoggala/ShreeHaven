@@ -6,7 +6,6 @@ import ProductPage from './ProductsPage/ProductsPage';
 import ProfilePage from './ProfilePage/ProfilePage';
 import HomePage from './HomePage/HomePage';
 import AboutPage from './AboutPage/AboutPage';
-import ContactPage from './ContactPage/ContactPage';
 import LoginPage from './LoginPage/LoginPage';
 import RegisterPage from './RegisterPage/RegisterPage';
 import MyOrdersPage from './MyOrdersPage/MyOrdersPage';
@@ -23,7 +22,6 @@ const Routers = () => {
     <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/products/:category" element={<ProductPage />} />
