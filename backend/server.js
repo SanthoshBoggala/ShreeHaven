@@ -31,7 +31,7 @@ app.use('/api/cart', cartRoutes);
 
 app.use(errorHandler);
 
-const server = process.env.PORT || 5000;
+const server = Number(process.env.PORT) || 5000;
 const start =  async()=>{
     try{
         await connectDB(connectUrl)
